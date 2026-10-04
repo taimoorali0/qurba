@@ -7,6 +7,8 @@ import { tb } from './tasbeeh';
 import { prayerSettings } from './prayer';
 import { loc } from './location';
 import { consent } from './consent';
+import { ak, adhkarUpdatedAt } from './adhkarLocal';
+import { rem } from './reminders';
 
 const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
 const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} };
@@ -19,7 +21,7 @@ export function deviceUuid() {
 
 // One timestamp for "preferences last changed on this device"
 let applying = false;
-const touchPrefs = () => { if (!applying) put('qurba.prefsAt', String(Date.now())); };
+const touchPrefs = () => { if (!applying) { put('qurba.prefsAt', String(Date.now())); put('qurba.syncDirty', '1'); } };
 watch([readerSettings, audioPrefs, prayerSettings, () => loc.place, () => i18n.global.locale.value,
   () => [tb.sound, tb.vibrate, tb.dailyGoal, JSON.stringify(tb.targets)]], touchPrefs, { deep: true });
 
@@ -42,6 +44,10 @@ function payload() {
       place: loc.place, prayer: { ...prayerSettings },
     },
     tasbeeh: { sessions: tb.history, custom: tb.custom, removed: tb.removed ?? [], daily: tb.daily },
+    adhkar: { t: adhkarUpdatedAt(), progress: ak.progress, favorites: ak.favorites, translit: ak.translit },
+    reminders: { t: Number(get('qurba.remindersAt') || 0), settings: { ...rem } },
+    downloads: (() => { try { return JSON.parse(get('qurba.downloads') || '[]'); } catch { return []; } })(),
+    listening: (() => { try { return JSON.parse(get('qurba.listening') || '[]'); } catch { return []; } })(),
   };
 }
 
@@ -69,6 +75,15 @@ function apply(s: any) {
       if (p.language && ['en', 'ar', 'ur'].includes(p.language)) i18n.global.locale.value = p.language;
       put('qurba.prefsAt', String(p.t));
     }
+
+    // adhkar
+    if (s.adhkar && s.adhkar.t >= adhkarUpdatedAt()) {
+      ak.progress = s.adhkar.progress ?? ak.progress; ak.favorites = s.adhkar.favorites ?? ak.favorites; ak.translit = s.adhkar.translit ?? ak.translit;
+      put('qurba.adhkarAt', String(s.adhkar.t || Date.now()));
+    }
+    if (s.reminders?.settings && s.reminders.t >= Number(get('qurba.remindersAt') || 0)) { Object.assign(rem, s.reminders.settings); put('qurba.remindersAt', String(s.reminders.t)); }
+    if (s.downloads) put('qurba.downloads', JSON.stringify(s.downloads));
+    if (s.listening) put('qurba.listening', JSON.stringify(s.listening));
 
     // tasbeeh
     const t = s.tasbeeh ?? {};
@@ -99,5 +114,6 @@ export async function userSync(): Promise<boolean> {
   const j = await r.json();
   apply(j.data);
   lastDevices = j.data.devices ?? [];
+  put('qurba.syncDirty', '0');
   return true;
 }
