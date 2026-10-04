@@ -2,14 +2,14 @@
 <script setup lang="ts">
 import Rosette from '../components/Rosette.vue';
 import { Head } from '@inertiajs/vue3';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Check, Pause, Play, Search, Volume2 } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import Ornament from '../components/Ornament.vue';
 import { isMemorised, memorised, NAMES, toggleMemorised } from '../lib/asmaulHusna';
 import { toArabicDigits } from '../lib/quranLocal';
-import { canSpeakArabic, FILES, hasFile, playName, sound, stopOneShot } from '../lib/sounds';
+import { canSpeakArabic, FILES, hasFile, playClip, playName, sound, stopOneShot } from '../lib/sounds';
 
 const { t } = useI18n();
 const q = ref('');
@@ -26,15 +26,28 @@ const done = computed(() => memorised.ids.length);
 // Recordings are used when uploaded; otherwise the device's Arabic voice reads the name
 const hasRecordings = ref(false);
 const hasAudio = ref(false);
-onMounted(async () => { hasRecordings.value = await hasFile(FILES.name(1)); hasAudio.value = hasRecordings.value || canSpeakArabic(); });
+const hasFull = ref(false);
+onMounted(async () => {
+  hasFull.value = await hasFile(FILES.namesFull);
+  hasRecordings.value = hasFull.value || (await hasFile(FILES.name(1)));
+  hasAudio.value = hasRecordings.value || canSpeakArabic();
+});
 const arabicOf = (n: number) => NAMES[n - 1]?.ar ?? '';
 const playingAll = ref(false);
+// The complete recitation ending also ends 'Play all'
+watch(() => sound.clipPlaying, (k, old) => { if (old === 'names-full' && !k) playingAll.value = false; });
 function listen(n: number) {
   playingAll.value = false;
   if (sound.namePlaying === n) stopOneShot(); else playName(n, undefined, arabicOf(n));
 }
 function playAll(from = 1) {
   if (playingAll.value && from === 1) { playingAll.value = false; stopOneShot(); return; }
+  // One complete recitation of all 99 names, when uploaded
+  if (hasFull.value) {
+    playingAll.value = true;
+    playClip('names-full', FILES.namesFull).then((ok) => { if (!ok) playingAll.value = false; });
+    return;
+  }
   playingAll.value = true;
   const step = (n: number) => {
     if (!playingAll.value || n > 99) { playingAll.value = false; return; }

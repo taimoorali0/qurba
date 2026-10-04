@@ -55,6 +55,7 @@ class AudioFiles extends Page implements HasForms
                 self::single('ambient', 'Background sound', 'ambient.mp3', 'Soft sound that loops quietly in the app.'),
                 self::single('adhan', 'Adhan', 'adhan.mp3', 'Played at prayer time.'),
                 self::single('adhan_fajr', 'Fajr adhan (optional)', 'adhan-fajr.mp3', 'Used for Fajr instead of the main adhan.'),
+                self::single('names_full', 'Complete 99 Names recitation', 'names-full.mp3', 'One recording with all 99 names. Used by "Play all" on the 99 Names page.'),
             ]),
             Forms\Components\Section::make('Upload many names at once')->description('Name each file by its number in the list: 1.mp3 … 99.mp3.')->collapsible()->collapsed()->schema([
                 Forms\Components\FileUpload::make('names')->label('Name recordings')->multiple()->maxFiles(99)
@@ -98,9 +99,20 @@ class AudioFiles extends Page implements HasForms
         Notification::make()->title("Name {$n} removed")->send();
     }
 
+    /** A full recitation uploaded into one name's slot: move it to the complete-recitation slot */
+    public function useAsFull(int $n): void
+    {
+        abort_unless(R::is(R::CONTENT) && $n >= 1 && $n <= 99, 403);
+        $d = Storage::disk('audio');
+        if (! $d->exists("names/{$n}.mp3")) return;
+        $d->delete('names-full.mp3');
+        $d->move("names/{$n}.mp3", 'names-full.mp3');
+        Notification::make()->title('Saved as the complete 99 Names recitation')->success()->send();
+    }
+
     public function deleteSound(string $file): void
     {
-        abort_unless(R::is(R::CONTENT) && in_array($file, ['ambient.mp3', 'adhan.mp3', 'adhan-fajr.mp3'], true), 403);
+        abort_unless(R::is(R::CONTENT) && in_array($file, ['ambient.mp3', 'adhan.mp3', 'adhan-fajr.mp3', 'names-full.mp3'], true), 403);
         Storage::disk('audio')->delete($file);
         Notification::make()->title('Removed')->send();
     }
@@ -109,7 +121,7 @@ class AudioFiles extends Page implements HasForms
     public function sounds(): array
     {
         $d = Storage::disk('audio');
-        return collect(['ambient.mp3' => 'Background sound', 'adhan.mp3' => 'Adhan', 'adhan-fajr.mp3' => 'Fajr adhan'])
+        return collect(['ambient.mp3' => 'Background sound', 'adhan.mp3' => 'Adhan', 'adhan-fajr.mp3' => 'Fajr adhan', 'names-full.mp3' => 'Complete 99 Names'])
             ->map(fn ($label, $file) => ['label' => $label, 'file' => $file,
                 'url' => $d->exists($file) ? asset("audio/{$file}") . '?v=' . $d->lastModified($file) : null])->values()->all();
     }
@@ -131,6 +143,7 @@ class AudioFiles extends Page implements HasForms
             'Background sound' => $d->exists('ambient.mp3'),
             'Adhan' => $d->exists('adhan.mp3'),
             'Fajr adhan' => $d->exists('adhan-fajr.mp3'),
+            'Complete 99 Names' => $d->exists('names-full.mp3'),
             '99 Names' => $names->count() . ' / 99',
         ];
     }

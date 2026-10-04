@@ -31,6 +31,7 @@ class ContentHealth extends Widget
             ['Tafsir editions', $approved('tafsir') . ' approved / ' . $all('tafsir')],
             ['Reciters (audio)', $approved('audio') . ' approved / ' . $all('audio')],
             ['Adhan recording', $audio->exists('adhan.mp3') ? 'Added' : 'Missing'],
+            ['Complete 99 Names recitation', $audio->exists('names-full.mp3') ? 'Added' : 'Missing'],
             ['Background sound', $audio->exists('ambient.mp3') ? 'Added' : 'Missing'],
         ]];
     }

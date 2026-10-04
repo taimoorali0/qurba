@@ -52,6 +52,8 @@
                     </label>
                     @error('nameUploads.' . $x['n']) <span class="q-name-tr" style="color:#a03a2c">{{ $message }}</span> @enderror
                     @if ($x['url'])
+                        <x-filament::link tag="button" size="xs" wire:click="useAsFull({{ $x['n'] }})"
+                            wire:confirm="Is this one recording of all 99 names? It will move to the Complete 99 Names slot.">Use as complete recitation</x-filament::link>
                         <x-filament::link tag="button" color="danger" size="xs" wire:click="deleteName({{ $x['n'] }})" wire:confirm="Remove the recording for {{ $x['tr'] }}?">Remove</x-filament::link>
                     @endif
                 </div>

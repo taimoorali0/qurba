@@ -10,6 +10,7 @@ export const FILES = {
   ambient: '/audio/ambient.mp3',
   adhan: '/audio/adhan.mp3',
   adhanFajr: '/audio/adhan-fajr.mp3',
+  namesFull: '/audio/names-full.mp3',
   name: (n: number) => `/audio/names/${n}.mp3`,
 };
 
@@ -24,7 +25,7 @@ watch(soundPrefs, (v) => { try { localStorage.setItem('qurba.sounds', JSON.strin
 export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as boolean | null, adhanPlaying: '', namePlaying: 0, clipPlaying: '' });
 
 // ---- File availability: one small manifest from the server instead of probing each file ----
-interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; names: number[] }
+interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[] }
 let manifest: Promise<Manifest> | null = null;
 function getManifest(): Promise<Manifest> {
   manifest ??= fetch('/api/v1/audio-manifest', { headers: { Accept: 'application/json' } })
@@ -37,6 +38,7 @@ export async function hasFile(url: string): Promise<boolean> {
   if (url === FILES.ambient) return m.ambient;
   if (url === FILES.adhan) return m.adhan;
   if (url === FILES.adhanFajr) return m.adhanFajr;
+  if (url === FILES.namesFull) return !!m.namesFull;
   const n = url.match(/\/audio\/names\/(\d+)\.mp3$/);
   return n ? m.names.includes(Number(n[1])) : false;
 }
