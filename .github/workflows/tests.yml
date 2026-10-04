@@ -38,7 +38,7 @@ jobs:
         run: touch database/database.sqlite
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer update pestphp/pest pestphp/pest-plugin-laravel --with-all-dependencies --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Copy Environment File
         run: cp .env.example .env
