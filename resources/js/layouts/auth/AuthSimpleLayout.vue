@@ -1,49 +1,41 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Compass, MoonStar, Sparkles } from 'lucide-vue-next';
-
+import { MoonStar } from 'lucide-vue-next';
 defineProps<{ title?: string; description?: string }>();
 </script>
 
 <template>
-    <main class="min-h-screen bg-[#f7f3e9] text-[#17342c]">
-        <div class="grid min-h-screen lg:grid-cols-[1.05fr_.95fr]">
-            <section class="relative hidden overflow-hidden bg-[#073f31] p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14">
-                <div class="absolute inset-0 opacity-20" style="background-image:radial-gradient(circle at 18% 18%,#d6b25e 0 1px,transparent 1.5px);background-size:24px 24px"></div>
-                <div class="relative">
-                    <Link href="/" class="inline-flex items-center gap-3">
-                        <span class="grid size-12 place-items-center rounded-2xl border border-[#d6b25e]/50 bg-white/10 text-[#e3c77d]"><MoonStar class="size-6" /></span>
-                        <span><strong class="block font-serif text-3xl">Qurba</strong><small class="text-[10px] uppercase tracking-[.22em] text-white/55">Closer through remembrance</small></span>
-                    </Link>
-                </div>
-                <div class="relative max-w-xl">
-                    <p class="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#e3c77d]">Read · Listen · Remember · Learn</p>
-                    <h2 class="font-serif text-5xl leading-[1.05] xl:text-6xl">Keep your heart close to Allah.</h2>
-                    <p class="mt-5 max-w-lg text-base leading-7 text-white/65">Quran, Adhkar, Tasbeeh, prayer guidance and learning in one calm space designed for everyday remembrance.</p>
-                    <div class="mt-9 grid grid-cols-3 gap-3">
-                        <div class="rounded-2xl border border-white/10 bg-white/[.06] p-4"><BookOpen class="mb-3 size-5 text-[#e3c77d]" /><span class="text-sm font-semibold">Quran</span></div>
-                        <div class="rounded-2xl border border-white/10 bg-white/[.06] p-4"><Sparkles class="mb-3 size-5 text-[#e3c77d]" /><span class="text-sm font-semibold">Adhkar</span></div>
-                        <div class="rounded-2xl border border-white/10 bg-white/[.06] p-4"><Compass class="mb-3 size-5 text-[#e3c77d]" /><span class="text-sm font-semibold">Qibla</span></div>
-                    </div>
-                </div>
-                <p class="relative text-xs text-white/40">Qurba · A peaceful companion for your daily worship.</p>
-            </section>
+  <main class="min-h-dvh bg-[#fbf8f0] text-[#17342c]">
+    <header class="border-b border-[#073f31]/[.07] bg-[#fffdf8]/90 backdrop-blur">
+      <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 md:px-8">
+        <Link href="/" class="flex items-center gap-2.5" aria-label="Qurba home">
+          <img src="/brand/qurba-icon-96.png" alt="" class="size-9" />
+          <img src="/brand/qurba-logo.png" alt="Qurba" class="h-9 w-auto" />
+        </Link>
+        <Link href="/" class="text-sm font-semibold text-[#416058] hover:text-[#073f31]">Back to Qurba</Link>
+      </div>
+    </header>
 
-            <section class="flex items-center justify-center px-5 py-10 sm:px-8 lg:px-12">
-                <div class="w-full max-w-[460px]">
-                    <Link href="/" class="mb-10 inline-flex items-center gap-3 lg:hidden">
-                        <span class="grid size-11 place-items-center rounded-2xl bg-[#073f31] text-[#e3c77d]"><MoonStar class="size-5" /></span>
-                        <span><strong class="block font-serif text-2xl">Qurba</strong><small class="text-[9px] uppercase tracking-[.18em] text-[#6d7b75]">Closer through remembrance</small></span>
-                    </Link>
-                    <div class="mb-8">
-                        <p class="mb-2 text-xs font-bold uppercase tracking-[.16em] text-[#a67c2e]">Welcome to Qurba</p>
-                        <h1 class="font-serif text-4xl leading-tight text-[#0b3b2d]">{{ title }}</h1>
-                        <p class="mt-3 text-sm leading-6 text-[#66746e]">{{ description }}</p>
-                    </div>
-                    <slot />
-                    <p class="mt-10 text-center text-xs text-[#89938f]">Your worship tools stay simple, calm and accessible.</p>
-                </div>
-            </section>
+    <section class="mx-auto grid min-h-[calc(100dvh-72px)] max-w-7xl items-center gap-10 px-5 py-10 md:px-8 lg:grid-cols-[.9fr_1.1fr] lg:py-14">
+      <div class="hidden max-w-lg lg:block">
+        <span class="inline-flex items-center gap-2 rounded-full bg-[#073f31]/[.06] px-3 py-1.5 text-xs font-bold uppercase tracking-[.14em] text-[#8f6a24]">
+          <MoonStar class="size-4" /> Closer through remembrance
+        </span>
+        <h2 class="mt-5 font-serif text-5xl leading-[1.05] text-[#073f31]">Your Qurba, on every device.</h2>
+        <p class="mt-5 max-w-md text-base leading-7 text-[#64736d]">Sign in only when you want backup and sync. Quran reading, Adhkar and Tasbeeh remain simple and accessible.</p>
+        <div class="mt-8 flex gap-6 border-t border-[#073f31]/10 pt-6 text-sm text-[#52665f]">
+          <span>Quran progress</span><span>Bookmarks</span><span>Remembrance</span>
         </div>
-    </main>
+      </div>
+
+      <div class="mx-auto w-full max-w-[500px] rounded-[1.75rem] border border-[#073f31]/10 bg-[#fffdf8] p-6 shadow-[0_24px_80px_rgba(7,63,49,.08)] sm:p-8">
+        <div class="mb-7">
+          <p class="mb-2 text-[11px] font-bold uppercase tracking-[.16em] text-[#a67c2e]">Qurba account</p>
+          <h1 class="font-serif text-3xl text-[#073f31] sm:text-4xl">{{ title }}</h1>
+          <p class="mt-2 text-sm leading-6 text-[#697872]">{{ description }}</p>
+        </div>
+        <slot />
+      </div>
+    </section>
+  </main>
 </template>
