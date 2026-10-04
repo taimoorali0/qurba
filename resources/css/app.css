@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== STARTER KIT THEME VARIABLES (kept for login/dashboard pages) ===== */
+@layer base {
+    :root {
+        --background: 43 60% 95%;
+        --foreground: 160 16% 14%;
+        --card: 0 0% 100%;
+        --card-foreground: 160 16% 14%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 160 16% 14%;
+        --primary: 161 69% 14%;
+        --primary-foreground: 43 60% 95%;
+        --secondary: 43 30% 90%;
+        --secondary-foreground: 161 69% 14%;
+        --muted: 43 30% 92%;
+        --muted-foreground: 155 6% 38%;
+        --accent: 41 54% 54%;
+        --accent-foreground: 161 69% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 43 28% 86%;
+        --input: 43 28% 86%;
+        --ring: 41 54% 54%;
+        --chart-1: 161 69% 14%;
+        --chart-2: 41 54% 54%;
+        --chart-3: 158 50% 36%;
+        --chart-4: 43 60% 80%;
+        --chart-5: 155 6% 38%;
+        --radius: 0.75rem;
+        --sidebar-background: 43 60% 97%;
+        --sidebar-foreground: 160 16% 14%;
+        --sidebar-primary: 161 69% 14%;
+        --sidebar-primary-foreground: 43 60% 95%;
+        --sidebar-accent: 43 30% 90%;
+        --sidebar-accent-foreground: 161 69% 14%;
+        --sidebar-border: 43 28% 86%;
+        --sidebar-ring: 41 54% 54%;
+    }
+
+    .dark {
+        --background: 161 60% 7%;
+        --foreground: 43 60% 95%;
+        --card: 161 55% 10%;
+        --card-foreground: 43 60% 95%;
+        --popover: 161 55% 10%;
+        --popover-foreground: 43 60% 95%;
+        --primary: 41 54% 54%;
+        --primary-foreground: 161 69% 10%;
+        --secondary: 161 40% 14%;
+        --secondary-foreground: 43 60% 95%;
+        --muted: 161 40% 12%;
+        --muted-foreground: 43 15% 70%;
+        --accent: 161 40% 16%;
+        --accent-foreground: 43 60% 95%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 161 35% 16%;
+        --input: 161 35% 16%;
+        --ring: 41 54% 54%;
+        --chart-1: 41 54% 54%;
+        --chart-2: 158 50% 45%;
+        --chart-3: 43 60% 80%;
+        --chart-4: 161 40% 30%;
+        --chart-5: 43 15% 70%;
+        --sidebar-background: 161 60% 6%;
+        --sidebar-foreground: 43 60% 95%;
+        --sidebar-primary: 41 54% 54%;
+        --sidebar-primary-foreground: 161 69% 10%;
+        --sidebar-accent: 161 40% 14%;
+        --sidebar-accent-foreground: 43 60% 95%;
+        --sidebar-border: 161 35% 16%;
+        --sidebar-ring: 41 54% 54%;
+    }
+
+    * { @apply border-border; }
+    body { @apply bg-background text-foreground; }
+}
+
+/* ===== QURBA BASE — START ===== */
+:root { --radius-tile: 1.25rem; --radius-sheet: 1.75rem; }
+
+@layer base {
+    html, body { background: #FAF6EC; color: #1E2925; font-family: "Figtree", system-ui, sans-serif; }
+    html[lang="ar"] body { font-family: "IBM Plex Sans Arabic", "Segoe UI", sans-serif; }
+    html[lang="ur"] body { font-family: "Noto Nastaliq Urdu", serif; line-height: 2.1; }
+}
+
+.quran-text { font-family: "Amiri Quran", "Amiri", serif; font-size: 1.9rem; line-height: 2.6; direction: rtl; text-align: right; }
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+:focus-visible { outline: 2px solid #C9A24A; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+/* ===== QURBA BASE — END ===== */

@@ -1,0 +1,15 @@
+# ===== QURBA: Laravel queue worker =====
+[Unit]
+Description=Qurba queue worker
+After=network.target mysql.service
+
+[Service]
+User=qurba
+Group=www-data
+Restart=always
+RestartSec=5
+WorkingDirectory=/var/www/qurba
+ExecStart=/usr/bin/php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,83 @@
+// ===== QURBA: service worker, install prompt, offline state, 7-day sync reminder =====
+import { computed, reactive } from 'vue';
+import { canSync, currentUser, userSync } from './userSync';
+import { scheduleReminders } from './reminders';
+
+const DAY = 864e5;
+const num = (k: string) => { try { return Number(localStorage.getItem(k) || 0); } catch { return 0; } };
+const set = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} };
+
+export const app = reactive({
+  online: typeof navigator === 'undefined' ? true : navigator.onLine,
+  swReady: false,
+  installEvent: null as any,
+  standalone: typeof window !== 'undefined' && (matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true),
+  installDismissed: num('qurba.installDismissed'),
+  lastSync: num('qurba.lastSync'),
+  syncDismissed: num('qurba.syncDismissed'),
+  syncing: false,
+});
+
+export const isIos = typeof navigator !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent);
+export const showInstall = computed(() => !app.standalone && Date.now() - app.installDismissed > 14 * DAY && (!!app.installEvent || isIos));
+export const syncOverdue = computed(() => app.lastSync > 0 && Date.now() - app.lastSync > 7 * DAY && Date.now() - app.syncDismissed > DAY);
+
+/** Sync = check content versions now; user-data backup joins this when accounts sync is built. */
+export async function syncNow(): Promise<boolean> {
+  if (app.syncing) return false;
+  app.syncing = true;
+  try {
+    const r = await fetch('/api/v1/content-version', { cache: 'no-store', headers: { Accept: 'application/json' } });
+    if (!r.ok) throw new Error(String(r.status));
+    set('qurba.contentVersion', JSON.stringify((await r.json()).data));
+    // Account backup: only for signed-in users who allowed cloud backup
+    if (currentUser() && canSync() && !(await userSync())) throw new Error('sync');
+    app.lastSync = Date.now(); set('qurba.lastSync', String(app.lastSync));
+    return true;
+  } catch { return false; } finally { app.syncing = false; }
+}
+export function laterSync() { app.syncDismissed = Date.now(); set('qurba.syncDismissed', String(app.syncDismissed)); }
+
+export async function install() {
+  if (!app.installEvent) return;
+  app.installEvent.prompt();
+  await app.installEvent.userChoice;
+  app.installEvent = null;
+}
+export function dismissInstall() { app.installDismissed = Date.now(); set('qurba.installDismissed', String(app.installDismissed)); }
+
+/** Ask the browser not to evict offline data (important on iPhone). */
+export async function persistStorage() { try { return await navigator.storage?.persist?.(); } catch { return false; } }
+
+export function initPwa() {
+  if (typeof window === 'undefined') return;
+  addEventListener('online', () => { app.online = true; syncNow(); });
+  addEventListener('offline', () => { app.online = false; });
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); app.installEvent = e; });
+  addEventListener('appinstalled', () => { app.standalone = true; app.installEvent = null; });
+
+  if (navigator.onLine) syncNow();
+
+  // Service worker only in production builds (or when forced for testing)
+  const force = (() => { try { return localStorage.getItem('qurba.swDev') === '1'; } catch { return false; } })();
+  if ('serviceWorker' in navigator && (import.meta.env.PROD || force)) {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(() => navigator.serviceWorker.ready).then(() => {
+      app.swReady = true;
+      scheduleReminders().catch(() => {});
+      warmUp(['/', '/quran', '/zikr', '/zikr/tasbeeh', '/prayer', '/qibla']);
+    }).catch(() => {});
+  }
+}
+
+/** Fetch Inertia page data so the service worker stores it for offline use. */
+export async function warmUp(paths: string[], onProgress?: (done: number) => void) {
+  const version = (window as any).__qurbaInertiaVersion ?? '';
+  let done = 0;
+  for (const p of paths) {
+    try {
+      await fetch(p, { headers: { 'X-Inertia': 'true', 'X-Inertia-Version': version, 'X-Requested-With': 'XMLHttpRequest', Accept: 'text/html, application/xhtml+xml' } });
+    } catch {}
+    onProgress?.(++done);
+  }
+  return done;
+}

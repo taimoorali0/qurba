@@ -1,0 +1,106 @@
+// ===== QURBA: Tasbeeh engine (offline, on-device; sync comes with the offline/sync step) =====
+import { reactive, watch } from 'vue';
+
+export interface ZikrType { id: string; ar: string; label: Record<string, string>; target: number; builtin: boolean }
+export interface Session { id: string; typeId: string; count: number; target: number; start: number; end: number }
+
+const BUILTIN: ZikrType[] = [
+  { id: 'subhanallah', ar: 'سبحان الله', label: { en: 'SubhanAllah', ar: 'سبحان الله', ur: 'سبحان اللہ' }, target: 33, builtin: true },
+  { id: 'alhamdulillah', ar: 'الحمد لله', label: { en: 'Alhamdulillah', ar: 'الحمد لله', ur: 'الحمد للہ' }, target: 33, builtin: true },
+  { id: 'allahuakbar', ar: 'الله أكبر', label: { en: 'Allahu Akbar', ar: 'الله أكبر', ur: 'اللہ اکبر' }, target: 34, builtin: true },
+  { id: 'lailahaillallah', ar: 'لا إله إلا الله', label: { en: 'La ilaha illallah', ar: 'لا إله إلا الله', ur: 'لا الہ الا اللہ' }, target: 100, builtin: true },
+];
+
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+export const today = () => new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local
+
+interface State {
+  custom: ZikrType[]; targets: Record<string, number>; activeId: string;
+  count: number; sessionStart: number; undo: number;
+  sound: boolean; vibrate: boolean; dailyGoal: number;
+  history: Session[]; daily: Record<string, Record<string, number>>; removed: string[];
+}
+
+function load(): State {
+  const d: State = { custom: [], targets: {}, activeId: 'subhanallah', count: 0, sessionStart: 0, undo: 0,
+    sound: true, vibrate: true, dailyGoal: 0, history: [], daily: {}, removed: [] };
+  try { const v = localStorage.getItem('qurba.tasbeeh'); return v ? { ...d, ...JSON.parse(v) } : d; } catch { return d; }
+}
+export const tb = reactive<State>(load());
+watch(tb, (v) => { try { localStorage.setItem('qurba.tasbeeh', JSON.stringify(v)); } catch {} }, { deep: true });
+
+export const allTypes = () => [...BUILTIN, ...tb.custom];
+export const activeType = () => allTypes().find((z) => z.id === tb.activeId) ?? BUILTIN[0];
+export const targetOf = (z: ZikrType) => tb.targets[z.id] ?? z.target;
+export const canVibrate = typeof navigator !== 'undefined' && 'vibrate' in navigator;
+
+// ---- Feedback ----
+let ctx: AudioContext | null = null;
+function tone(freq: number, dur: number, gain = 0.18, at = 0) {
+  try {
+    ctx ??= new (window.AudioContext || (window as any).webkitAudioContext)();
+    const t0 = ctx.currentTime + at;
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(freq, t0); o.frequency.exponentialRampToValueAtTime(freq * 0.6, t0 + dur);
+    g.gain.setValueAtTime(gain, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g).connect(ctx.destination); o.start(t0); o.stop(t0 + dur);
+  } catch {}
+}
+const bead = () => { tone(1400, 0.045, 0.12); tone(700, 0.06, 0.06, 0.005); };
+const chime = () => { tone(880, 0.25, 0.15); tone(1320, 0.35, 0.12, 0.12); };
+function buzz(p: number | number[]) { if (tb.vibrate && canVibrate) navigator.vibrate(p); }
+
+// ---- Actions ----
+function addDaily(typeId: string, n: number) {
+  const d = (tb.daily[today()] ??= {});
+  d[typeId] = Math.max(0, (d[typeId] ?? 0) + n);
+}
+
+/** Returns true when this tap completed the target. */
+export function tap(): boolean {
+  if (!tb.sessionStart) tb.sessionStart = Date.now();
+  tb.count++; tb.undo = 0;
+  addDaily(tb.activeId, 1);
+  const done = tb.count === targetOf(activeType());
+  if (done) { if (tb.sound) chime(); buzz([40, 60, 40]); }
+  else { if (tb.sound) bead(); buzz(12); }
+  return done;
+}
+
+export function undo() {
+  if (tb.count <= 0) return;
+  tb.count--; addDaily(tb.activeId, -1);
+}
+
+function closeSession() {
+  if (tb.count > 0) {
+    tb.history.unshift({ id: uid(), typeId: tb.activeId, count: tb.count, target: targetOf(activeType()),
+      start: tb.sessionStart || Date.now(), end: Date.now() });
+    tb.history = tb.history.slice(0, 200);
+  }
+  tb.count = 0; tb.sessionStart = 0;
+}
+
+export function reset() { closeSession(); }
+export function selectZikr(id: string) { if (id !== tb.activeId) { closeSession(); tb.activeId = id; } }
+export function setTarget(id: string, n: number) { if (n > 0) tb.targets[id] = Math.min(n, 100000); }
+
+export function addCustom(text: string, target: number) {
+  const t = text.trim(); if (!t) return;
+  const z: ZikrType = { id: 'c-' + uid(), ar: t, label: { en: t, ar: t, ur: t }, target: target > 0 ? target : 33, builtin: false };
+  tb.custom.push(z); selectZikr(z.id);
+}
+export function removeCustom(id: string) {
+  tb.custom = tb.custom.filter((z) => z.id !== id);
+  tb.removed = [...(tb.removed ?? []), id];
+  if (tb.activeId === id) { tb.count = 0; tb.sessionStart = 0; tb.activeId = 'subhanallah'; }
+}
+
+export const todayTotal = () => Object.values(tb.daily[today()] ?? {}).reduce((a, b) => a + b, 0);
+export function lastDays(n: number) {
+  return Array.from({ length: n }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() - (n - 1 - i));
+    const key = d.toLocaleDateString('en-CA');
+    return { key, day: d, total: Object.values(tb.daily[key] ?? {}).reduce((a, b) => a + b, 0) };
+  });
+}

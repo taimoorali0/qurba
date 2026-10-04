@@ -1,0 +1,25 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ContentAuditLog extends Model
+{
+    public $timestamps = false;
+    protected $guarded = ['id'];
+    protected $casts = ['old_values' => 'array', 'new_values' => 'array', 'created_at' => 'datetime'];
+
+    public static function record(Model $model, string $action, ?array $old = null, ?array $new = null): void
+    {
+        static::create([
+            'user_id' => auth()->id(),
+            'auditable_type' => $model::class,
+            'auditable_id' => $model->getKey(),
+            'action' => $action,
+            'old_values' => $old,
+            'new_values' => $new,
+            'ip' => request()?->ip(),
+            'created_at' => now(),
+        ]);
+    }
+}
