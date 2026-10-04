@@ -1,6 +1,6 @@
 # Qurba audio files
 
-Add recordings here that you have the right to publish. Qurba checks for each file and
+Upload recordings in **/admin → Audio files** (or copy them here). Only use recordings you have the right to publish. Qurba checks for each file and
 hides or disables the matching feature when a file is missing.
 
 | File | Used for |
@@ -11,3 +11,5 @@ hides or disables the matching feature when a file is missing.
 | `names/1.mp3` … `names/99.mp3` | Recitation of each of the 99 Names of Allah, in the order shown on `/names` |
 
 Keep files small (mono, 64–96 kbps MP3 is enough) so the app stays fast on mobile data.
+
+`ambient.mp3` ships with Qurba: an original, instrument-free wind-and-water sound made for the app.

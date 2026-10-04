@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups(['Religious content', 'Qurba Learning', 'Users & activity'])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->pages([Pages\Dashboard::class])
+            ->pages([Pages\Dashboard::class, \App\Filament\Pages\AudioFiles::class])
             ->middleware([
                 EncryptCookies::class, AddQueuedCookiesToResponse::class, StartSession::class, AuthenticateSession::class,
                 ShareErrorsFromSession::class, VerifyCsrfToken::class, SubstituteBindings::class,
