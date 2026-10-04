@@ -36,7 +36,7 @@ class QuranReciterResource extends Resource
             Forms\Components\TextInput::make('ayah_url_pattern')->label('Per-ayah URL pattern')->columnSpanFull()
                 ->helperText('Use {sss}{aaa} for zero-padded surah/ayah (001001) or {s}/{a} for plain numbers.'),
             Forms\Components\Select::make('content_source_id')->label('Audio source / licence')
-                ->relationship('source', 'name', fn ($q) => $q->where('type', 'audio'))->searchable()->preload(),
+                ->relationship('source', 'name', fn ($query) => $query->where('type', 'audio'))->searchable()->preload(),
             Forms\Components\TextInput::make('sort')->numeric()->default(0),
             Forms\Components\Toggle::make('active')->helperText('Production also requires the source to be approved.'),
             Forms\Components\Toggle::make('offline_allowed')->label('Offline download permitted'),

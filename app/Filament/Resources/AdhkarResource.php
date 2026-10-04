@@ -48,7 +48,7 @@ class AdhkarResource extends Resource
             Forms\Components\TextInput::make('reference')->label('Source / reference')->required()->placeholder('e.g. Sahih Muslim 2723'),
             Forms\Components\TextInput::make('repeat_count')->label('Target repetitions')->numeric()->minValue(1)->default(1)->required(),
             Forms\Components\Select::make('content_source_id')->label('Content source')
-                ->relationship('source', 'name', fn ($q) => $q->where('type', 'adhkar'))->searchable()->preload(),
+                ->relationship('source', 'name', fn ($query) => $query->where('type', 'adhkar'))->searchable()->preload(),
             Forms\Components\TextInput::make('sort')->numeric()->default(0),
             Forms\Components\Repeater::make('translations')->relationship()->columnSpanFull()->maxItems(5)->defaultItems(0)
                 ->schema([

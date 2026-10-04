@@ -30,11 +30,11 @@ class QuranAyahResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ayah_key')->label('Ayah')->sortable(query: fn (Builder $q, string $d) => $q->orderBy('id', $d)),
+                Tables\Columns\TextColumn::make('ayah_key')->label('Ayah')->sortable(query: fn (Builder $query, string $direction) => $query->orderBy('id', $direction)),
                 Tables\Columns\TextColumn::make('surah.name_simple')->label('Surah'),
                 Tables\Columns\TextColumn::make('text_uthmani')->label('Text')->wrap()
                     ->extraAttributes(['dir' => 'rtl', 'style' => "font-family:'Amiri Quran','Amiri',serif;font-size:1.35rem;line-height:2.2"])
-                    ->searchable(query: fn (Builder $q, string $s) => $q->where('text_search', 'like', '%' . ArabicNormalizer::forSearch($s) . '%')),
+                    ->searchable(query: fn (Builder $query, string $search) => $query->where('text_search', 'like', '%' . ArabicNormalizer::forSearch($search) . '%')),
                 Tables\Columns\TextColumn::make('juz'),
                 Tables\Columns\TextColumn::make('page'),
                 Tables\Columns\TextColumn::make('content_hash')->label('Hash')->limit(10)->fontFamily('mono')->copyable(),

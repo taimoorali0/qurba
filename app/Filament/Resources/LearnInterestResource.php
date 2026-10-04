@@ -45,12 +45,12 @@ class LearnInterestResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')->since()->sortable(),
                 Tables\Columns\TextColumn::make('course.title.en')->label('Course'),
-                Tables\Columns\TextColumn::make('name')->searchable()->description(fn ($r) => $r->email),
+                Tables\Columns\TextColumn::make('name')->searchable()->description(fn ($record) => $record->email),
                 Tables\Columns\TextColumn::make('phone')->placeholder('—'),
                 Tables\Columns\TextColumn::make('country')->placeholder('—'),
                 Tables\Columns\TextColumn::make('format'),
                 Tables\Columns\TextColumn::make('child_age_range')->label('Child')->placeholder('adult')->badge(),
-                Tables\Columns\TextColumn::make('status')->badge()->color(fn (string $s) => match ($s) { 'new' => 'warning', 'enrolled' => 'success', 'closed' => 'gray', default => 'info' }),
+                Tables\Columns\TextColumn::make('status')->badge()->color(fn (string $state) => match ($state) { 'new' => 'warning', 'enrolled' => 'success', 'closed' => 'gray', default => 'info' }),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')->options(['new' => 'New', 'contacted' => 'Contacted', 'enrolled' => 'Enrolled', 'closed' => 'Closed']),
