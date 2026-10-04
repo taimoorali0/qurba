@@ -2,95 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== STARTER KIT THEME VARIABLES (kept for login/dashboard pages) ===== */
 @layer base {
     :root {
-        --background: 43 60% 95%;
-        --foreground: 160 16% 14%;
-        --card: 0 0% 100%;
-        --card-foreground: 160 16% 14%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 160 16% 14%;
-        --primary: 161 69% 14%;
-        --primary-foreground: 43 60% 95%;
-        --secondary: 43 30% 90%;
-        --secondary-foreground: 161 69% 14%;
-        --muted: 43 30% 92%;
-        --muted-foreground: 155 6% 38%;
-        --accent: 41 54% 54%;
-        --accent-foreground: 161 69% 10%;
-        --destructive: 0 84.2% 60.2%;
+        --background: 42 45% 97%;
+        --foreground: 158 20% 12%;
+        --card: 45 55% 99%;
+        --card-foreground: 158 20% 12%;
+        --popover: 45 55% 99%;
+        --popover-foreground: 158 20% 12%;
+        --primary: 160 70% 12%;
+        --primary-foreground: 45 55% 98%;
+        --secondary: 150 25% 93%;
+        --secondary-foreground: 160 70% 12%;
+        --muted: 42 25% 93%;
+        --muted-foreground: 155 8% 40%;
+        --accent: 41 49% 55%;
+        --accent-foreground: 160 70% 9%;
+        --destructive: 0 72% 51%;
         --destructive-foreground: 0 0% 98%;
-        --border: 43 28% 86%;
-        --input: 43 28% 86%;
-        --ring: 41 54% 54%;
-        --chart-1: 161 69% 14%;
-        --chart-2: 41 54% 54%;
-        --chart-3: 158 50% 36%;
-        --chart-4: 43 60% 80%;
-        --chart-5: 155 6% 38%;
-        --radius: 0.75rem;
-        --sidebar-background: 43 60% 97%;
-        --sidebar-foreground: 160 16% 14%;
-        --sidebar-primary: 161 69% 14%;
-        --sidebar-primary-foreground: 43 60% 95%;
-        --sidebar-accent: 43 30% 90%;
-        --sidebar-accent-foreground: 161 69% 14%;
-        --sidebar-border: 43 28% 86%;
-        --sidebar-ring: 41 54% 54%;
+        --border: 43 24% 88%;
+        --input: 43 24% 88%;
+        --ring: 41 49% 55%;
+        --radius: .9rem;
+        --sidebar-background: 42 45% 97%;
+        --sidebar-foreground: 158 20% 12%;
+        --sidebar-primary: 160 70% 12%;
+        --sidebar-primary-foreground: 45 55% 98%;
+        --sidebar-accent: 150 25% 93%;
+        --sidebar-accent-foreground: 160 70% 12%;
+        --sidebar-border: 43 24% 88%;
+        --sidebar-ring: 41 49% 55%;
     }
-
-    .dark {
-        --background: 161 60% 7%;
-        --foreground: 43 60% 95%;
-        --card: 161 55% 10%;
-        --card-foreground: 43 60% 95%;
-        --popover: 161 55% 10%;
-        --popover-foreground: 43 60% 95%;
-        --primary: 41 54% 54%;
-        --primary-foreground: 161 69% 10%;
-        --secondary: 161 40% 14%;
-        --secondary-foreground: 43 60% 95%;
-        --muted: 161 40% 12%;
-        --muted-foreground: 43 15% 70%;
-        --accent: 161 40% 16%;
-        --accent-foreground: 43 60% 95%;
-        --destructive: 0 84% 60%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 161 35% 16%;
-        --input: 161 35% 16%;
-        --ring: 41 54% 54%;
-        --chart-1: 41 54% 54%;
-        --chart-2: 158 50% 45%;
-        --chart-3: 43 60% 80%;
-        --chart-4: 161 40% 30%;
-        --chart-5: 43 15% 70%;
-        --sidebar-background: 161 60% 6%;
-        --sidebar-foreground: 43 60% 95%;
-        --sidebar-primary: 41 54% 54%;
-        --sidebar-primary-foreground: 161 69% 10%;
-        --sidebar-accent: 161 40% 14%;
-        --sidebar-accent-foreground: 43 60% 95%;
-        --sidebar-border: 161 35% 16%;
-        --sidebar-ring: 41 54% 54%;
-    }
-
     * { @apply border-border; }
-    body { @apply bg-background text-foreground; }
-}
-
-/* ===== QURBA BASE — START ===== */
-:root { --radius-tile: 1.25rem; --radius-sheet: 1.75rem; }
-
-@layer base {
-    html, body { background: #FAF6EC; color: #1E2925; font-family: "Figtree", system-ui, sans-serif; }
+    html { background: #f7f3e9; }
+    body { @apply bg-background text-foreground antialiased; font-family: "Figtree", system-ui, sans-serif; }
     html[lang="ar"] body { font-family: "IBM Plex Sans Arabic", "Segoe UI", sans-serif; }
-    html[lang="ur"] body { font-family: "Noto Nastaliq Urdu", serif; line-height: 2.1; }
+    html[lang="ur"] body { font-family: "Noto Nastaliq Urdu", serif; line-height: 2; }
 }
 
-.quran-text { font-family: "Amiri Quran", "Amiri", serif; font-size: 1.9rem; line-height: 2.6; direction: rtl; text-align: right; }
+:root { --radius-tile: 1.15rem; --radius-sheet: 1.65rem; }
+
+.qurba-app {
+    color: #18241f;
+    background:
+      radial-gradient(circle at 8% 0%, rgba(196,158,75,.10), transparent 26rem),
+      radial-gradient(circle at 95% 12%, rgba(26,92,69,.07), transparent 30rem),
+      #f8f5ed;
+}
+.qurba-surface { background: rgba(255,253,248,.92); border: 1px solid rgba(11,59,45,.09); box-shadow: 0 16px 45px rgba(22,50,40,.055); }
+.qurba-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8c6b2c; }
+.qurba-title { color: #0b3b2d; font-family: "Cormorant Garamond", Georgia, serif; letter-spacing: -.02em; }
+.qurba-action { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 42px; border-radius: .85rem; padding: .65rem 1rem; font-size: .875rem; font-weight: 600; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+.qurba-action:hover { transform: translateY(-1px); }
+.qurba-action-primary { background: #0b3b2d; color: #fffdf8; box-shadow: 0 8px 20px rgba(11,59,45,.16); }
+.qurba-action-soft { background: rgba(255,255,255,.65); border: 1px solid rgba(11,59,45,.10); color: #0b3b2d; }
+.quran-text { font-family: "Amiri Quran", "Amiri", serif; font-size: clamp(1.9rem, 4vw, 2.35rem); line-height: 2.65; direction: rtl; text-align: right; }
 .safe-top { padding-top: env(safe-area-inset-top); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-:focus-visible { outline: 2px solid #C9A24A; outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-/* ===== QURBA BASE — END ===== */
+:focus-visible { outline: 2px solid #c49e4b; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
