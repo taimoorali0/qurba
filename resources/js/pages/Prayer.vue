@@ -1,10 +1,12 @@
 <!-- ===== QURBA: Prayer times ===== -->
 <script setup lang="ts">
+import Rosette from '../components/Rosette.vue';
 import { Head } from '@inertiajs/vue3';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Check, ChevronLeft, ChevronRight, Moon, Sun, Sunrise, Sunset, CloudSun, Settings2 } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import PageTitle from '../components/PageTitle.vue';
 import LocationPicker from '../components/LocationPicker.vue';
 import RemindersCard from '../components/RemindersCard.vue';
 import SalahTracker from '../components/SalahTracker.vue';
@@ -48,11 +50,12 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
   <Head :title="t('nav.prayer')" />
   <QurbaShell>
     <div class="flex items-center justify-between gap-3">
-      <h1 class="font-display text-3xl text-emerald-900 md:text-4xl">{{ t('nav.prayer') }}</h1>
+      <PageTitle :title="t('nav.prayer')" arabic="الصلاة" class="flex-1" />
       <button v-if="loc.place" class="grid size-9 place-items-center rounded-full border border-line bg-paper" @click="showSettings = !showSettings" :aria-label="t('prayer.settings')"><Settings2 class="size-4" /></button>
     </div>
 
-    <div v-if="adhanFor || sound.adhanPlaying" class="mt-5 flex items-center gap-3 rounded-[var(--radius-tile)] bg-emerald-900 px-5 py-4 text-cream">
+    <div v-if="adhanFor || sound.adhanPlaying" class="isolate overflow-hidden relative mt-5 flex items-center gap-3 rounded-[var(--radius-tile)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-5 py-4 text-cream">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
       <span class="flex-1 font-display text-xl">{{ t('prayer.' + (sound.adhanPlaying || adhanFor)) }}</span>
       <button v-if="sound.adhanPlaying" class="rounded-full bg-gold-500 px-4 py-1.5 text-sm text-emerald-950" @click="stopOneShot">{{ t('sound.stopAdhan') }}</button>
       <button v-else class="rounded-full bg-gold-500 px-4 py-1.5 text-sm text-emerald-950" @click="playAdhan(adhanFor).then(() => (adhanFor = ''))">{{ t('sound.playAdhan') }}</button>
@@ -61,7 +64,7 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
 
     <template v-if="loc.place">
       <!-- Settings -->
-      <section v-if="showSettings && eff" class="mt-5 grid gap-4 rounded-[var(--radius-tile)] border border-line bg-paper p-5 text-sm md:grid-cols-2">
+      <section v-if="showSettings && eff" class="mt-5 grid gap-4 rounded-[var(--radius-tile)] bg-paper shadow-soft p-5 text-sm md:grid-cols-2">
         <label class="block">
           <span class="text-xs text-ink-soft">{{ t('prayer.method') }}</span>
           <select v-model="prayerSettings.method" class="mt-1 w-full rounded-full border-line py-1.5 text-sm">
@@ -92,7 +95,8 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
       <div>
       <!-- Day -->
       <div class="lg:hidden">      <!-- Next prayer -->
-      <div v-if="next" class="mb-6 rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream">
+      <div v-if="next" class="isolate overflow-hidden relative mb-6 rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
         <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
         <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
         <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>
@@ -109,7 +113,7 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
       </div>
       <button v-if="offset !== 0" class="mx-auto mt-2 block text-xs text-emerald-700 underline" @click="offset = 0">{{ t('prayer.today') }}</button>
 
-      <ul class="mt-4 divide-y divide-line overflow-hidden rounded-[var(--radius-tile)] border border-line bg-paper">
+      <ul class="mt-4 divide-y divide-line overflow-hidden rounded-[var(--radius-tile)] bg-paper shadow-soft">
         <li v-for="p in times" :key="p.name" class="flex items-center gap-4 px-5 py-4" :class="isNext(p.name, p.time) ? 'bg-emerald-100' : ''">
           <component :is="icons[p.name]" class="size-5" :class="p.name === 'sunrise' ? 'text-gold-600' : 'text-emerald-700'" />
           <span class="flex-1" :class="p.name === 'sunrise' ? 'text-ink-soft' : 'font-medium text-ink'">{{ t('prayer.' + p.name) }}</span>
@@ -128,7 +132,8 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
 
       <aside class="space-y-4">
       <div class="hidden lg:block">      <!-- Next prayer -->
-      <div v-if="next" class="rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream">
+      <div v-if="next" class="isolate overflow-hidden relative rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
         <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
         <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
         <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>

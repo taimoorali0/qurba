@@ -23,7 +23,7 @@ async function download() {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-3 rounded-[var(--radius-tile)] border border-line bg-paper px-5 py-4 text-sm">
+  <div class="flex flex-wrap items-center gap-3 rounded-[var(--radius-tile)] bg-paper shadow-soft px-5 py-4 text-sm">
     <CheckCircle2 v-if="saved && !busy" class="size-5 text-emerald-700" />
     <CloudDownload v-else class="size-5 text-emerald-700" />
     <div class="min-w-0 flex-1">

@@ -14,7 +14,7 @@ const dayName = (d: Date) => d.toLocaleDateString(locale.value, { weekday: 'narr
 </script>
 
 <template>
-  <section class="rounded-[var(--radius-tile)] border border-line bg-paper p-5">
+  <section class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5">
     <div class="flex items-center justify-between">
       <h2 class="font-display text-lg text-emerald-900">{{ t('salah.title') }}</h2>
       <span class="inline-flex items-center gap-1 rounded-full bg-gold-200/60 px-2.5 py-0.5 text-xs text-ink" :title="t('salah.streakHint')">

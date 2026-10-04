@@ -1,5 +1,6 @@
 <!-- ===== QURBA Learning: course catalogue + register interest ===== -->
 <script setup lang="ts">
+import Rosette from '../components/Rosette.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -37,7 +38,8 @@ function submit() { form.post('/learn/interest', { preserveScroll: true, onSucce
 <template>
   <Head :title="t('learn.title')" />
   <QurbaShell>
-    <section class="rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream md:p-10">
+    <section class="isolate overflow-hidden relative rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream md:p-10">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
       <GraduationCap class="size-8 text-gold-500" />
       <h1 class="mt-4 font-display text-3xl md:text-5xl">{{ t('learn.title') }}</h1>
       <p class="mt-3 max-w-xl text-gold-200">{{ t('learn.intro') }}</p>
@@ -53,7 +55,7 @@ function submit() { form.post('/learn/interest', { preserveScroll: true, onSucce
     </div>
 
     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <li v-for="c in shown" :key="c.id" class="flex flex-col rounded-[var(--radius-sheet)] border border-line bg-paper p-5">
+      <li v-for="c in shown" :key="c.id" class="flex flex-col rounded-[var(--radius-sheet)] bg-paper shadow-soft p-5">
         <h2 class="font-display text-xl text-emerald-900">{{ tr(c.title) }}</h2>
         <p class="mt-2 flex-1 text-sm text-ink-soft">{{ tr(c.summary) }}</p>
         <div class="mt-4 flex flex-wrap gap-2 text-xs">

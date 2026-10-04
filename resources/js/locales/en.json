@@ -320,7 +320,8 @@
     "d": "Learn and memorise",
     "playAll": "Play all",
     "stop": "Stop",
-    "listen": "Listen to"
+    "listen": "Listen to",
+    "deviceVoice": "Audio uses your device's Arabic voice until recitations are added."
   },
   "sound": {
     "title": "Sounds",

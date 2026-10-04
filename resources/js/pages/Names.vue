@@ -1,13 +1,15 @@
 <!-- ===== QURBA: 99 Names of Allah (Al-Asma' al-Husna) ===== -->
 <script setup lang="ts">
+import Rosette from '../components/Rosette.vue';
 import { Head } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Check, Pause, Play, Search, Volume2 } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import Ornament from '../components/Ornament.vue';
 import { isMemorised, memorised, NAMES, toggleMemorised } from '../lib/asmaulHusna';
 import { toArabicDigits } from '../lib/quranLocal';
-import { FILES, hasFile, playName, sound, stopOneShot } from '../lib/sounds';
+import { canSpeakArabic, FILES, hasFile, playName, sound, stopOneShot } from '../lib/sounds';
 
 const { t } = useI18n();
 const q = ref('');
@@ -21,12 +23,15 @@ const shown = computed(() => {
 const done = computed(() => memorised.ids.length);
 
 // Recitations appear only once public/audio/names/*.mp3 have been added
+// Recordings are used when uploaded; otherwise the device's Arabic voice reads the name
+const hasRecordings = ref(false);
 const hasAudio = ref(false);
-onMounted(async () => { hasAudio.value = await hasFile(FILES.name(1)); });
+onMounted(async () => { hasRecordings.value = await hasFile(FILES.name(1)); hasAudio.value = hasRecordings.value || canSpeakArabic(); });
+const arabicOf = (n: number) => NAMES[n - 1]?.ar ?? '';
 const playingAll = ref(false);
 function listen(n: number) {
   playingAll.value = false;
-  if (sound.namePlaying === n) stopOneShot(); else playName(n);
+  if (sound.namePlaying === n) stopOneShot(); else playName(n, undefined, arabicOf(n));
 }
 function playAll(from = 1) {
   if (playingAll.value && from === 1) { playingAll.value = false; stopOneShot(); return; }
@@ -34,7 +39,7 @@ function playAll(from = 1) {
   const step = (n: number) => {
     if (!playingAll.value || n > 99) { playingAll.value = false; return; }
     document.getElementById(`name-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    playName(n, () => step(n + 1)).then((ok) => { if (!ok) playingAll.value = false; });
+    playName(n, () => window.setTimeout(() => step(n + 1), 350), arabicOf(n)).then((ok) => { if (!ok) playingAll.value = false; });
   };
   step(from);
 }
@@ -44,11 +49,14 @@ function playAll(from = 1) {
   <Head :title="t('names.title')" />
   <QurbaShell>
     <!-- Header -->
-    <section class="relative overflow-hidden rounded-[var(--radius-sheet)] bg-emerald-900 px-6 py-8 text-cream md:px-10">
+    <section class="isolate arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-6 py-8 text-cream md:px-10">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
       <p dir="rtl" lang="ar" class="pointer-events-none absolute -bottom-6 end-4 font-quran text-8xl text-gold-500/15 md:text-9xl" aria-hidden="true">الله</p>
-      <h1 class="font-display text-3xl md:text-4xl">{{ t('names.title') }}</h1>
-      <p class="mt-2 max-w-xl text-sm text-gold-200">{{ t('names.sub') }}</p>
-      <div class="mt-5 max-w-sm">
+      <p dir="rtl" lang="ar" class="pt-6 text-center font-quran text-3xl text-gold-200 md:pt-10 md:text-4xl">أَسْمَاءُ ٱللَّهِ ٱلْحُسْنَىٰ</p>
+      <h1 class="mt-2 text-center font-display text-3xl md:text-4xl">{{ t('names.title') }}</h1>
+      <Ornament light class="mt-3" />
+      <p class="mx-auto mt-3 max-w-xl text-center text-sm text-gold-200">{{ t('names.sub') }}</p>
+      <div class="mx-auto mt-5 max-w-sm text-center">
         <p class="text-xs text-gold-200">{{ t('names.progress', { n: done }) }}</p>
         <div class="mt-1.5 h-1.5 rounded-full bg-emerald-950/60"><div class="h-1.5 rounded-full bg-gold-500 transition-all" :style="{ width: done / 99 * 100 + '%' }" /></div>
       </div>
@@ -96,6 +104,7 @@ function playAll(from = 1) {
     </ol>
     <p v-if="!shown.length" class="mt-10 text-center text-ink-soft">{{ t('names.none') }}</p>
 
-    <p class="mt-8 text-xs text-ink-soft">{{ t('names.source') }}</p>
+    <p v-if="hasAudio && !hasRecordings" class="mt-8 text-xs text-ink-soft">{{ t('names.deviceVoice') }}</p>
+    <p class="mt-2 text-xs text-ink-soft">{{ t('names.source') }}</p>
   </QurbaShell>
 </template>

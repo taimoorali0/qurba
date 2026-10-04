@@ -21,7 +21,7 @@ const msg = computed(() => error.value || (status.value !== 'ok' && !rem.enabled
 </script>
 
 <template>
-  <section class="rounded-[var(--radius-tile)] border border-line bg-paper p-5 text-sm">
+  <section class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5 text-sm">
     <div class="flex items-center gap-3">
       <Bell v-if="rem.enabled" class="size-5 text-emerald-700" /><BellOff v-else class="size-5 text-ink-soft" />
       <h2 class="flex-1 font-medium text-ink">{{ t('reminders.title') }}</h2>

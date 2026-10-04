@@ -5,6 +5,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ChevronLeft, Plus, RotateCcw, Trash2, Undo2, Vibrate, Volume2, VolumeX } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import PageTitle from '../components/PageTitle.vue';
 import TasbeehBeads from '../components/TasbeehBeads.vue';
 import { activeType, addCustom, allTypes, canVibrate, lastDays, removeCustom, reset, selectZikr, setTarget, tap, targetOf, tb, todayTotal, undo, type ZikrType } from '../lib/tasbeeh';
 
@@ -55,7 +56,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
   <QurbaShell>
     <div class="flex items-center gap-3">
       <Link href="/zikr" class="grid size-9 place-items-center rounded-full border border-line bg-paper" :aria-label="t('nav.zikr')"><ChevronLeft class="size-4 rtl:rotate-180" /></Link>
-      <h1 class="font-display text-3xl text-emerald-900">{{ t('home.tasbeeh') }}</h1>
+      <PageTitle :title="t('home.tasbeeh')" arabic="التسبيح" class="flex-1" />
     </div>
 
     <div role="tablist" class="mt-5 grid grid-cols-3 rounded-full border border-line bg-paper p-1 text-sm sm:inline-grid">
@@ -92,7 +93,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
 
       <aside class="space-y-4">
         <!-- Feedback toggles -->
-        <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-4 text-sm">
+        <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-4 text-sm">
           <label class="flex items-center justify-between gap-3">
             <span class="flex items-center gap-2"><Volume2 v-if="tb.sound" class="size-4" /><VolumeX v-else class="size-4" /> {{ t('tasbeeh.sound') }}</span>
             <input v-model="tb.sound" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" />
@@ -105,7 +106,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
         </div>
 
         <!-- Target -->
-        <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-4 text-sm">
+        <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-4 text-sm">
           <p class="text-ink-soft">{{ t('tasbeeh.target') }}</p>
           <div class="mt-2 flex flex-wrap gap-2">
             <button v-for="n in [33, 100]" :key="n" class="rounded-full px-4 py-1.5" :class="target === n ? 'bg-emerald-900 text-cream' : 'border border-line'" @click="applyTarget(n)">{{ n }}</button>
@@ -130,7 +131,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
             <button class="flex h-full w-full items-center justify-center gap-2 rounded-[var(--radius-tile)] border border-dashed border-gold-500 px-3 py-3 text-sm text-gold-600" @click="adding = !adding"><Plus class="size-4" /> {{ t('tasbeeh.addCustom') }}</button>
           </li>
         </ul>
-        <div v-if="adding" class="mt-3 flex flex-wrap items-center gap-2 rounded-[var(--radius-tile)] border border-line bg-paper p-3 text-sm">
+        <div v-if="adding" class="mt-3 flex flex-wrap items-center gap-2 rounded-[var(--radius-tile)] bg-paper shadow-soft p-3 text-sm">
           <input v-model="newText" :placeholder="t('tasbeeh.customText')" class="min-w-0 flex-1 rounded-full border-line py-1.5" />
           <input v-model.number="newTarget" type="number" min="1" class="w-24 rounded-full border-line py-1.5" />
           <button class="rounded-full bg-emerald-900 px-4 py-1.5 text-cream disabled:opacity-40" :disabled="!newText.trim()" @click="saveCustom">{{ t('tasbeeh.save') }}</button>
@@ -140,7 +141,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
 
     <!-- HISTORY -->
     <section v-else-if="tab === 'history'" class="mt-6 space-y-6">
-      <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-5">
+      <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5">
         <p class="text-sm text-ink-soft">{{ t('tasbeeh.last7') }}</p>
         <div class="mt-4 flex h-32 items-end gap-3">
           <div v-for="d in week" :key="d.key" class="flex flex-1 flex-col items-center gap-1">
@@ -150,7 +151,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
           </div>
         </div>
       </div>
-      <ul class="divide-y divide-line rounded-[var(--radius-tile)] border border-line bg-paper">
+      <ul class="divide-y divide-line rounded-[var(--radius-tile)] bg-paper shadow-soft">
         <li v-if="!tb.history.length" class="p-5 text-sm text-ink-soft">{{ t('tasbeeh.noHistory') }}</li>
         <li v-for="s in tb.history.slice(0, 50)" :key="s.id" class="flex items-center justify-between gap-3 px-5 py-3 text-sm">
           <span><span class="block">{{ typeName(s.typeId) }}</span><span class="text-xs text-ink-soft">{{ fmt(s.end) }}</span></span>
@@ -160,7 +161,7 @@ const goalPct = computed(() => (tb.dailyGoal ? Math.min(1, todayTotal() / tb.dai
     </section>
 
     <!-- GOALS -->
-    <section v-else class="mt-6 max-w-md rounded-[var(--radius-tile)] border border-line bg-paper p-5 text-sm">
+    <section v-else class="mt-6 max-w-md rounded-[var(--radius-tile)] bg-paper shadow-soft p-5 text-sm">
       <label class="block text-ink-soft" for="goal">{{ t('tasbeeh.dailyGoal') }}</label>
       <input id="goal" v-model.number="tb.dailyGoal" type="number" min="0" step="1" class="mt-2 w-32 rounded-full border-line py-1.5" />
       <p class="mt-1 text-xs text-ink-soft">{{ t('tasbeeh.goalHint') }}</p>
