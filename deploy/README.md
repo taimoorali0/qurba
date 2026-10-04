@@ -3,6 +3,19 @@
 ## 0. Code
 The code lives on GitHub (`taimoorali0/qurba`). Keep the repository **private**. `.env`, `vendor`, `node_modules`, `storage/app` and uploaded audio are never uploaded.
 
+## Shared server with a Cloudflare Tunnel (other projects already running)
+Use this instead of steps 1–3 when the server already hosts other sites published through a Cloudflare Tunnel.
+It does not touch the firewall, other sites, the default PHP or Node, and reuses the existing MySQL/MariaDB.
+```
+scp -r E:\laragon\www\qurba\deploy root@SERVER-IP:/root/qurba-setup
+ssh root@SERVER-IP
+bash /root/qurba-setup/server-setup-shared.sh
+```
+It asks for the subdomain and a free local port (default 8090), then prints: the GitHub deploy key, the database
+password, the first-deploy commands, and exactly what to add to your tunnel (config file or Zero Trust dashboard).
+Delete any old A record for the subdomain; the tunnel uses its own CNAME.
+Later updates: `sudo -u qurba PHP_BIN=php8.3 bash /var/www/qurba/deploy/deploy.sh`
+
 ## 1. DNS for your subdomain (do this first)
 At your domain's DNS provider add an **A record**: name `qurba` (or whatever you like) → your server's IPv4 address.
 That gives `qurba.yourdomain.com`. Wait until `ping qurba.yourdomain.com` shows the server IP (usually a few minutes).

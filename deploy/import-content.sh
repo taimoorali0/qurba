@@ -2,6 +2,8 @@
 # ===== QURBA: download + import verified Quran content on the server (run once) =====
 set -euo pipefail
 cd /var/www/qurba
+PHP=${PHP_BIN:-$(command -v php8.3 || command -v php)}
+php() { "$PHP" "$@"; }
 mkdir -p storage/app/quran && cd storage/app/quran
 curl -fsSL -o quran-uthmani.txt "https://tanzil.net/pub/download/index.php?quranType=uthmani&outType=txt-2&agree=true" || true
 curl -fsSL -o quran-data.xml   "https://tanzil.net/res/text/metadata/quran-data.xml"
