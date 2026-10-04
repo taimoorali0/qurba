@@ -40,13 +40,6 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
     <div class="mt-5"><LocationPicker /></div>
 
     <template v-if="loc.place">
-      <!-- Next prayer -->
-      <div v-if="next" class="mt-5 rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream">
-        <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
-        <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
-        <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>
-      </div>
-
       <!-- Settings -->
       <section v-if="showSettings && eff" class="mt-5 grid gap-4 rounded-[var(--radius-tile)] border border-line bg-paper p-5 text-sm md:grid-cols-2">
         <label class="block">
@@ -75,8 +68,18 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
         </div>
       </section>
 
+      <div class="mt-6 grid gap-6 lg:grid-cols-[1.5fr_1fr] lg:items-start">
+      <div>
       <!-- Day -->
-      <div class="mt-6 flex items-center justify-between gap-3">
+      <div class="lg:hidden">      <!-- Next prayer -->
+      <div v-if="next" class="mb-6 rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream">
+        <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
+        <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
+        <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>
+      </div>
+
+</div>
+      <div class="flex items-center justify-between gap-3">
         <button class="grid size-9 place-items-center rounded-full border border-line bg-paper" @click="offset--" :aria-label="t('prayer.prevDay')"><ChevronLeft class="size-4 rtl:rotate-180" /></button>
         <div class="text-center">
           <p class="font-medium text-ink">{{ dateLabel }}</p>
@@ -94,12 +97,24 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
           <span class="tabular-nums text-ink">{{ fmtTime(p.time, tz, locale) }}</span>
         </li>
       </ul>
+      </div>
 
-      <div class="mt-6"><RemindersCard /></div>
+      <aside class="space-y-4">
+      <div class="hidden lg:block">      <!-- Next prayer -->
+      <div v-if="next" class="rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream">
+        <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
+        <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
+        <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>
+      </div>
 
-      <p v-if="eff" class="mt-4 text-xs text-ink-soft">
+</div>
+      <RemindersCard />
+
+      <p v-if="eff" class="text-xs text-ink-soft">
         {{ t('prayer.calcNote', { m: METHODS[eff.method as MethodKey], a: t('prayer.asr_' + eff.asr) }) }}
       </p>
+      </aside>
+      </div>
     </template>
   </QurbaShell>
 </template>

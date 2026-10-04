@@ -18,11 +18,11 @@ function pickCity(e: Event) { const c = CITIES.find((x) => x.label === (e.target
   <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-4 text-sm">
     <div class="flex flex-wrap items-center gap-3">
       <MapPin class="size-4 text-emerald-700" />
-      <span v-if="loc.place" class="min-w-0 flex-1">
+      <span v-if="loc.place" class="min-w-[10rem] flex-1">
         <span class="block truncate font-medium text-ink">{{ loc.place.label }}</span>
         <span class="text-xs text-ink-soft">{{ loc.place.mode === 'device' ? t('loc.device') : t('loc.manual') }} · {{ loc.place.tz }}</span>
       </span>
-      <span v-else class="flex-1 text-ink-soft">{{ t('loc.none') }}</span>
+      <span v-else class="min-w-[10rem] flex-1 text-ink-soft">{{ t('loc.none') }}</span>
       <button class="inline-flex items-center gap-2 rounded-full bg-emerald-900 px-4 py-1.5 text-cream disabled:opacity-50" :disabled="loc.busy" @click="useDevice">
         <LocateFixed class="size-4" /> {{ loc.busy ? t('loc.locating') : t('loc.useDevice') }}
       </button>
