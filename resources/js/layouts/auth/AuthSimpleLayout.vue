@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Link } from '@inertiajs/vue3';
+import { ChevronLeft } from 'lucide-vue-next';
 
 defineProps<{
     title?: string;
@@ -9,21 +9,25 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-        <div class="w-full max-w-sm">
-            <div class="flex flex-col gap-8">
-                <div class="flex flex-col items-center gap-4">
-                    <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
-                        <div class="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                            <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                        </div>
-                        <span class="sr-only">{{ title }}</span>
-                    </Link>
-                    <div class="space-y-2 text-center">
-                        <h1 class="text-xl font-medium">{{ title }}</h1>
-                        <p class="text-center text-sm text-muted-foreground">{{ description }}</p>
-                    </div>
+    <div class="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-cream p-6 text-ink md:p-10">
+        <!-- Soft brand glow behind the card -->
+        <div aria-hidden="true" class="pointer-events-none absolute -top-40 start-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-gold-200/50 blur-3xl rtl:translate-x-1/2" />
+
+        <Link href="/" class="absolute start-4 top-4 inline-flex items-center gap-1 rounded-full border border-line bg-paper px-3 py-1.5 text-sm text-ink-soft hover:text-emerald-900 md:start-8 md:top-8">
+            <ChevronLeft class="size-4 rtl:rotate-180" /> Qurba
+        </Link>
+
+        <div class="relative w-full max-w-md rounded-[var(--radius-sheet)] border border-line bg-paper px-6 py-8 shadow-sm md:px-10 md:py-10">
+            <div class="flex flex-col items-center gap-4">
+                <Link href="/" aria-label="Qurba home">
+                    <img src="/brand/qurba-logo.png" alt="Qurba — Closer Through Remembrance" class="h-16 w-auto" height="64" />
+                </Link>
+                <div class="space-y-1 text-center">
+                    <h1 class="font-display text-2xl text-emerald-900">{{ title }}</h1>
+                    <p class="text-sm text-ink-soft">{{ description }}</p>
                 </div>
+            </div>
+            <div class="mt-8">
                 <slot />
             </div>
         </div>
