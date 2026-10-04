@@ -78,7 +78,10 @@
     "sleepOff": "Sleep off",
     "audioDev": "Development audio, licence pending",
     "audioError": "Audio could not load. Check your connection.",
-    "empty": "Quran content is not available yet. Please check back soon."
+    "empty": "Quran content is not available yet. Please check back soon.",
+    "surah": "Surah",
+    "share": "Share",
+    "copied": "Copied"
   },
   "tasbeeh": {
     "counter": "Counter",

@@ -3,7 +3,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, List, Loader2, Lock, Moon, Pause, Play, Repeat, Repeat1, Settings2, SkipBack, SkipForward, Volume2, X } from 'lucide-vue-next';
+import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, List, Loader2, Lock, Moon, Pause, Play, Repeat, Repeat1, Settings2, Share2, SkipBack, SkipForward, Volume2, X } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { bookmarks, readerSettings, setLastRead, toArabicDigits, toggleBookmark, type ReaderMode } from '../lib/quranLocal';
 import { audioPrefs, next as nextAyah, player, prev as prevAyah, setReciter, setSleep, setSpeed, start, stop, toggle, type Reciter } from '../lib/quranAudio';
@@ -46,6 +46,16 @@ watch(playingAyah, async (n) => {
   const el = document.getElementById(`ayah-${n}`);
   if (el) { const r = el.getBoundingClientRect(); if (r.top < 160 || r.bottom > window.innerHeight) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
 });
+
+async function share(a: Ayah) {
+  const url = `${location.origin}/quran/${props.surah.id}#ayah-${a.n}`;
+  const text = `${a.text}\n— ${props.surah.name_simple} ${a.key}`;
+  try {
+    if (navigator.share) await navigator.share({ title: `${props.surah.name_simple} ${a.key}`, text, url });
+    else { await navigator.clipboard.writeText(`${text}\n${url}`); copied.value = a.key; setTimeout(() => (copied.value = ''), 1500); }
+  } catch { /* cancelled */ }
+}
+const copied = ref('');
 
 const place = (s: Surah) => s.revelation_place ? t('quran.' + s.revelation_place) : '';
 
@@ -195,24 +205,35 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
 
         <p v-if="hasUnreviewed" class="mt-4 rounded-xl bg-gold-200/50 px-4 py-2 text-xs text-ink-soft">{{ t('quran.devReview') }}</p>
 
-        <!-- Bismillah -->
-        <p v-if="bismillah && tab !== 'tafsir'" dir="rtl" lang="ar" class="mt-10 text-center font-quran text-emerald-900"
-          :style="{ fontSize: readerSettings.fontSize * 0.9 + 'rem', lineHeight: 2.2 }">{{ bismillah }}</p>
+        <!-- Surah title card -->
+        <div v-if="tab !== 'tafsir'" class="relative mt-6 overflow-hidden rounded-[var(--radius-sheet)] border border-gold-200 bg-gradient-to-b from-gold-200/40 to-paper px-6 py-6 text-center">
+          <svg aria-hidden="true" viewBox="0 0 120 40" class="pointer-events-none absolute start-3 top-3 h-8 w-auto text-gold-500/40" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 38V20Q2 2 20 2h20M10 38V24q0-14 14-14h16" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 120 40" class="pointer-events-none absolute end-3 top-3 h-8 w-auto -scale-x-100 text-gold-500/40" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 38V20Q2 2 20 2h20M10 38V24q0-14 14-14h16" /></svg>
+          <p class="font-display text-xl text-emerald-900">{{ t('quran.surah') }} {{ surah.name_simple }}</p>
+          <p class="mt-1 text-xs text-ink-soft"><template v-if="surah.revelation_place">{{ place(surah) }} | </template>{{ surah.ayah_count }} {{ t('quran.ayahs') }}</p>
+          <p v-if="bismillah" dir="rtl" lang="ar" class="mt-4 font-quran text-emerald-900"
+            :style="{ fontSize: readerSettings.fontSize * 0.9 + 'rem', lineHeight: 2.2 }">{{ bismillah }}</p>
+        </div>
 
         <!-- TRANSLATION mode -->
-        <ol v-if="tab === 'translation'" class="mt-6">
+        <ol v-if="tab === 'translation'" class="mt-4 rounded-[var(--radius-sheet)] border border-line bg-paper px-4 md:px-8">
           <li v-for="a in ayahs" :id="`ayah-${a.n}`" :key="a.key" :data-n="a.n" class="scroll-mt-48 border-b border-line py-7 transition-colors last:border-0"
-            :class="playingAyah === a.n ? '-mx-4 rounded-2xl bg-gold-200/40 px-4' : ''">
+            :class="playingAyah === a.n ? '-mx-4 rounded-2xl bg-gold-200/40 px-4 md:-mx-8 md:px-8' : ''">
             <div class="mb-3 flex items-center justify-between text-xs text-ink-soft">
               <span class="flex items-center gap-2">
                 <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-900">{{ a.key }}</span>
                 <button v-if="reciter" class="grid size-7 place-items-center rounded-full hover:bg-paper" @click="playFrom(a.n)" :aria-label="`${t('quran.play')} ${a.key}`"><Play class="size-3.5" /></button>
               </span>
-              <button class="grid size-8 place-items-center rounded-full hover:bg-paper" @click="toggleBookmark(a.key)"
+              <span class="flex items-center gap-1">
+              <button class="grid size-8 place-items-center rounded-full hover:bg-cream" @click="share(a)" :aria-label="`${t('quran.share')} ${a.key}`" :title="copied === a.key ? t('quran.copied') : t('quran.share')">
+                <Share2 class="size-4" :class="copied === a.key ? 'text-emerald-700' : ''" />
+              </button>
+              <button class="grid size-8 place-items-center rounded-full hover:bg-cream" @click="toggleBookmark(a.key)"
                 :aria-pressed="bookmarks.has(a.key)" :aria-label="bookmarks.has(a.key) ? t('quran.bookmarked') : t('quran.bookmark')">
                 <BookmarkCheck v-if="bookmarks.has(a.key)" class="size-4 text-gold-600" />
                 <Bookmark v-else class="size-4" />
               </button>
+              </span>
             </div>
             <p dir="rtl" lang="ar" class="font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.4 }">
               {{ a.text }} <span class="whitespace-nowrap text-gold-600">﴿{{ toArabicDigits(a.n) }}﴾</span>
