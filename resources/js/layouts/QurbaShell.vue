@@ -44,8 +44,8 @@ const langs: { code: QurbaLocale; label: string }[] = [
 </script>
 
 <template>
-  <div class="min-h-dvh bg-cream text-ink">
-    <header class="safe-top sticky top-0 z-30 border-b border-line bg-cream">
+  <div class="bg-islamic min-h-dvh text-ink">
+    <header class="safe-top sticky top-0 z-30 border-b border-line bg-paper/85 backdrop-blur">
       <div class="mx-auto flex h-16 max-w-6xl md:h-20 items-center gap-6 px-4 md:px-8">
         <Link href="/" class="flex shrink-0 items-center gap-2" aria-label="Qurba home">
           <!-- Mobile: icon + name -->
@@ -104,7 +104,7 @@ const langs: { code: QurbaLocale; label: string }[] = [
     </main>
 
     <!-- Mobile bottom navigation -->
-    <nav class="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 backdrop-blur md:hidden">
+    <nav class="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 shadow-[0_-6px_20px_rgba(16,24,20,0.05)] backdrop-blur md:hidden">
       <ul class="grid grid-cols-5">
         <li v-for="item in primary" :key="item.key">
           <Link :href="item.href" class="flex flex-col items-center gap-1 py-2.5 text-[11px]"

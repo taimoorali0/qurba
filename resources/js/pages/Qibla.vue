@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { Compass, Smartphone } from 'lucide-vue-next';
 import { Coordinates, Qibla } from 'adhan';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import PageTitle from '../components/PageTitle.vue';
 import LocationPicker from '../components/LocationPicker.vue';
 import { loc } from '../lib/location';
 
@@ -74,7 +75,7 @@ const deg = (n: number) => `${Math.round(n)}°`;
 <template>
   <Head :title="t('nav.qibla')" />
   <QurbaShell>
-    <h1 class="font-display text-3xl text-emerald-900 md:text-4xl">{{ t('nav.qibla') }}</h1>
+    <PageTitle :title="t('nav.qibla')" arabic="القبلة" class="flex-1" />
     <div class="mt-5"><LocationPicker /></div>
 
     <section v-if="loc.place && bearing != null" class="mt-6 flex flex-col items-center">

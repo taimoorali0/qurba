@@ -27,7 +27,7 @@ watchEffect(() => { (window as any).__qurbaInertiaVersion = page.version ?? ''; 
       </div>
     </div>
 
-    <div v-if="showInstall" class="flex items-start gap-3 rounded-2xl bg-emerald-900 px-4 py-3 text-sm text-cream">
+    <div v-if="showInstall" class="flex items-start gap-3 rounded-2xl pattern-light bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-lift px-4 py-3 text-sm text-cream">
       <img src="/brand/qurba-icon-96.png" alt="" class="size-10 shrink-0" />
       <div class="min-w-0 flex-1">
         <p class="font-medium">{{ t('pwa.installTitle') }}</p>

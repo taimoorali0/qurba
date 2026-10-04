@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->font('Figtree')
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet"><link rel="stylesheet" href="' . asset('css/qurba-admin.css') . '?v=' . @filemtime(public_path('css/qurba-admin.css')) . '">')
             // Phones and tablets: always start with the menu closed (desktop keeps its remembered state)
-            ->renderHook(PanelsRenderHook::BODY_END, fn () => '<script>document.addEventListener("alpine:initialized",function(){if(window.innerWidth<1024&&window.Alpine&&Alpine.store("sidebar")){Alpine.store("sidebar").close()}});</script>')
+            ->renderHook(PanelsRenderHook::BODY_END, fn () => '<script>(function(){function c(){if(window.innerWidth<1024&&window.Alpine&&Alpine.store&&Alpine.store("sidebar")&&Alpine.store("sidebar").isOpen){Alpine.store("sidebar").close()}}if(window.Alpine&&Alpine.store&&Alpine.store("sidebar")){c()}document.addEventListener("alpine:initialized",c);document.addEventListener("livewire:navigated",c);window.addEventListener("load",c)})();</script>')
             ->defaultAvatarProvider(\App\Support\InitialsAvatar::class)
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('7xl')

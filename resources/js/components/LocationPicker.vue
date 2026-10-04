@@ -15,7 +15,7 @@ function pickCity(e: Event) { const c = CITIES.find((x) => x.label === (e.target
 </script>
 
 <template>
-  <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-4 text-sm">
+  <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-4 text-sm">
     <div class="flex flex-wrap items-center gap-3">
       <MapPin class="size-4 text-emerald-700" />
       <span v-if="loc.place" class="min-w-[10rem] flex-1">

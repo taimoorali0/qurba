@@ -183,7 +183,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
         </header>
 
         <!-- Audio bar -->
-        <div v-if="reciter" class="mt-4 rounded-[var(--radius-tile)] border border-line bg-paper px-4 py-3">
+        <div v-if="reciter" class="mt-4 rounded-[var(--radius-tile)] bg-paper shadow-soft px-4 py-3">
           <div class="flex items-center gap-2">
             <button class="grid size-8 place-items-center rounded-full text-ink-soft hover:text-emerald-900 disabled:opacity-40" :disabled="!isThisSurah" @click="prevAyah" :aria-label="t('quran.prevAyah')"><SkipBack class="size-4 rtl:rotate-180" /></button>
             <button class="grid size-11 place-items-center rounded-full bg-emerald-900 text-cream" @click="mainButton" :aria-label="isThisSurah && player.playing ? t('quran.pause') : t('quran.play')">
@@ -227,12 +227,12 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
           </div>
           <p v-if="isThisSurah && player.error" class="mt-2 text-xs text-red-700">{{ t('quran.audioError') }}</p>
         </div>
-        <div v-else class="mt-4 flex items-center gap-2 rounded-[var(--radius-tile)] border border-line bg-paper px-4 py-3 text-xs text-ink-soft">
+        <div v-else class="mt-4 flex items-center gap-2 rounded-[var(--radius-tile)] bg-paper shadow-soft px-4 py-3 text-xs text-ink-soft">
           <Lock class="size-3.5" /> {{ t('quran.audioLocked') }}
         </div>
 
         <!-- Settings -->
-        <section v-if="showSettings" class="mt-4 rounded-[var(--radius-tile)] border border-line bg-paper p-5 text-sm">
+        <section v-if="showSettings" class="mt-4 rounded-[var(--radius-tile)] bg-paper shadow-soft p-5 text-sm">
           <label class="flex items-center gap-4">
             <span class="w-28 text-ink-soft">{{ t('quran.fontSize') }}</span>
             <input v-model.number="readerSettings.fontSize" type="range" min="1.4" max="3.4" step="0.2" class="flex-1 accent-emerald-900" />
@@ -260,7 +260,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
         </div>
 
         <!-- TRANSLATION mode -->
-        <ol v-if="tab === 'translation'" class="mt-4 rounded-[var(--radius-sheet)] border border-line bg-paper px-4 md:px-8">
+        <ol v-if="tab === 'translation'" class="mt-4 rounded-[var(--radius-sheet)] bg-paper shadow-soft px-4 md:px-8">
           <li v-for="a in ayahs" :id="`ayah-${a.n}`" :key="a.key" :data-n="a.n" class="scroll-mt-48 border-b border-line py-7 transition-colors last:border-0"
             :class="playingAyah === a.n ? '-mx-4 rounded-2xl bg-gold-200/40 px-4 md:-mx-8 md:px-8' : ''">
             <div class="mb-3 flex items-center justify-between text-xs text-ink-soft">
@@ -292,7 +292,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
         </ol>
 
         <!-- MUSHAF mode: continuous text, nothing else on the page -->
-        <div v-else-if="tab === 'mushaf'" class="mt-6 rounded-[var(--radius-sheet)] border border-line bg-paper px-5 py-8 md:px-10">
+        <div v-else-if="tab === 'mushaf'" class="mt-6 rounded-[var(--radius-sheet)] bg-paper shadow-soft px-5 py-8 md:px-10">
           <p dir="rtl" lang="ar" class="text-justify font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.5 }">
             <span v-for="a in ayahs" :id="`ayah-${a.n}`" :key="a.key" :data-n="a.n" class="scroll-mt-48 rounded-lg transition-colors" :class="playingAyah === a.n ? 'bg-gold-200/60' : ''">{{ a.text }}
               <button class="whitespace-nowrap text-gold-600" :class="bookmarks.has(a.key) ? 'underline decoration-gold-500 underline-offset-8' : ''"
@@ -302,7 +302,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
         </div>
 
         <!-- TAFSIR -->
-        <div v-else-if="!tafsir" class="mt-6 rounded-[var(--radius-sheet)] border border-line bg-paper px-6 py-10 text-center text-ink-soft">
+        <div v-else-if="!tafsir" class="mt-6 rounded-[var(--radius-sheet)] bg-paper shadow-soft px-6 py-10 text-center text-ink-soft">
           {{ t('quran.tafsirSoon') }}
         </div>
         <section v-else class="mt-6">
@@ -319,7 +319,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
           <p v-else-if="tafsirState === 'error'" class="mt-6 rounded-xl bg-gold-200/50 px-4 py-3 text-sm text-ink">{{ t('quran.tafsirError') }}
             <button class="ms-2 underline" @click="loadTafsir">{{ t('quran.retry') }}</button></p>
           <p v-else-if="!tafsirRows.length" class="mt-6 text-ink-soft">{{ t('quran.tafsirEmpty') }}</p>
-          <ol v-else class="mt-4 rounded-[var(--radius-sheet)] border border-line bg-paper px-4 md:px-8">
+          <ol v-else class="mt-4 rounded-[var(--radius-sheet)] bg-paper shadow-soft px-4 md:px-8">
             <li v-for="r in tafsirRows" :id="`ayah-${r.n}`" :key="r.n" :data-n="r.n" class="scroll-mt-48 border-b border-line py-7 last:border-0">
               <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs text-emerald-900">{{ surah.id }}:{{ r.n }}</span>
               <p dir="rtl" lang="ar" class="mt-3 font-quran text-emerald-900" :style="{ fontSize: readerSettings.fontSize * 0.85 + 'rem', lineHeight: 2.2 }">

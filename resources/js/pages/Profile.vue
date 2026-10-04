@@ -5,6 +5,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Download, LogIn, LogOut, RefreshCw, Smartphone, Trash2, UserPlus, Settings } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import PageTitle from '../components/PageTitle.vue';
 import { CONSENT_TYPES, consent, setConsent, type ConsentType } from '../lib/consent';
 import { app, syncNow } from '../lib/pwa';
 import { lastDevices } from '../lib/userSync';
@@ -47,11 +48,11 @@ const countryName = (code: string) => new Intl.DisplayNames([locale.value], { ty
 <template>
   <Head :title="t('nav.profile')" />
   <QurbaShell>
-    <h1 class="font-display text-3xl text-emerald-900 md:text-4xl">{{ t('nav.profile') }}</h1>
+    <PageTitle :title="t('nav.profile')" arabic="حسابي" class="flex-1" />
 
     <div class="mt-6 grid gap-5 lg:grid-cols-2">
       <!-- Account -->
-      <section class="rounded-[var(--radius-sheet)] border border-line bg-paper p-6">
+      <section class="rounded-[var(--radius-sheet)] bg-paper shadow-soft p-6">
         <h2 class="font-display text-xl text-emerald-900">{{ t('profile.account') }}</h2>
         <template v-if="user">
           <p class="mt-3 font-medium text-ink">{{ user.name }}</p>
@@ -71,7 +72,7 @@ const countryName = (code: string) => new Intl.DisplayNames([locale.value], { ty
       </section>
 
       <!-- Sync -->
-      <section class="rounded-[var(--radius-sheet)] border border-line bg-paper p-6">
+      <section class="rounded-[var(--radius-sheet)] bg-paper shadow-soft p-6">
         <h2 class="font-display text-xl text-emerald-900">{{ t('profile.backup') }}</h2>
         <p class="mt-3 text-sm text-ink-soft">{{ t('profile.lastSync') }}: <span class="text-ink">{{ lastSyncText }}</span></p>
         <p v-if="!user" class="mt-2 text-sm text-ink-soft">{{ t('profile.syncNeedsAccount') }}</p>
@@ -83,7 +84,7 @@ const countryName = (code: string) => new Intl.DisplayNames([locale.value], { ty
       </section>
 
       <!-- Language & country -->
-      <section class="rounded-[var(--radius-sheet)] border border-line bg-paper p-6 text-sm">
+      <section class="rounded-[var(--radius-sheet)] bg-paper shadow-soft p-6 text-sm">
         <h2 class="font-display text-xl text-emerald-900">{{ t('profile.regional') }}</h2>
         <label class="mt-4 block">
           <span class="text-xs text-ink-soft">{{ t('lang') }}</span>
@@ -102,7 +103,7 @@ const countryName = (code: string) => new Intl.DisplayNames([locale.value], { ty
       </section>
 
       <!-- Privacy & consent -->
-      <section class="rounded-[var(--radius-sheet)] border border-line bg-paper p-6 text-sm">
+      <section class="rounded-[var(--radius-sheet)] bg-paper shadow-soft p-6 text-sm">
         <h2 class="font-display text-xl text-emerald-900">{{ t('profile.privacy') }}</h2>
         <ul class="mt-3 divide-y divide-line">
           <li v-for="c in CONSENT_TYPES" :key="c" class="flex items-start justify-between gap-4 py-3">
@@ -117,7 +118,7 @@ const countryName = (code: string) => new Intl.DisplayNames([locale.value], { ty
       </section>
 
       <!-- Devices -->
-      <section v-if="user" class="rounded-[var(--radius-sheet)] border border-line bg-paper p-6 text-sm lg:col-span-2">
+      <section v-if="user" class="rounded-[var(--radius-sheet)] bg-paper shadow-soft p-6 text-sm lg:col-span-2">
         <h2 class="font-display text-xl text-emerald-900">{{ t('profile.devices') }}</h2>
         <p v-if="!devices.length" class="mt-3 text-ink-soft">{{ t('profile.noDevices') }}</p>
         <ul class="mt-3 divide-y divide-line">

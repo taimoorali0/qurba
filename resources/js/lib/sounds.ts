@@ -91,7 +91,29 @@ function playOnce(url: string, onEnd: () => void): Promise<boolean> {
   oneShot.addEventListener('error', onEnd);
   return oneShot.play().then(() => true).catch(() => { onEnd(); return false; });
 }
-export function stopOneShot() { oneShot?.pause(); sound.adhanPlaying = ''; sound.namePlaying = 0; sound.clipPlaying = ''; }
+export function stopOneShot() {
+  oneShot?.pause();
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+  sound.adhanPlaying = ''; sound.namePlaying = 0; sound.clipPlaying = '';
+}
+
+// ---- Device Arabic voice: used for a name until its recording has been uploaded ----
+export const canSpeakArabic = () => typeof speechSynthesis !== 'undefined' && typeof SpeechSynthesisUtterance !== 'undefined';
+function arabicVoice(): SpeechSynthesisVoice | undefined {
+  return speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith('ar'));
+}
+function speak(text: string, onEnd: () => void): boolean {
+  if (!canSpeakArabic()) return false;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ar-SA';
+  const v = arabicVoice(); if (v) u.voice = v;
+  u.rate = 0.8;
+  u.volume = soundPrefs.muted ? 0 : 1;
+  u.onend = onEnd; u.onerror = onEnd;
+  speechSynthesis.speak(u);
+  return true;
+}
 
 /** Plays the adhan (a separate Fajr adhan is used when provided). Returns false if no file or the browser blocked it. */
 export async function playAdhan(prayer: string): Promise<boolean> {
@@ -107,12 +129,23 @@ export function playClip(key: string, url: string): Promise<boolean> {
   return playOnce(url, () => { if (sound.clipPlaying === key) sound.clipPlaying = ''; });
 }
 
-/** Plays one of the 99 Names; resolves false if the recording is missing. */
-export async function playName(n: number, onEnd?: () => void): Promise<boolean> {
-  if (!(await hasFile(FILES.name(n)))) return false;
+/** Plays one of the 99 Names: the uploaded recording, or the device's Arabic voice reading `arabic`. */
+export async function playName(n: number, onEnd?: () => void, arabic?: string): Promise<boolean> {
+  const done = () => { if (sound.namePlaying === n) sound.namePlaying = 0; onEnd?.(); };
+  if (await hasFile(FILES.name(n))) {
+    sound.namePlaying = n;
+    return playOnce(FILES.name(n), done);
+  }
+  if (!arabic) return false;
+  oneShot?.pause();
   sound.namePlaying = n;
-  return playOnce(FILES.name(n), () => { sound.namePlaying = 0; onEnd?.(); });
+  if (speak(arabic, done)) return true;
+  sound.namePlaying = 0;
+  return false;
 }
+
+/** Whether a real recording exists for this name (otherwise the device voice is used) */
+export const hasNameRecording = (n: number) => hasFile(FILES.name(n));
 
 // ---- Adhan while the app is open: checks every 20 seconds ----
 const FARD = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];

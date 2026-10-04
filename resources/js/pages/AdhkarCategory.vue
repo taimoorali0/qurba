@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { BookHeart, Check, ChevronLeft, HandHeart, Heart, Moon, Pause, Plane, Play, RotateCcw, Sparkles, Sun, Sunset } from 'lucide-vue-next';
 import { playClip, sound, stopOneShot } from '../lib/sounds';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import PageTitle from '../components/PageTitle.vue';
 import { ak, bump, countOf, isFav, resetItem, toggleFav } from '../lib/adhkarLocal';
 import { canVibrate, tb } from '../lib/tasbeeh';
 
@@ -54,7 +55,7 @@ function tap(a: Item) {
     <div class="min-w-0">
     <div class="flex items-center gap-3">
       <Link href="/zikr/adhkar" class="grid size-9 lg:hidden place-items-center rounded-full border border-line bg-paper" :aria-label="t('home.adhkar')"><ChevronLeft class="size-4 rtl:rotate-180" /></Link>
-      <h1 class="flex-1 font-display text-3xl text-emerald-900">{{ title }}</h1>
+      <PageTitle :title="title" arabic="الأذكار" class="flex-1" />
       <label class="flex items-center gap-2 text-sm text-ink-soft"><input v-model="ak.translit" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('adhkar.translit') }}</label>
     </div>
 
@@ -62,7 +63,7 @@ function tap(a: Item) {
       <p class="text-sm text-ink-soft">{{ t('adhkar.progress', { n: completed, t: items.length }) }}</p>
       <div class="mt-2 h-1.5 rounded-full bg-line"><div class="h-1.5 rounded-full bg-gold-500 transition-all" :style="{ width: (completed / items.length) * 100 + '%' }" /></div>
     </div>
-    <p v-else class="mt-8 rounded-[var(--radius-tile)] border border-line bg-paper p-6 text-ink-soft">{{ favoritesPage ? t('adhkar.noFavorites') : t('adhkar.empty') }}</p>
+    <p v-else class="mt-8 rounded-[var(--radius-tile)] bg-paper shadow-soft p-6 text-ink-soft">{{ favoritesPage ? t('adhkar.noFavorites') : t('adhkar.empty') }}</p>
 
     <ol class="mt-6 space-y-4">
       <li v-for="a in items" :key="a.id" class="rounded-[var(--radius-sheet)] border bg-paper p-5 transition-opacity md:p-6"

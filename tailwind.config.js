@@ -14,6 +14,7 @@ export default {
     ],
     theme: {
         extend: {
+            boxShadow: { soft: '0 1px 2px rgba(16,24,20,.04), 0 8px 24px rgba(16,24,20,.05)', lift: '0 10px 30px rgba(16,24,20,.08)' },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 display: ['Marcellus', 'Georgia', 'serif'],
@@ -28,10 +29,11 @@ export default {
                 // ===== QURBA BRAND =====
                 emerald: { 950: '#072A20', 900: '#0B3B2D', 700: '#14654D', 500: '#2E8B6B', 100: '#DCEDE5' },
                 gold: { 600: '#A9822F', 500: '#C9A24A', 200: '#EEDDB0' },
-                cream: '#FAF6EC',
+                cream: '#F8F7F2',
                 paper: '#FFFFFF',
                 ink: { DEFAULT: '#1E2925', soft: '#5B6862' },
-                line: '#E7E1D2',
+                line: '#E9EBE4',
+                mint: '#E7F4EE', sand: '#FBF3E1', sky: '#E8F1FB', rose: '#FBECEA', lilac: '#EFEBFA',
                 // ===== STARTER KIT (login/dashboard) =====
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',

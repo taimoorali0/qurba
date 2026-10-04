@@ -5,6 +5,7 @@ import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Search } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
+import PageTitle from '../components/PageTitle.vue';
 import QuranOffline from '../components/QuranOffline.vue';
 import { getLastRead, type LastRead } from '../lib/quranLocal';
 
@@ -29,7 +30,7 @@ const filtered = computed(() => {
   <Head :title="t('nav.quran')" />
   <QurbaShell>
     <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-      <h1 class="font-display text-3xl text-emerald-900 md:text-4xl">{{ t('nav.quran') }}</h1>
+      <PageTitle :title="t('nav.quran')" arabic="القرآن الكريم" class="flex-1" />
       <label class="relative block md:w-80">
         <Search class="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-ink-soft" />
         <input v-model="q" type="search" :placeholder="t('quran.searchSurah')"
@@ -40,7 +41,7 @@ const filtered = computed(() => {
     <div class="mt-6"><QuranOffline /></div>
 
     <Link v-if="lastRead" :href="`/quran/${lastRead.surah}#ayah-${lastRead.ayah}`"
-      class="mt-6 flex items-center justify-between rounded-[var(--radius-sheet)] bg-emerald-900 px-6 py-5 text-cream">
+      class="mt-6 flex items-center justify-between rounded-[var(--radius-sheet)] pattern-light bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-lift px-6 py-5 text-cream">
       <span>
         <span class="block text-sm text-gold-200">{{ t('home.continue') }}</span>
         <span class="mt-1 block font-display text-xl">{{ lastRead.name }}</span>
@@ -51,7 +52,7 @@ const filtered = computed(() => {
     <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       <li v-for="s in filtered" :key="s.id">
         <Link :href="`/quran/${s.id}`"
-          class="flex items-center gap-4 rounded-[var(--radius-tile)] border border-line bg-paper px-4 py-3.5 transition-colors hover:border-gold-500">
+          class="flex items-center gap-4 rounded-[var(--radius-tile)] bg-paper shadow-soft px-4 py-3.5 transition-colors hover:border-gold-500">
           <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-100 text-sm font-medium text-emerald-900">{{ s.id }}</span>
           <span class="min-w-0 flex-1">
             <span class="block truncate font-medium text-ink">{{ s.name_simple }}</span>
