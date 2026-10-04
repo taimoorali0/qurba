@@ -7,7 +7,9 @@
     "more": "More",
     "qibla": "Qibla",
     "learn": "Learn",
-    "profile": "Profile"
+    "profile": "Profile",
+    "search": "Search surah…",
+    "signIn": "Sign in"
   },
   "home": {
     "greeting": "Assalamu Alaikum",
@@ -20,7 +22,22 @@
     "startReading": "Start reading",
     "adhkar": "Adhkar",
     "tasbeeh": "Tasbeeh",
-    "downloads": "Downloads"
+    "downloads": "Downloads",
+    "heroTitle": "Read. Listen. Remember. Learn.",
+    "heroSub": "Your companion for Quran, Adhkar, Tasbeeh, Prayer Times and live Quran classes.",
+    "getStarted": "Get started",
+    "todayPrayers": "Today's prayer times",
+    "viewAll": "View all",
+    "progress": "Your progress",
+    "tasbeehToday": "Tasbeeh today",
+    "adhkarToday": "Today's adhkar",
+    "d_quran": "Read, listen, translation",
+    "d_adhkar": "Morning, evening, daily",
+    "d_tasbeeh": "Multiple zikr counters",
+    "d_prayer": "Accurate times by location",
+    "d_qibla": "Find direction anywhere",
+    "d_learn": "Live online classes",
+    "d_downloads": "Use Qurba offline"
   },
   "lang": "Language",
   "soon": "This section is being built.",
