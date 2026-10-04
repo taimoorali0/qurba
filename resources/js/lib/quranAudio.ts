@@ -23,6 +23,18 @@ let preload: HTMLAudioElement | null = null;
 let reciter: Reciter | null = null;
 let withBismillah = false;
 let sleepTimer: number | undefined;
+let lastProgressSave = 0;
+function saveListening() {
+  if (!audioPrefs.reciterId || !player.surah || !player.ayah || !el) return;
+  const now = Date.now(); if (now - lastProgressSave < 3000) return; lastProgressSave = now;
+  try {
+    const items = JSON.parse(localStorage.getItem('qurba.listening') || '[]');
+    const next = items.filter((x: any) => !(x.reciterId === audioPrefs.reciterId && x.surah === player.surah));
+    next.push({ reciterId: audioPrefs.reciterId, surah: player.surah, ayah: player.ayah, positionMs: Math.round(el.currentTime * 1000), at: now });
+    localStorage.setItem('qurba.listening', JSON.stringify(next.slice(-100)));
+    localStorage.setItem('qurba.listeningAt', String(now)); localStorage.setItem('qurba.syncDirty', '1');
+  } catch {}
+}
 
 function audio(): HTMLAudioElement {
   if (el) return el;
@@ -31,7 +43,7 @@ function audio(): HTMLAudioElement {
   el.addEventListener('playing', () => { player.playing = true; player.loading = false; });
   el.addEventListener('waiting', () => { player.loading = true; });
   el.addEventListener('pause', () => { player.playing = false; });
-  el.addEventListener('timeupdate', () => { player.progress = el!.duration ? el!.currentTime / el!.duration : 0; });
+  el.addEventListener('timeupdate', () => { player.progress = el!.duration ? el!.currentTime / el!.duration : 0; saveListening(); });
   el.addEventListener('error', () => { player.loading = false; player.playing = false; player.error = 'load'; });
   el.addEventListener('ended', onEnded);
   return el;
