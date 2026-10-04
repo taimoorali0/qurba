@@ -1,0 +1,24 @@
+<?php
+
+return [
+    'ssr' => [
+        'enabled' => true,
+        'url' => 'http://127.0.0.1:13714',
+        'ensure_bundle_exists' => true,
+    ],
+
+    'testing' => [
+        'ensure_pages_exist' => true,
+        'page_paths' => [
+            resource_path('js/pages'),
+        ],
+        'page_extensions' => [
+            'js',
+            'jsx',
+            'svelte',
+            'ts',
+            'tsx',
+            'vue',
+        ],
+    ],
+];
