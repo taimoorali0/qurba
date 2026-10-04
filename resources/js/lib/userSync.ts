@@ -45,8 +45,8 @@ function payload() {
     tasbeeh: { sessions: tb.history, custom: tb.custom, removed: tb.removed ?? [], daily: tb.daily },
     adhkar: { t: adhkarUpdatedAt(), progress: ak.progress, favorites: ak.favorites, translit: ak.translit },
     reminders: { t: Number(get('qurba.remindersAt') || 0), settings: (() => { try { return JSON.parse(get('qurba.reminders') || '{}'); } catch { return {}; } })() },
-    downloads: (() => { try { return JSON.parse(get('qurba.downloads') || '[]'); } catch { return []; } })(),
-    listening: (() => { try { return JSON.parse(get('qurba.listening') || '[]'); } catch { return []; } })(),
+    downloads: { t: Number(get('qurba.downloadsAt') || 0), items: (() => { try { return JSON.parse(get('qurba.downloads') || '[]'); } catch { return []; } })() },
+    listening: { t: Number(get('qurba.listeningAt') || 0), items: (() => { try { return JSON.parse(get('qurba.listening') || '[]'); } catch { return []; } })() },
   };
 }
 
@@ -81,8 +81,8 @@ function apply(s: any) {
       put('qurba.adhkarAt', String(s.adhkar.t || Date.now()));
     }
     if (s.reminders?.settings && s.reminders.t >= Number(get('qurba.remindersAt') || 0)) { put('qurba.reminders', JSON.stringify(s.reminders.settings)); put('qurba.remindersAt', String(s.reminders.t)); }
-    if (s.downloads) put('qurba.downloads', JSON.stringify(s.downloads));
-    if (s.listening) put('qurba.listening', JSON.stringify(s.listening));
+    if (s.downloads?.items && s.downloads.t >= Number(get('qurba.downloadsAt') || 0)) { put('qurba.downloads', JSON.stringify(s.downloads.items)); put('qurba.downloadsAt', String(s.downloads.t)); }
+    if (s.listening?.items && s.listening.t >= Number(get('qurba.listeningAt') || 0)) { put('qurba.listening', JSON.stringify(s.listening.items)); put('qurba.listeningAt', String(s.listening.t)); }
 
     // tasbeeh
     const t = s.tasbeeh ?? {};
