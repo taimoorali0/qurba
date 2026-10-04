@@ -2,13 +2,14 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
-import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
+import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, Sparkles, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { getLastRead, type LastRead } from '../lib/quranLocal';
 import { loc } from '../lib/location';
 import { countdown, fmtTime, nextPrayer, timesFor } from '../lib/prayer';
 import { todayTotal } from '../lib/tasbeeh';
+import { prayedCount } from '../lib/salahLog';
 
 const { t, locale } = useI18n();
 const now = ref(new Date());
@@ -26,6 +27,7 @@ const tiles = [
   { key: 'nav.prayer', desc: 'home.d_prayer', href: '/prayer', icon: Clock },
   { key: 'nav.qibla', desc: 'home.d_qibla', href: '/qibla', icon: Compass },
   { key: 'nav.learn', desc: 'home.d_learn', href: '/learn', icon: GraduationCap },
+  { key: 'nav.names', desc: 'names.d', href: '/names', icon: Sparkles },
   { key: 'home.downloads', desc: 'home.d_downloads', href: '/quran/downloads', icon: Download },
 ];
 const lastRead = ref<LastRead | null>(null);
@@ -79,7 +81,7 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
     </section>
 
     <!-- Feature tiles -->
-    <nav class="mt-6 grid grid-cols-4 gap-3 lg:grid-cols-7">
+    <nav class="mt-6 grid grid-cols-4 gap-3 lg:grid-cols-8">
       <Link v-for="tile in tiles" :key="tile.href" :href="tile.href"
         class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] border border-line bg-paper px-2 py-4 text-center transition-colors hover:border-gold-500">
         <span class="grid size-11 place-items-center rounded-full bg-emerald-100/60">
@@ -123,7 +125,15 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
 
       <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-5">
         <h2 class="font-display text-lg text-emerald-900">{{ t('home.progress') }}</h2>
-        <Link href="/zikr/tasbeeh" class="mt-3 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
+        <Link href="/prayer" class="mt-3 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
+          <span class="grid size-10 place-items-center rounded-full bg-emerald-700 text-cream"><Clock class="size-5" /></span>
+          <span class="flex-1">
+            <span class="block text-sm text-ink">{{ t('salah.title') }}</span>
+            <span class="text-xs text-ink-soft">{{ t('salah.today', { n: prayedCount(now) }) }}</span>
+          </span>
+          <ChevronRight class="size-4 text-ink-soft rtl:rotate-180" />
+        </Link>
+        <Link href="/zikr/tasbeeh" class="mt-2 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
           <span class="grid size-10 place-items-center rounded-full bg-emerald-900 text-cream"><CircleDot class="size-5" /></span>
           <span class="flex-1">
             <span class="block text-sm text-ink">{{ t('home.tasbeehToday') }}</span>

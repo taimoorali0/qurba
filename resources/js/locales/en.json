@@ -9,7 +9,8 @@
     "learn": "Learn",
     "profile": "Profile",
     "search": "Search surah…",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "names": "99 Names of Allah"
   },
   "home": {
     "greeting": "Assalamu Alaikum",
@@ -290,5 +291,26 @@
     "send": "Send",
     "thanks": "Thank you. Your request has been received.",
     "thanksText": "We will contact you when classes open."
+  },
+  "salah": {
+    "title": "Salah tracker",
+    "today": "{n} of 5 prayers today",
+    "streak": "{n} day streak",
+    "streakHint": "Days in a row with all five prayers",
+    "week": "Last 7 days",
+    "mark": "Mark {p} as prayed",
+    "local": "Saved on this device."
+  },
+  "names": {
+    "title": "99 Names of Allah",
+    "sub": "Learn the beautiful names of Allah, reflect on their meanings, and mark the ones you have memorised.",
+    "progress": "{n} of 99 memorised",
+    "search": "Search a name or meaning",
+    "onlyLeft": "Show only not memorised",
+    "memorised": "Memorised",
+    "markMemorised": "Mark memorised",
+    "none": "No name matches your search.",
+    "source": "Order as narrated in Jami' at-Tirmidhi 3507. English meanings are common renderings.",
+    "d": "Learn and memorise"
   }
 }

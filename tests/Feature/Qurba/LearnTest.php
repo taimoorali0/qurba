@@ -32,3 +32,7 @@ it('ignores bots that fill the hidden field', function () {
     $this->post('/learn/interest', interest(['website' => 'spam']));
     expect(LearnInterest::count())->toBe(0);
 });
+
+it('serves the 99 Names page', function () {
+    $this->get('/names')->assertOk()->assertInertia(fn ($p) => $p->component('Names'));
+});
