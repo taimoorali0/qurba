@@ -87,3 +87,23 @@ it('accepts a large background sound up to 20 MB', function () {
         ->call('save')->assertHasNoErrors();
     Storage::disk('audio')->assertExists('ambient.mp3');
 });
+
+it('keeps separate recordings per voice and lists them in the manifest', function () {
+    Storage::fake('audio');
+    $this->actingAs(audioAdmin('content_admin'));
+
+    Livewire::test(AudioFiles::class)
+        ->call('setVoice', 'kids')
+        ->set('nameUploads.4', UploadedFile::fake()->create('a.mp3', 40, 'audio/mpeg'))
+        ->set('fullUpload', UploadedFile::fake()->create('song.mp3', 2500, 'audio/mpeg'))
+        ->assertHasNoErrors();
+
+    Storage::disk('audio')->assertExists('names-kids/4.mp3');
+    Storage::disk('audio')->assertExists('names-kids-full.mp3');
+    Storage::disk('audio')->assertMissing('names/4.mp3');
+
+    $this->getJson('/api/v1/audio-manifest')->assertOk()
+        ->assertJsonPath('voices.kids.names', [4])
+        ->assertJsonPath('voices.kids.full', 'names-kids-full.mp3')
+        ->assertJsonPath('voices.standard.names', []);
+});

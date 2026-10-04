@@ -37,15 +37,41 @@ post_max_size = 25M</pre>
         <x-filament::button type="submit" icon="heroicon-o-arrow-up-tray">Upload</x-filament::button>
     </form>
 
-    {{-- 99 Names grid --}}
-    @php $names = $this->names(); $have = collect($names)->whereNotNull('url')->count(); @endphp
+    {{-- 99 Names grid, one tab per voice --}}
+    @php $names = $this->names(); $have = collect($names)->whereNotNull('url')->count(); $voices = \App\Support\NameVoices::ALL; $full = $this->fullUrl(); @endphp
     <x-filament::section icon="heroicon-o-sparkles">
-        <x-slot name="heading">99 Names of Allah — {{ $have }} / 99 recorded</x-slot>
-        <x-slot name="description">Listen, replace or remove each recording. To replace one, choose an MP3 on its card.</x-slot>
+        <x-slot name="heading">99 Names of Allah — {{ $voices[$voice]['label'] }} voice: {{ $have }} / 99 recorded</x-slot>
+        <x-slot name="description">Each voice (for example a children's voice) has its own recordings. Pick a voice, then upload per name or one complete recitation.</x-slot>
+        <x-filament::tabs style="margin-bottom:1rem">
+            @foreach ($voices as $key => $v)
+                <x-filament::tabs.item :active="$voice === $key" wire:click="setVoice('{{ $key }}')" icon="{{ $key === 'kids' ? 'heroicon-o-face-smile' : 'heroicon-o-microphone' }}">
+                    {{ $v['label'] }} <span class="q-tag q-ok" style="margin-inline-start:.35rem">{{ count(\App\Support\NameVoices::recorded($key)) }}</span>
+                </x-filament::tabs.item>
+            @endforeach
+        </x-filament::tabs>
+
+        <div class="q-card" style="margin-bottom:1rem">
+            <div class="q-health-top">
+                <b>Complete recitation — {{ $voices[$voice]['label'] }}</b>
+                <span class="q-tag {{ $full ? 'q-ok' : 'q-warn' }}">{{ $full ? 'Added' : 'Missing' }}</span>
+            </div>
+            <p class="q-card-sub">One recording with all 99 names, played by “Play all” when this voice is chosen.</p>
+            @if ($full)<audio controls preload="none" src="{{ $full }}" style="width:100%; margin-top:.6rem"></audio>@endif
+            <div style="display:flex; gap:1rem; margin-top:.5rem; align-items:center">
+                <label style="cursor:pointer; color:#14654D; font-size:.85rem">
+                    <input type="file" accept="audio/mpeg,.mp3" wire:model="fullUpload" style="display:none">
+                    <span wire:loading.remove wire:target="fullUpload">{{ $full ? 'Replace' : 'Upload' }} complete recitation</span>
+                    <span wire:loading wire:target="fullUpload">Uploading…</span>
+                </label>
+                @if ($full)<x-filament::link tag="button" color="danger" size="sm" wire:click="deleteFull" wire:confirm="Remove the complete recitation for this voice?">Remove</x-filament::link>@endif
+            </div>
+            @error('fullUpload') <p class="q-card-sub" style="color:#a03a2c">{{ $message }}</p> @enderror
+        </div>
+
         <div class="q-bar" style="margin-bottom:1rem"><span style="width: {{ round($have / 99 * 100) }}%"></span></div>
         <div class="q-names">
             @foreach ($names as $x)
-                <div class="q-name {{ $x['url'] ? 'has' : '' }}" wire:key="name-{{ $x['n'] }}">
+                <div class="q-name {{ $x['url'] ? 'has' : '' }}" wire:key="name-{{ $voice }}-{{ $x['n'] }}">
                     <div class="q-health-top">
                         <span class="q-name-num">#{{ $x['n'] }}</span>
                         <span class="q-tag {{ $x['url'] ? 'q-ok' : 'q-warn' }}">{{ $x['url'] ? '✓' : '—' }}</span>

@@ -30,3 +30,5 @@ yarn-error.log
 /public/audio/names/*.mp3
 /public/audio/duas/*.mp3
 /public/audio/names-full.mp3
+/public/audio/names-kids/*.mp3
+/public/audio/names-kids-full.mp3
