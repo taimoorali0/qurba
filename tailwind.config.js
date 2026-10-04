@@ -33,7 +33,9 @@ export default {
                 paper: '#FFFFFF',
                 ink: { DEFAULT: '#1E2925', soft: '#5B6862' },
                 line: '#E9EBE4',
-                mint: '#E7F4EE', sand: '#FBF3E1', sky: '#E8F1FB', rose: '#FBECEA', lilac: '#EFEBFA',
+                mint: '#E1F5EE', sand: '#FBF3E1', sky: '#E8F1FB', rose: '#FBECEA', lilac: '#EFEBFA',
+                teal: { 950: '#062F2A', 900: '#0A4038', 800: '#0E5247', 700: '#13675A', 400: '#66CDAA', 100: '#E1F5EE' },
+                leaf: { 700: '#056305', 100: '#DDEFDD' }, lime: { 500: '#9ACD32', 100: '#EEF7DC' }, olive: { 600: '#808000', 100: '#F2F2DD' },
                 // ===== STARTER KIT (login/dashboard) =====
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',

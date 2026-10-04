@@ -1,5 +1,6 @@
 <!-- ===== QURBA: Zikr hub ===== -->
 <script setup lang="ts">
+import Rosette from '../components/Rosette.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import { CircleDot, Sparkles, Sun } from 'lucide-vue-next';
@@ -20,7 +21,8 @@ const { t } = useI18n();
         <h2 class="mt-4 font-display text-2xl text-emerald-900">{{ t('home.adhkar') }}</h2>
         <p class="mt-1 text-sm text-ink-soft">{{ t('adhkar.hubText') }}</p>
       </Link>
-      <Link href="/zikr/tasbeeh" class="rounded-[var(--radius-sheet)] pattern-light bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-lift p-6 text-cream">
+      <Link href="/zikr/tasbeeh" class="isolate overflow-hidden relative rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
         <CircleDot class="size-7 text-gold-500" />
         <h2 class="mt-4 font-display text-2xl">{{ t('home.tasbeeh') }}</h2>
         <p class="mt-1 text-sm text-gold-200">{{ t('tasbeeh.todayCount', { n: todayTotal() }) }}</p>

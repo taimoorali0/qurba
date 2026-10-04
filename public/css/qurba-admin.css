@@ -121,3 +121,16 @@ a.q-row:hover { background: #fff; border-color: #E3EAE5; box-shadow: 0 4px 14px 
 .q-orn::before, .q-orn::after { content: ''; height: 1px; width: 3.5rem; background: linear-gradient(90deg, transparent, #C9A24A); }
 .q-orn::after { transform: scaleX(-1); }
 @media (max-width: 767px) { .q-hero { border-top-left-radius: 50% 3rem; border-top-right-radius: 50% 3rem; } }
+
+/* ===== Arabesque rosette + green palette (mint-teal, deep green, lime, olive) ===== */
+.q-hero { background: linear-gradient(120deg, #E1F5EE 0%, #F4FAF6 50%, #EEF7DC 100%); }
+.q-hero::after { content: ''; position: absolute; inset-inline-end: -6rem; top: 50%; width: 26rem; height: 26rem; transform: translateY(-50%); background: url('/brand/rosette.svg') center / contain no-repeat; opacity: .16; pointer-events: none; }
+.q-hero-mark { display: none; }
+.q-chip-gold { background: linear-gradient(135deg, #0A4038, #13675A); }
+.fi-sidebar .fi-sidebar-item-active .fi-sidebar-item-button { background: linear-gradient(135deg, #0A4038, #13675A) !important; box-shadow: 0 6px 16px rgba(10, 64, 56, .25) !important; }
+.fi-wi-stats-overview-stats-ctn > div:nth-child(4n+1) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+1) { background: linear-gradient(135deg, #E1F5EE, #F5FBF8) !important; }
+.fi-wi-stats-overview-stats-ctn > div:nth-child(4n+2) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+2) { background: linear-gradient(135deg, #EEF7DC, #F9FCF2) !important; }
+.fi-wi-stats-overview-stats-ctn > div:nth-child(4n+3) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+3) { background: linear-gradient(135deg, #F2F2DD, #FBFBF3) !important; }
+.fi-wi-stats-overview-stats-ctn > div:nth-child(4n+4) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+4) { background: linear-gradient(135deg, #DDEFDD, #F4FAF4) !important; }
+.fi-wi-stats-overview-stat::after { content: ''; position: absolute; inset-inline-end: -2.5rem; bottom: -2.5rem; width: 8rem; height: 8rem; background: url('/brand/rosette.svg') center / contain no-repeat; opacity: .12; pointer-events: none; }
+.fi-simple-layout::after { content: ''; position: fixed; inset-inline-end: -10rem; bottom: -10rem; width: 34rem; height: 34rem; background: url('/brand/rosette.svg') center / contain no-repeat; opacity: .1; pointer-events: none; }

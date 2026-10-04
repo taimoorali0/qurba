@@ -1,5 +1,6 @@
 <!-- ===== QURBA Learning: course catalogue + register interest ===== -->
 <script setup lang="ts">
+import Rosette from '../components/Rosette.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -37,7 +38,8 @@ function submit() { form.post('/learn/interest', { preserveScroll: true, onSucce
 <template>
   <Head :title="t('learn.title')" />
   <QurbaShell>
-    <section class="rounded-[var(--radius-sheet)] pattern-light bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-lift p-6 text-cream md:p-10">
+    <section class="isolate overflow-hidden relative rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream md:p-10">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
       <GraduationCap class="size-8 text-gold-500" />
       <h1 class="mt-4 font-display text-3xl md:text-5xl">{{ t('learn.title') }}</h1>
       <p class="mt-3 max-w-xl text-gold-200">{{ t('learn.intro') }}</p>

@@ -1,5 +1,6 @@
 <!-- ===== QURBA HOME — START ===== -->
 <script setup lang="ts">
+import Rosette from '../components/Rosette.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, Sparkles, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
@@ -32,7 +33,7 @@ const tiles = [
   { key: 'home.downloads', desc: 'home.d_downloads', href: '/quran/downloads', icon: Download },
 ];
 // Soft pastel backgrounds for the feature tiles
-const tileTones = ['bg-mint', 'bg-sky', 'bg-sand', 'bg-lilac', 'bg-rose'];
+const tileTones = ['bg-teal-100', 'bg-lime-100', 'bg-olive-100', 'bg-leaf-100'];
 const lastRead = ref<LastRead | null>(null);
 const zikrToday = ref(0);
 onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal(); });
@@ -42,14 +43,9 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
   <Head title="Qurba" />
   <QurbaShell>
     <!-- Hero -->
-    <section class="pattern-gold arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-mint via-paper to-sand pt-12 shadow-soft md:pt-20 px-6 py-8 md:px-12 md:py-14">
-      <!-- Decorative skyline (domes + minarets), purely ornamental -->
-      <svg aria-hidden="true" viewBox="0 0 400 200" class="pointer-events-none absolute bottom-0 end-0 h-40 w-auto text-emerald-500/10 md:h-72" fill="currentColor">
-        <rect x="40" y="40" width="12" height="160" rx="3" /><path d="M46 14l8 26H38z" />
-        <path d="M90 200v-70a60 60 0 01120 0v70z" /><path d="M150 50l6 20h-12z" />
-        <rect x="230" y="110" width="110" height="90" /><path d="M230 110h110l-10-14H240z" />
-        <rect x="360" y="30" width="12" height="170" rx="3" /><path d="M366 4l8 26h-16z" />
-      </svg>
+    <section class="pattern-gold arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-100 via-paper to-lime-100 pt-12 shadow-soft md:pt-20 px-6 py-8 md:px-12 md:py-14">
+      <!-- Decorative rosette, purely ornamental -->
+      <Rosette class="pointer-events-none absolute -bottom-24 -end-24 size-[26rem] text-teal-400/25 md:-end-10 md:size-[34rem]" />
 
       <div class="relative grid items-center gap-8 lg:grid-cols-[1.3fr_1fr]">
         <div>
@@ -65,7 +61,8 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
         </div>
 
         <!-- Next prayer -->
-        <div class="rounded-[var(--radius-tile)] pattern-light bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-lift p-6 text-cream">
+        <div class="isolate overflow-hidden relative rounded-[var(--radius-tile)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
+        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
           <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
           <template v-if="next && loc.place">
             <p class="mt-2 text-lg">{{ t('prayer.' + next.name) }}</p>
