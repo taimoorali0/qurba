@@ -3,7 +3,10 @@
 # Run as root:  sudo bash deploy/server-setup.sh
 set -euo pipefail
 
-read -rp "Domain for Qurba (e.g. qurba.app): " DOMAIN
+read -rp "Domain or subdomain for Qurba (e.g. qurba.example.com): " DOMAIN
+read -rp "Is this domain behind Cloudflare (orange cloud)? [y/N]: " USE_CF
+USE_CF=$(echo "${USE_CF:-n}" | tr '[:upper:]' '[:lower:]' | cut -c1)
+if [ "$USE_CF" != "y" ]; then read -rp "Email for Let's Encrypt certificate notices: " LE_EMAIL; fi
 read -rp "GitHub repo SSH URL (e.g. git@github.com:you/qurba.git): " REPO
 APP_DIR=/var/www/qurba
 APP_USER=qurba
@@ -47,17 +50,31 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, REFERENCES, LO
 FLUSH PRIVILEGES;
 SQL
 
-echo "==> Cloudflare real visitor IPs"
-{
-  for ip in $(curl -fsS https://www.cloudflare.com/ips-v4) $(curl -fsS https://www.cloudflare.com/ips-v6); do echo "set_real_ip_from $ip;"; done
-  echo "real_ip_header CF-Connecting-IP;"
-} > /etc/nginx/conf.d/cloudflare-realip.conf
-
 echo "==> Nginx site"
-mkdir -p /etc/ssl/qurba
-sed "s/__DOMAIN__/${DOMAIN}/g" "$(dirname "$0")/nginx-qurba.conf" > /etc/nginx/sites-available/qurba
+if [ "$USE_CF" = "y" ]; then
+  echo "    Cloudflare: real visitor IPs + Origin Certificate"
+  {
+    for ip in $(curl -fsS https://www.cloudflare.com/ips-v4) $(curl -fsS https://www.cloudflare.com/ips-v6); do echo "set_real_ip_from $ip;"; done
+    echo "real_ip_header CF-Connecting-IP;"
+  } > /etc/nginx/conf.d/cloudflare-realip.conf
+  mkdir -p /etc/ssl/qurba
+  sed "s/__DOMAIN__/${DOMAIN}/g" "$(dirname "$0")/nginx-qurba.conf" > /etc/nginx/sites-available/qurba
+else
+  echo "    Let's Encrypt: free certificate, renews automatically"
+  apt-get install -y certbot python3-certbot-nginx
+  sed "s/__DOMAIN__/${DOMAIN}/g" "$(dirname "$0")/nginx-qurba-letsencrypt.conf" > /etc/nginx/sites-available/qurba
+fi
 ln -sf /etc/nginx/sites-available/qurba /etc/nginx/sites-enabled/qurba
 rm -f /etc/nginx/sites-enabled/default
+nginx -t && systemctl reload nginx
+if [ "$USE_CF" != "y" ]; then
+  if certbot --nginx -d "$DOMAIN" --redirect --agree-tos -m "$LE_EMAIL" -n; then
+    echo "    HTTPS is on for https://${DOMAIN}"
+  else
+    echo "!! Certificate not issued yet. Make sure the DNS A record for ${DOMAIN} points to this server, then run:"
+    echo "   certbot --nginx -d ${DOMAIN} --redirect --agree-tos -m ${LE_EMAIL}"
+  fi
+fi
 
 echo "==> Queue worker + scheduler"
 cp "$(dirname "$0")/qurba-queue.service" /etc/systemd/system/qurba-queue.service
@@ -75,10 +92,10 @@ cat <<DONE
 1) Add this as a READ-ONLY Deploy key in GitHub (repo > Settings > Deploy keys):
 $(cat /home/$APP_USER/.ssh/id_ed25519.pub)
 
-2) Put your Cloudflare Origin Certificate here (Cloudflare > SSL/TLS > Origin Server):
-   /etc/ssl/qurba/origin.pem   and   /etc/ssl/qurba/origin.key
-   Then:  nginx -t && systemctl reload nginx
-   Cloudflare SSL mode: Full (strict)
+2) HTTPS:
+   - Let's Encrypt: done above (or run the certbot line it printed once DNS points here).
+   - Cloudflare: put your Origin Certificate in /etc/ssl/qurba/origin.pem and /etc/ssl/qurba/origin.key,
+     then: nginx -t && systemctl reload nginx   (Cloudflare SSL mode: Full (strict))
 
 3) Database (save this, it is shown once):
    DB_DATABASE=${DB_NAME}
@@ -87,7 +104,8 @@ $(cat /home/$APP_USER/.ssh/id_ed25519.pub)
 
 4) First deploy:
    sudo -u ${APP_USER} git clone ${REPO} ${APP_DIR}
-   sudo -u ${APP_USER} cp ${APP_DIR}/deploy/env.production.example ${APP_DIR}/.env   (then edit: domain + DB password)
+   sudo -u ${APP_USER} cp ${APP_DIR}/deploy/env.production.example ${APP_DIR}/.env
+   sudo -u ${APP_USER} sed -i "s/__DOMAIN__/${DOMAIN}/g; s/^DB_PASSWORD=.*/DB_PASSWORD=${DB_PASS}/" ${APP_DIR}/.env
    sudo -u ${APP_USER} bash ${APP_DIR}/deploy/deploy.sh --first
 ==============================================
 DONE

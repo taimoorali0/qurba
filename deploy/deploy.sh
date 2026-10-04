@@ -38,6 +38,10 @@ php artisan event:cache
 php artisan filament:assets
 
 chmod -R ug+rwX storage bootstrap/cache
+# Audio uploaded in /admin is written by php-fpm (group www-data)
+mkdir -p public/audio/names public/audio/names-kids public/audio/duas
+chgrp -R www-data public/audio 2>/dev/null || true
+chmod -R ug+rwX public/audio && find public/audio -type d -exec chmod g+s {} +
 sudo systemctl restart qurba-queue 2>/dev/null || php artisan queue:restart
 
 echo "==> Integrity"
