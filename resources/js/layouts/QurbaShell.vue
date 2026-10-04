@@ -1,9 +1,9 @@
 <!-- ===== QURBA SHELL — START ===== -->
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Home, BookOpen, CircleDot, Clock, Compass, GraduationCap, User } from 'lucide-vue-next';
+import { Home, BookOpen, CircleDot, Clock, Compass, GraduationCap, User, ChevronDown, Search } from 'lucide-vue-next';
 import { useLocale } from '../composables/useLocale';
 import type { QurbaLocale } from '../lib/i18n';
 import AppStatus from '../components/AppStatus.vue';
@@ -22,10 +22,18 @@ const primary = [
   { key: 'prayer', href: '/prayer', icon: Clock },
   { key: 'profile', href: '/profile', icon: User },
 ];
-const desktop = [...primary.slice(0, 4),
+// Desktop top bar: main sections, the rest under "More"
+const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/learn', icon: GraduationCap }];
+const more = [
+  { key: 'prayer', href: '/prayer', icon: Clock },
   { key: 'qibla', href: '/qibla', icon: Compass },
-  { key: 'learn', href: '/learn', icon: GraduationCap },
+  { key: 'profile', href: '/profile', icon: User },
 ];
+const moreActive = computed(() => more.some((m) => isActive(m.href)));
+const user = computed(() => (page.props as any).auth?.user ?? null);
+const initial = computed(() => (user.value?.name ?? '?').trim().charAt(0).toUpperCase());
+const q = ref('');
+function search() { const term = q.value.trim(); if (term) router.visit(`/quran?q=${encodeURIComponent(term)}`); }
 const langs: { code: QurbaLocale; label: string }[] = [
   { code: 'en', label: 'English' }, { code: 'ar', label: 'العربية' }, { code: 'ur', label: 'اردو' },
 ];
@@ -45,20 +53,42 @@ const langs: { code: QurbaLocale; label: string }[] = [
 
         <nav class="hidden flex-1 items-center gap-1 md:flex">
           <Link v-for="item in desktop" :key="item.key" :href="item.href"
-            class="rounded-full px-4 py-2 text-sm transition-colors"
-            :class="isActive(item.href) ? 'bg-emerald-900 text-cream' : 'text-ink-soft hover:text-emerald-900'">
+            class="relative px-3 py-2 text-sm transition-colors"
+            :class="isActive(item.href) ? 'font-medium text-emerald-900' : 'text-ink-soft hover:text-emerald-900'">
             {{ t('nav.' + item.key) }}
+            <span v-if="isActive(item.href)" class="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-emerald-900" />
           </Link>
+          <details class="group relative">
+            <summary class="flex cursor-pointer list-none items-center gap-1 px-3 py-2 text-sm"
+              :class="moreActive ? 'font-medium text-emerald-900' : 'text-ink-soft hover:text-emerald-900'">
+              {{ t('nav.more') }} <ChevronDown class="size-3.5 transition-transform group-open:rotate-180" />
+            </summary>
+            <div class="absolute start-0 top-full z-40 mt-2 w-48 rounded-2xl border border-line bg-paper p-1.5 shadow-lg">
+              <Link v-for="m in more" :key="m.key" :href="m.href"
+                class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-cream"
+                :class="isActive(m.href) ? 'text-emerald-900' : 'text-ink'">
+                <component :is="m.icon" class="size-4 text-emerald-700" /> {{ t('nav.' + m.key) }}
+              </Link>
+            </div>
+          </details>
         </nav>
 
         <div class="ms-auto flex items-center gap-2">
+          <form role="search" class="relative hidden lg:block" @submit.prevent="search">
+            <Search class="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-ink-soft" />
+            <input v-model="q" type="search" :placeholder="t('nav.search')" :aria-label="t('nav.search')"
+              class="w-56 rounded-full border-line bg-paper py-1.5 ps-9 pe-3 text-sm placeholder:text-ink-soft focus:border-gold-500 focus:ring-0" />
+          </form>
           <label class="sr-only" for="lang">{{ t('lang') }}</label>
           <select id="lang" :value="locale" @change="setLocale(($event.target as HTMLSelectElement).value as QurbaLocale)"
             class="rounded-full border border-line bg-paper py-1.5 ps-4 pe-9 text-sm">
             <option v-for="l in langs" :key="l.code" :value="l.code">{{ l.label }}</option>
           </select>
-          <Link href="/profile" class="hidden size-9 place-items-center rounded-full border border-line bg-paper md:grid"
-            :aria-label="t('nav.profile')"><User class="size-4" /></Link>
+          <Link v-if="user" href="/profile" class="grid size-9 place-items-center rounded-full bg-emerald-900 text-sm font-medium text-cream"
+            :aria-label="t('nav.profile')">{{ initial }}</Link>
+          <Link v-else href="/login" class="hidden rounded-full bg-emerald-900 px-5 py-2 text-sm text-cream hover:bg-emerald-700 md:inline-flex">
+            {{ t('nav.signIn') }}
+          </Link>
         </div>
       </div>
     </header>

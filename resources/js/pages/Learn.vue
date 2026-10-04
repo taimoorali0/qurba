@@ -23,7 +23,7 @@ const sent = ref(false);
 const user = computed(() => page.props.auth?.user ?? null);
 const form = useForm({
   course_id: 0, name: '', email: '', phone: '', country: '', language: 'en', format: 'either',
-  for_child: false, child_age_range: '', message: '', adult_confirm: false, contact_consent: false, website: '',
+  for_child: false as boolean, child_age_range: '', message: '', adult_confirm: false as boolean, contact_consent: false as boolean, website: '',
 });
 function start(c: Course) {
   open.value = c; sent.value = false; form.clearErrors();

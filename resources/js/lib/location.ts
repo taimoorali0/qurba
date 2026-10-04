@@ -22,7 +22,7 @@ export const CITIES: Omit<Place, 'mode'>[] = [
 
 function load(): Place | null { try { const v = localStorage.getItem('qurba.location'); return v ? JSON.parse(v) : null; } catch { return null; } }
 export const loc = reactive<{ place: Place | null; error: string; busy: boolean }>({ place: load(), error: '', busy: false });
-watch(() => loc.place, (v) => { try { v ? localStorage.setItem('qurba.location', JSON.stringify(v)) : localStorage.removeItem('qurba.location'); } catch {} }, { deep: true });
+watch(() => loc.place, (v) => { try { if (v) localStorage.setItem('qurba.location', JSON.stringify(v)); else localStorage.removeItem('qurba.location'); } catch {} }, { deep: true });
 
 export const deviceTz = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 

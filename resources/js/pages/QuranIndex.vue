@@ -12,7 +12,7 @@ interface Surah { id: number; name_simple: string; name_arabic: string | null; n
 const props = defineProps<{ surahs: Surah[] }>();
 const { t } = useI18n();
 
-const q = ref('');
+const q = ref(typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('q') ?? '' : '');
 const lastRead = ref<LastRead | null>(null);
 onMounted(() => { lastRead.value = getLastRead(); });
 
@@ -63,6 +63,7 @@ const filtered = computed(() => {
         </Link>
       </li>
     </ul>
-    <p v-if="!filtered.length" class="mt-10 text-center text-ink-soft">{{ t('quran.noMatch') }}</p>
+    <p v-if="!surahs.length" class="mt-10 text-center text-ink-soft">{{ t('quran.empty') }}</p>
+    <p v-else-if="!filtered.length" class="mt-10 text-center text-ink-soft">{{ t('quran.noMatch') }}</p>
   </QurbaShell>
 </template>

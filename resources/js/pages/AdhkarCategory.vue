@@ -3,16 +3,19 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Check, ChevronLeft, Heart, RotateCcw } from 'lucide-vue-next';
+import { BookHeart, Check, ChevronLeft, HandHeart, Heart, Moon, Plane, RotateCcw, Sparkles, Sun, Sunset } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { ak, bump, countOf, isFav, resetItem, toggleFav } from '../lib/adhkarLocal';
 import { canVibrate, tb } from '../lib/tasbeeh';
 
 interface Item { id: number; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
-const props = defineProps<{ category: { slug: string; name: Record<string, string> }; items: Item[]; dev?: boolean; favoritesPage?: boolean }>();
+const props = defineProps<{ category: { slug: string; name: Record<string, string> }; items: Item[]; dev?: boolean; favoritesPage?: boolean;
+  categories?: { slug: string; name: Record<string, string> }[] }>();
 const { t, locale } = useI18n();
 
 const title = computed(() => props.category.name[locale.value] ?? props.category.name.en);
+const icons: Record<string, any> = { morning: Sun, evening: Sunset, 'after-salah': Sparkles, 'sleep-wake': Moon, travel: Plane, 'daily-duas': HandHeart, 'quranic-duas': BookHeart };
+const catName = (n: Record<string, string>) => n[locale.value] ?? n.en;
 const done = (a: Item) => countOf(a.id) >= a.repeat;
 const completed = computed(() => props.items.filter(done).length);
 const translation = (a: Item) => a.tr[locale.value === 'ar' ? 'en' : locale.value] ?? a.tr.en ?? '';
@@ -27,8 +30,26 @@ function tap(a: Item) {
 <template>
   <Head :title="title" />
   <QurbaShell>
+    <div class="lg:grid lg:grid-cols-[15rem_1fr] lg:gap-8">
+    <!-- Category sidebar (desktop) -->
+    <aside class="hidden lg:block">
+      <h2 class="mb-3 font-display text-xl text-emerald-900">{{ t('home.adhkar') }}</h2>
+      <nav class="space-y-1">
+        <Link v-for="c in categories ?? []" :key="c.slug" :href="`/zikr/adhkar/${c.slug}`"
+          class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm"
+          :class="c.slug === category.slug ? 'bg-emerald-900 text-cream' : 'text-ink hover:bg-paper'">
+          <component :is="icons[c.slug] ?? Sparkles" class="size-4" :class="c.slug === category.slug ? 'text-gold-500' : 'text-emerald-700'" />
+          {{ catName(c.name) }}
+        </Link>
+        <Link :href="`/zikr/adhkar-favorites?ids=${ak.favorites.join(',')}`" class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm"
+          :class="favoritesPage ? 'bg-emerald-900 text-cream' : 'text-ink hover:bg-paper'">
+          <Heart class="size-4 text-gold-500" /> {{ t('adhkar.favorites') }}
+        </Link>
+      </nav>
+    </aside>
+    <div class="min-w-0">
     <div class="flex items-center gap-3">
-      <Link href="/zikr/adhkar" class="grid size-9 place-items-center rounded-full border border-line bg-paper" :aria-label="t('home.adhkar')"><ChevronLeft class="size-4 rtl:rotate-180" /></Link>
+      <Link href="/zikr/adhkar" class="grid size-9 lg:hidden place-items-center rounded-full border border-line bg-paper" :aria-label="t('home.adhkar')"><ChevronLeft class="size-4 rtl:rotate-180" /></Link>
       <h1 class="flex-1 font-display text-3xl text-emerald-900">{{ title }}</h1>
       <label class="flex items-center gap-2 text-sm text-ink-soft"><input v-model="ak.translit" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('adhkar.translit') }}</label>
     </div>
@@ -43,7 +64,8 @@ function tap(a: Item) {
       <li v-for="a in items" :key="a.id" class="rounded-[var(--radius-sheet)] border bg-paper p-5 transition-opacity md:p-6"
         :class="done(a) ? 'border-emerald-700/30 opacity-70' : 'border-line'">
         <div class="flex items-center justify-between text-xs text-ink-soft">
-          <span>
+          <span class="flex items-center gap-2">
+            <span class="grid size-7 place-items-center rounded-full border border-gold-500 text-[11px] text-gold-600">{{ items.indexOf(a) + 1 }}</span>
             <span v-if="dev && a.status !== 'approved'" class="me-2 rounded-full bg-gold-200 px-2 py-0.5 text-ink">{{ a.status }}</span>
             {{ a.reference }}
           </span>
@@ -67,5 +89,7 @@ function tap(a: Item) {
         </div>
       </li>
     </ol>
+    </div>
+    </div>
   </QurbaShell>
 </template>

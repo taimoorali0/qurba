@@ -71,7 +71,9 @@ export function initPwa() {
 
 /** Fetch Inertia page data so the service worker stores it for offline use. */
 export async function warmUp(paths: string[], onProgress?: (done: number) => void) {
-  const version = (window as any).__qurbaInertiaVersion ?? '';
+  // Read the version from the initial page payload: AppStatus may not have mounted yet.
+  let version: string = (window as any).__qurbaInertiaVersion ?? '';
+  if (!version) { try { version = JSON.parse(document.getElementById('app')?.dataset.page ?? '{}').version ?? ''; } catch {} }
   let done = 0;
   for (const p of paths) {
     try {

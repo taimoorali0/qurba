@@ -31,6 +31,12 @@ class AdhkarController extends Controller
         ]);
     }
 
+    /** Sidebar list for the category page */
+    private function categoryNav()
+    {
+        return AdhkarCategory::orderBy('sort')->get(['slug', 'name'])->map(fn ($c) => ['slug' => $c->slug, 'name' => $c->name]);
+    }
+
     public function show(string $slug)
     {
         $cat = AdhkarCategory::where('slug', $slug)->firstOrFail();
@@ -38,6 +44,7 @@ class AdhkarController extends Controller
             'category' => ['slug' => $cat->slug, 'name' => $cat->name],
             'items' => $this->present($this->visible()->with('translations')->where('adhkar_category_id', $cat->id)->orderBy('sort')->get()),
             'dev' => app()->environment('local'),
+            'categories' => $this->categoryNav(),
         ]);
     }
 
@@ -49,6 +56,7 @@ class AdhkarController extends Controller
             'items' => $this->present($this->visible()->with('translations')->whereIn('id', $ids)->get()),
             'dev' => app()->environment('local'),
             'favoritesPage' => true,
+            'categories' => $this->categoryNav(),
         ]);
     }
 }

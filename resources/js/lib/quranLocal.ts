@@ -23,7 +23,7 @@ for (const k of bm.keys) if (!bookmarkMeta[k]) bookmarkMeta[k] = { on: true, t: 
 
 export function toggleBookmark(key: string) {
   const on = !bookmarks.has(key);
-  on ? bookmarks.add(key) : bookmarks.delete(key);
+  if (on) bookmarks.add(key); else bookmarks.delete(key);
   bookmarkMeta[key] = { on, t: Date.now() };
   save('qurba.bookmarks', { keys: [...bookmarks] });
   save('qurba.bookmarksMeta', bookmarkMeta);

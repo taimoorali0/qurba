@@ -7,7 +7,9 @@
     "more": "More",
     "qibla": "Qibla",
     "learn": "Learn",
-    "profile": "Profile"
+    "profile": "Profile",
+    "search": "Search surah…",
+    "signIn": "Sign in"
   },
   "home": {
     "greeting": "Assalamu Alaikum",
@@ -20,7 +22,22 @@
     "startReading": "Start reading",
     "adhkar": "Adhkar",
     "tasbeeh": "Tasbeeh",
-    "downloads": "Downloads"
+    "downloads": "Downloads",
+    "heroTitle": "Read. Listen. Remember. Learn.",
+    "heroSub": "Your companion for Quran, Adhkar, Tasbeeh, Prayer Times and live Quran classes.",
+    "getStarted": "Get started",
+    "todayPrayers": "Today's prayer times",
+    "viewAll": "View all",
+    "progress": "Your progress",
+    "tasbeehToday": "Tasbeeh today",
+    "adhkarToday": "Today's adhkar",
+    "d_quran": "Read, listen, translation",
+    "d_adhkar": "Morning, evening, daily",
+    "d_tasbeeh": "Multiple zikr counters",
+    "d_prayer": "Accurate times by location",
+    "d_qibla": "Find direction anywhere",
+    "d_learn": "Live online classes",
+    "d_downloads": "Use Qurba offline"
   },
   "lang": "Language",
   "soon": "This section is being built.",
@@ -60,7 +77,11 @@
     "sleep": "Sleep timer",
     "sleepOff": "Sleep off",
     "audioDev": "Development audio, licence pending",
-    "audioError": "Audio could not load. Check your connection."
+    "audioError": "Audio could not load. Check your connection.",
+    "empty": "Quran content is not available yet. Please check back soon.",
+    "surah": "Surah",
+    "share": "Share",
+    "copied": "Copied"
   },
   "tasbeeh": {
     "counter": "Counter",
@@ -106,7 +127,9 @@
     "badCoords": "Latitude must be −90 to 90 and longitude −180 to 180.",
     "err_denied": "Location permission was denied. Choose a city or enter coordinates instead.",
     "err_unavailable": "Your location could not be found. Choose a city or enter coordinates.",
-    "err_unsupported": "This browser cannot share location. Choose a city instead."
+    "err_unsupported": "This browser cannot share location. Choose a city instead.",
+    "lat": "Latitude",
+    "lng": "Longitude"
   },
   "prayer": {
     "fajr": "Fajr",

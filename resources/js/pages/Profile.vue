@@ -1,9 +1,9 @@
 <!-- ===== QURBA: Profile, sync, privacy & consent, devices ===== -->
 <script setup lang="ts">
-import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { CloudUpload, Download, LogIn, LogOut, RefreshCw, Smartphone, Trash2, UserPlus, Settings } from 'lucide-vue-next';
+import { Download, LogIn, LogOut, RefreshCw, Smartphone, Trash2, UserPlus, Settings } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { CONSENT_TYPES, consent, setConsent, type ConsentType } from '../lib/consent';
 import { app, syncNow } from '../lib/pwa';
