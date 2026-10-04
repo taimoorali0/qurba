@@ -38,6 +38,16 @@ return [
             'report' => false,
         ],
 
+        // Qurba app sounds (ambient, adhan, 99 Names), served directly from /audio
+        'audio' => [
+            'driver' => 'local',
+            'root' => public_path('audio'),
+            'url' => env('APP_URL').'/audio',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
