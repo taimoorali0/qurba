@@ -54,7 +54,7 @@ class ContentSourceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable()->description(fn ($r) => $r->edition),
+                Tables\Columns\TextColumn::make('name')->searchable()->description(fn ($record) => $record->edition),
                 Tables\Columns\TextColumn::make('type')->badge(),
                 Tables\Columns\TextColumn::make('language_code')->label('Lang'),
                 Tables\Columns\IconColumn::make('redistribution_allowed')->label('Redistribute')->boolean(),

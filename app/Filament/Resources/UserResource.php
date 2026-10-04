@@ -38,7 +38,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
-                Tables\Columns\TextColumn::make('role')->badge()->formatStateUsing(fn (?string $s) => R::LABELS[$s] ?? '—')->placeholder('—'),
+                Tables\Columns\TextColumn::make('role')->badge()->formatStateUsing(fn (?string $state) => R::LABELS[$state] ?? '—')->placeholder('—'),
                 Tables\Columns\TextColumn::make('devices')->label('Devices')
                     ->state(fn (User $u) => DB::table('user_devices')->where('user_id', $u->id)->count()),
                 Tables\Columns\TextColumn::make('last_sync')->label('Last sync')

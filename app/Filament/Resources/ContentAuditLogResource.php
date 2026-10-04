@@ -29,9 +29,9 @@ class ContentAuditLogResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
                 Tables\Columns\TextColumn::make('action')->badge(),
-                Tables\Columns\TextColumn::make('auditable_type')->label('Item')->formatStateUsing(fn ($s, $r) => class_basename($s) . ' #' . $r->auditable_id),
+                Tables\Columns\TextColumn::make('auditable_type')->label('Item')->formatStateUsing(fn ($state, $record) => class_basename($state) . ' #' . $record->auditable_id),
                 Tables\Columns\TextColumn::make('user.name')->label('By')->placeholder('system / importer'),
-                Tables\Columns\TextColumn::make('new_values')->label('Change')->formatStateUsing(fn ($s) => mb_substr(json_encode($s, JSON_UNESCAPED_UNICODE), 0, 160))->wrap(),
+                Tables\Columns\TextColumn::make('new_values')->label('Change')->formatStateUsing(fn ($state) => mb_substr(json_encode($state, JSON_UNESCAPED_UNICODE), 0, 160))->wrap(),
                 Tables\Columns\TextColumn::make('ip')->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([Tables\Filters\SelectFilter::make('action')->options(fn () => ContentAuditLog::distinct()->pluck('action', 'action'))])
