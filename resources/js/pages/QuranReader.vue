@@ -1,6 +1,6 @@
 <!-- ===== QURBA: Quran Reader (Translation / Mushaf / Tafsir) ===== -->
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, List, Loader2, Lock, Moon, Pause, Play, Repeat, Repeat1, Settings2, Share2, SkipBack, SkipForward, Volume2, X } from 'lucide-vue-next';
@@ -19,19 +19,29 @@ const props = defineProps<{
   prev: number | null; next: number | null; surahs: Surah[]; reciters: Reciter[];
   tafsir_sources?: TafsirSource[];
 }>();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const tab = ref<ReaderMode | 'tafsir'>(readerSettings.mode);
 watch(tab, (v) => { if (v !== 'tafsir') readerSettings.mode = v; });
 const showSettings = ref(false);
 const showList = ref(false);
 
-watch(() => props.translation_sources, (src) => {
-  if (!readerSettings.translationIds.length && src.length) readerSettings.translationIds = src.map((s) => s.id);
-}, { immediate: true });
+// Translations follow the app language (en → English, ur → Urdu) until the reader picks sources by hand
+const autoTrIds = computed(() => {
+  const lang = locale.value === 'ar' ? 'en' : locale.value;
+  const match = props.translation_sources.filter((s) => s.language_code === lang);
+  return (match.length ? match : props.translation_sources).map((s) => s.id);
+});
+const activeTrIds = computed(() => (readerSettings.trCustom ? readerSettings.translationIds : autoTrIds.value));
+function toggleTr(id: number, on: boolean) {
+  const base = readerSettings.trCustom ? readerSettings.translationIds : autoTrIds.value;
+  readerSettings.translationIds = on ? [...new Set([...base, id])] : base.filter((x) => x !== id);
+  readerSettings.trCustom = true;
+}
+function matchLanguage() { readerSettings.trCustom = false; readerSettings.translationIds = []; }
 
 const sourceById = computed(() => Object.fromEntries(props.translation_sources.map((s) => [s.id, s])));
-const visibleTr = (a: Ayah) => a.translations.filter((tr) => readerSettings.translationIds.includes(tr.source_id));
+const visibleTr = (a: Ayah) => a.translations.filter((tr) => activeTrIds.value.includes(tr.source_id));
 const isRtl = (lang?: string) => ['ar', 'ur', 'fa'].includes(lang ?? '');
 const hasUnreviewed = computed(() => props.translation_sources.some((s) => s.status !== 'approved'));
 // ---- Audio ----
@@ -41,6 +51,10 @@ const isThisSurah = computed(() => player.surah === props.surah.id);
 const playingAyah = computed(() => (isThisSurah.value && !player.inBismillah ? player.ayah : 0));
 function playFrom(n: number) { if (reciter.value) start(props.surah.id, n, props.surah.ayah_count); }
 function mainButton() { if (isThisSurah.value) toggle(); else playFrom(1); }
+// When playback continues into the next surah, follow it to that page
+watch(() => player.surah, (s, old) => {
+  if (s && old === props.surah.id && s !== props.surah.id) router.visit(`/quran/${s}`, { preserveScroll: false });
+});
 const repeatNext = { off: 'ayah', ayah: 'surah', surah: 'off' } as const;
 watch(playingAyah, async (n) => {
   if (!n) return;
@@ -206,6 +220,9 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
                 <option v-for="m in [10, 20, 30, 60]" :key="m" :value="m">{{ m }} min</option>
               </select>
             </label>
+            <label class="flex items-center gap-1.5 text-ink-soft">
+              <input v-model="audioPrefs.autoNext" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('quran.autoNext') }}
+            </label>
             <span v-if="!reciter.approved" class="ms-auto flex items-center gap-1 text-ink-soft"><Lock class="size-3" /> {{ t('quran.audioDev') }}</span>
           </div>
           <p v-if="isThisSurah && player.error" class="mt-2 text-xs text-red-700">{{ t('quran.audioError') }}</p>
@@ -223,9 +240,11 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
           <p class="mt-4 text-ink-soft">{{ t('quran.translation') }}</p>
           <p v-if="!translation_sources.length" class="mt-2 text-ink-soft">{{ t('quran.noTranslations') }}</p>
           <label v-for="s in translation_sources" :key="s.id" class="mt-2 flex items-center gap-3">
-            <input v-model="readerSettings.translationIds" :value="s.id" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" />
+            <input :checked="activeTrIds.includes(s.id)" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500"
+              @change="toggleTr(s.id, ($event.target as HTMLInputElement).checked)" />
             {{ s.name }} <span class="text-ink-soft">({{ s.language_code }})</span>
           </label>
+          <button v-if="readerSettings.trCustom" class="mt-3 text-xs text-emerald-700 underline" @click="matchLanguage">{{ t('quran.matchLanguage') }}</button>
         </section>
 
         <p v-if="hasUnreviewed" class="mt-4 rounded-xl bg-gold-200/50 px-4 py-2 text-xs text-ink-soft">{{ t('quran.devReview') }}</p>

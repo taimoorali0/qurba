@@ -8,6 +8,7 @@ import QurbaShell from '../layouts/QurbaShell.vue';
 import LocationPicker from '../components/LocationPicker.vue';
 import RemindersCard from '../components/RemindersCard.vue';
 import SalahTracker from '../components/SalahTracker.vue';
+import { playAdhan, sound, stopOneShot } from '../lib/sounds';
 import { FARD, isPrayed, togglePrayed, type Fard } from '../lib/salahLog';
 import { loc } from '../lib/location';
 import { countdown, effective, fmtTime, METHODS, nextPrayer, PRAYERS, prayerSettings, timesFor, type MethodKey } from '../lib/prayer';
@@ -16,6 +17,15 @@ const { t, locale } = useI18n();
 const now = ref(new Date());
 let timer: number | undefined;
 onMounted(() => { timer = window.setInterval(() => (now.value = new Date()), 30000); });
+
+// Opened from a prayer notification: play the adhan (show a button if the browser blocks autoplay)
+const adhanFor = ref('');
+onMounted(async () => {
+  const p = new URLSearchParams(location.search).get('adhan') ?? '';
+  if (!FARD.includes(p as Fard)) return;
+  adhanFor.value = p;
+  if (await playAdhan(p)) adhanFor.value = '';
+});
 onBeforeUnmount(() => clearInterval(timer));
 
 const offset = ref(0); // days from today
@@ -42,6 +52,11 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
       <button v-if="loc.place" class="grid size-9 place-items-center rounded-full border border-line bg-paper" @click="showSettings = !showSettings" :aria-label="t('prayer.settings')"><Settings2 class="size-4" /></button>
     </div>
 
+    <div v-if="adhanFor || sound.adhanPlaying" class="mt-5 flex items-center gap-3 rounded-[var(--radius-tile)] bg-emerald-900 px-5 py-4 text-cream">
+      <span class="flex-1 font-display text-xl">{{ t('prayer.' + (sound.adhanPlaying || adhanFor)) }}</span>
+      <button v-if="sound.adhanPlaying" class="rounded-full bg-gold-500 px-4 py-1.5 text-sm text-emerald-950" @click="stopOneShot">{{ t('sound.stopAdhan') }}</button>
+      <button v-else class="rounded-full bg-gold-500 px-4 py-1.5 text-sm text-emerald-950" @click="playAdhan(adhanFor).then(() => (adhanFor = ''))">{{ t('sound.playAdhan') }}</button>
+    </div>
     <div class="mt-5"><LocationPicker /></div>
 
     <template v-if="loc.place">

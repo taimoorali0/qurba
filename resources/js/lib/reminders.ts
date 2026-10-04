@@ -71,7 +71,7 @@ export async function scheduleReminders(force = false) {
     if (loc.place) for (const p of timesFor(loc.place, day)) {
       if (!(PRAYERS as readonly string[]).includes(p.name) || !rem.prayers[p.name]) continue;
       const fire = new Date(p.time.getTime() - rem.offset * 60000);
-      if (fire.getTime() > now) items.push({ kind: p.name, fire_at: fire.toISOString(), url: '/prayer',
+      if (fire.getTime() > now) items.push({ kind: p.name, fire_at: fire.toISOString(), url: rem.offset ? '/prayer' : `/prayer?adhan=${p.name}`,
         title: t('reminders.prayerTitle', { p: t('prayer.' + p.name) }),
         body: rem.offset ? t('reminders.prayerSoon', { n: rem.offset }) : t('reminders.prayerNow') });
     }

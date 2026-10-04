@@ -7,6 +7,8 @@ import { Home, BookOpen, CircleDot, Clock, Compass, GraduationCap, User, Chevron
 import { useLocale } from '../composables/useLocale';
 import type { QurbaLocale } from '../lib/i18n';
 import AppStatus from '../components/AppStatus.vue';
+import SoundControl from '../components/SoundControl.vue';
+import { initSounds } from '../lib/sounds';
 
 const { t } = useI18n();
 const { locale, setLocale } = useLocale();
@@ -33,6 +35,7 @@ const more = [
 const moreActive = computed(() => more.some((m) => isActive(m.href)));
 const user = computed(() => (page.props as any).auth?.user ?? null);
 const initial = computed(() => (user.value?.name ?? '?').trim().charAt(0).toUpperCase());
+initSounds();
 const q = ref('');
 function search() { const term = q.value.trim(); if (term) router.visit(`/quran?q=${encodeURIComponent(term)}`); }
 const langs: { code: QurbaLocale; label: string }[] = [
@@ -80,6 +83,7 @@ const langs: { code: QurbaLocale; label: string }[] = [
             <input v-model="q" type="search" :placeholder="t('nav.search')" :aria-label="t('nav.search')"
               class="w-56 rounded-full border-line bg-paper py-1.5 ps-9 pe-3 text-sm placeholder:text-ink-soft focus:border-gold-500 focus:ring-0" />
           </form>
+          <SoundControl />
           <label class="sr-only" for="lang">{{ t('lang') }}</label>
           <select id="lang" :value="locale" @change="setLocale(($event.target as HTMLSelectElement).value as QurbaLocale)"
             class="rounded-full border border-line bg-paper py-1.5 ps-4 pe-9 text-sm">

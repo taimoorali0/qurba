@@ -1,12 +1,13 @@
 <!-- ===== QURBA: 99 Names of Allah (Al-Asma' al-Husna) ===== -->
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Check, Search } from 'lucide-vue-next';
+import { Check, Pause, Play, Search, Volume2 } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { isMemorised, memorised, NAMES, toggleMemorised } from '../lib/asmaulHusna';
 import { toArabicDigits } from '../lib/quranLocal';
+import { FILES, hasFile, playName, sound, stopOneShot } from '../lib/sounds';
 
 const { t } = useI18n();
 const q = ref('');
@@ -18,6 +19,25 @@ const shown = computed(() => {
     && (!term || String(x.n) === q.value.trim() || norm(x.tr).includes(term) || norm(x.en).includes(term) || x.ar.includes(q.value.trim())));
 });
 const done = computed(() => memorised.ids.length);
+
+// Recitations appear only once public/audio/names/*.mp3 have been added
+const hasAudio = ref(false);
+onMounted(async () => { hasAudio.value = await hasFile(FILES.name(1)); });
+const playingAll = ref(false);
+function listen(n: number) {
+  playingAll.value = false;
+  if (sound.namePlaying === n) stopOneShot(); else playName(n);
+}
+function playAll(from = 1) {
+  if (playingAll.value && from === 1) { playingAll.value = false; stopOneShot(); return; }
+  playingAll.value = true;
+  const step = (n: number) => {
+    if (!playingAll.value || n > 99) { playingAll.value = false; return; }
+    document.getElementById(`name-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    playName(n, () => step(n + 1)).then((ok) => { if (!ok) playingAll.value = false; });
+  };
+  step(from);
+}
 </script>
 
 <template>
@@ -41,6 +61,9 @@ const done = computed(() => memorised.ids.length);
         <input v-model="q" type="search" :placeholder="t('names.search')" :aria-label="t('names.search')"
           class="w-full rounded-full border-line bg-paper py-2.5 ps-11 pe-4 text-sm focus:border-gold-500 focus:ring-0" />
       </label>
+      <button v-if="hasAudio" class="inline-flex items-center gap-2 rounded-full bg-emerald-900 px-4 py-2 text-sm text-cream" @click="playAll()">
+        <Pause v-if="playingAll" class="size-4" /><Volume2 v-else class="size-4" /> {{ playingAll ? t('names.stop') : t('names.playAll') }}
+      </button>
       <label class="flex items-center gap-2 text-sm text-ink-soft">
         <input v-model="onlyLeft" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('names.onlyLeft') }}
       </label>
@@ -48,8 +71,8 @@ const done = computed(() => memorised.ids.length);
 
     <!-- Names -->
     <ol class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      <li v-for="x in shown" :key="x.n" class="relative rounded-[var(--radius-tile)] border bg-paper p-5 transition-colors"
-        :class="isMemorised(x.n) ? 'border-emerald-700/40' : 'border-line'">
+      <li v-for="x in shown" :id="`name-${x.n}`" :key="x.n" class="relative rounded-[var(--radius-tile)] border bg-paper p-5 transition-colors"
+        :class="sound.namePlaying === x.n ? 'border-gold-500 ring-2 ring-gold-200' : isMemorised(x.n) ? 'border-emerald-700/40' : 'border-line'">
         <div class="flex items-start justify-between gap-3">
           <span class="grid size-9 shrink-0 place-items-center rounded-full border border-gold-500 text-xs text-gold-600" :aria-label="`${x.n}`">
             <span lang="ar">{{ toArabicDigits(x.n) }}</span>
@@ -58,11 +81,17 @@ const done = computed(() => memorised.ids.length);
         </div>
         <p class="mt-2 font-medium text-ink">{{ x.tr }}</p>
         <p class="text-sm text-ink-soft">{{ x.en }}</p>
-        <button class="mt-4 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors"
+        <div class="mt-4 flex items-center gap-2">
+        <button v-if="hasAudio" class="grid size-8 place-items-center rounded-full border border-line text-emerald-900 hover:border-emerald-700"
+          :aria-label="`${t('names.listen')} ${x.tr}`" @click="listen(x.n)">
+          <Pause v-if="sound.namePlaying === x.n" class="size-3.5" /><Play v-else class="size-3.5" />
+        </button>
+        <button class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors"
           :class="isMemorised(x.n) ? 'border-emerald-700 bg-emerald-700 text-cream' : 'border-line text-ink-soft hover:border-emerald-700 hover:text-emerald-900'"
           :aria-pressed="isMemorised(x.n)" @click="toggleMemorised(x.n)">
           <Check class="size-3.5" /> {{ isMemorised(x.n) ? t('names.memorised') : t('names.markMemorised') }}
         </button>
+        </div>
       </li>
     </ol>
     <p v-if="!shown.length" class="mt-10 text-center text-ink-soft">{{ t('names.none') }}</p>
