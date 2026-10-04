@@ -8,11 +8,12 @@ function load(): State {
   try { const v = localStorage.getItem('qurba.adhkar'); return v ? { ...d, ...JSON.parse(v) } : d; } catch { return d; }
 }
 export const ak = reactive<State>(load());
+export const adhkarUpdatedAt = () => Number(localStorage.getItem('qurba.adhkarAt') || 0);
 watch(ak, (v) => {
   // keep 30 days of progress
   const keys = Object.keys(v.progress).sort();
   if (keys.length > 30) for (const k of keys.slice(0, keys.length - 30)) delete v.progress[k];
-  try { localStorage.setItem('qurba.adhkar', JSON.stringify(v)); } catch {}
+  try { localStorage.setItem('qurba.adhkar', JSON.stringify(v)); localStorage.setItem('qurba.adhkarAt', String(Date.now())); localStorage.setItem('qurba.syncDirty', '1'); } catch {}
 }, { deep: true });
 
 export const countOf = (id: number) => ak.progress[today()]?.[id] ?? 0;
