@@ -14,13 +14,14 @@ export const app = reactive({
   standalone: typeof window !== 'undefined' && (matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true),
   installDismissed: num('qurba.installDismissed'),
   lastSync: num('qurba.lastSync'),
+  firstUse: num('qurba.firstUse') || Date.now(),
   syncDismissed: num('qurba.syncDismissed'),
   syncing: false,
 });
 
 export const isIos = typeof navigator !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent);
 export const showInstall = computed(() => !app.standalone && Date.now() - app.installDismissed > 14 * DAY && (!!app.installEvent || isIos));
-export const syncOverdue = computed(() => app.lastSync > 0 && Date.now() - app.lastSync > 7 * DAY && Date.now() - app.syncDismissed > DAY);
+export const syncOverdue = computed(() => Date.now() - (app.lastSync || app.firstUse) > 7 * DAY && Date.now() - app.syncDismissed > DAY);
 
 /** Sync = check content versions now; user-data backup joins this when accounts sync is built. */
 export async function syncNow(): Promise<boolean> {
@@ -51,12 +52,14 @@ export async function persistStorage() { try { return await navigator.storage?.p
 
 export function initPwa() {
   if (typeof window === 'undefined') return;
+  if (!num('qurba.firstUse')) set('qurba.firstUse', String(app.firstUse));
   addEventListener('online', () => { app.online = true; syncNow(); });
   addEventListener('offline', () => { app.online = false; });
   addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); app.installEvent = e; });
   addEventListener('appinstalled', () => { app.standalone = true; app.installEvent = null; });
 
   if (navigator.onLine) syncNow();
+  window.setInterval(() => { if (navigator.onLine && canSync() && localStorage.getItem('qurba.syncDirty') === '1') syncNow(); }, 60000);
 
   // Service worker only in production builds (or when forced for testing)
   const force = (() => { try { return localStorage.getItem('qurba.swDev') === '1'; } catch { return false; } })();
