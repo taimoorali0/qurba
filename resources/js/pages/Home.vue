@@ -9,6 +9,7 @@ import { getLastRead, type LastRead } from '../lib/quranLocal';
 import { loc } from '../lib/location';
 import { countdown, fmtTime, nextPrayer, timesFor } from '../lib/prayer';
 import { todayTotal } from '../lib/tasbeeh';
+import { prayedCount } from '../lib/salahLog';
 
 const { t, locale } = useI18n();
 const now = ref(new Date());
@@ -123,7 +124,15 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
 
       <div class="rounded-[var(--radius-tile)] border border-line bg-paper p-5">
         <h2 class="font-display text-lg text-emerald-900">{{ t('home.progress') }}</h2>
-        <Link href="/zikr/tasbeeh" class="mt-3 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
+        <Link href="/prayer" class="mt-3 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
+          <span class="grid size-10 place-items-center rounded-full bg-emerald-700 text-cream"><Clock class="size-5" /></span>
+          <span class="flex-1">
+            <span class="block text-sm text-ink">{{ t('salah.title') }}</span>
+            <span class="text-xs text-ink-soft">{{ t('salah.today', { n: prayedCount(now) }) }}</span>
+          </span>
+          <ChevronRight class="size-4 text-ink-soft rtl:rotate-180" />
+        </Link>
+        <Link href="/zikr/tasbeeh" class="mt-2 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
           <span class="grid size-10 place-items-center rounded-full bg-emerald-900 text-cream"><CircleDot class="size-5" /></span>
           <span class="flex-1">
             <span class="block text-sm text-ink">{{ t('home.tasbeehToday') }}</span>

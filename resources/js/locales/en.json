@@ -290,5 +290,14 @@
     "send": "Send",
     "thanks": "Thank you. Your request has been received.",
     "thanksText": "We will contact you when classes open."
+  },
+  "salah": {
+    "title": "Salah tracker",
+    "today": "{n} of 5 prayers today",
+    "streak": "{n} day streak",
+    "streakHint": "Days in a row with all five prayers",
+    "week": "Last 7 days",
+    "mark": "Mark {p} as prayed",
+    "local": "Saved on this device."
   }
 }

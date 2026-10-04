@@ -3,10 +3,12 @@
 import { Head } from '@inertiajs/vue3';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ChevronLeft, ChevronRight, Moon, Sun, Sunrise, Sunset, CloudSun, Settings2 } from 'lucide-vue-next';
+import { Check, ChevronLeft, ChevronRight, Moon, Sun, Sunrise, Sunset, CloudSun, Settings2 } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import LocationPicker from '../components/LocationPicker.vue';
 import RemindersCard from '../components/RemindersCard.vue';
+import SalahTracker from '../components/SalahTracker.vue';
+import { FARD, isPrayed, togglePrayed, type Fard } from '../lib/salahLog';
 import { loc } from '../lib/location';
 import { countdown, effective, fmtTime, METHODS, nextPrayer, PRAYERS, prayerSettings, timesFor, type MethodKey } from '../lib/prayer';
 
@@ -26,6 +28,9 @@ const icons: Record<string, any> = { fajr: Moon, sunrise: Sunrise, dhuhr: Sun, a
 const tz = computed(() => loc.place?.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone);
 const dateLabel = computed(() => day.value.toLocaleDateString(locale.value, { weekday: 'long', day: 'numeric', month: 'long', timeZone: tz.value }));
 const hijri = computed(() => { try { return day.value.toLocaleDateString(locale.value + '-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz.value }); } catch { return ''; } });
+const isFard = (n: string): n is Fard => (FARD as readonly string[]).includes(n);
+// A prayer can be ticked once its time has started (never for future days)
+const canTick = (time: Date) => time.getTime() <= now.value.getTime();
 const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.name === name && next.value.time.getTime() === time.getTime();
 </script>
 
@@ -95,6 +100,13 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
           <span class="flex-1" :class="p.name === 'sunrise' ? 'text-ink-soft' : 'font-medium text-ink'">{{ t('prayer.' + p.name) }}</span>
           <span v-if="p.adjusted" class="rounded-full bg-gold-200 px-2 py-0.5 text-[11px] text-ink">{{ t('prayer.adjusted', { n: (prayerSettings.adjust[p.name] > 0 ? '+' : '') + prayerSettings.adjust[p.name] }) }}</span>
           <span class="tabular-nums text-ink">{{ fmtTime(p.time, tz, locale) }}</span>
+          <button v-if="isFard(p.name)" :disabled="!canTick(p.time)" @click="togglePrayed(day, p.name)"
+            class="grid size-8 shrink-0 place-items-center rounded-full border transition-colors disabled:opacity-30"
+            :class="isPrayed(day, p.name) ? 'border-emerald-700 bg-emerald-700 text-cream' : 'border-line text-transparent hover:border-emerald-700'"
+            :aria-pressed="isPrayed(day, p.name)" :aria-label="t('salah.mark', { p: t('prayer.' + p.name) })">
+            <Check class="size-4" />
+          </button>
+          <span v-else class="size-8 shrink-0" />
         </li>
       </ul>
       </div>
@@ -108,6 +120,7 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
       </div>
 
 </div>
+      <SalahTracker :now="now" />
       <RemindersCard />
 
       <p v-if="eff" class="text-xs text-ink-soft">
