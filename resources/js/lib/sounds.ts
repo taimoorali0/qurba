@@ -25,14 +25,20 @@ watch(soundPrefs, (v) => { try { localStorage.setItem('qurba.sounds', JSON.strin
 export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as boolean | null, adhanPlaying: '', namePlaying: 0, clipPlaying: '' });
 
 // ---- File availability: one small manifest from the server instead of probing each file ----
-interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[] }
+export interface VoiceInfo { label: string; dir: string; names: number[]; full: string | null }
+interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[]; voices?: Record<string, VoiceInfo> }
 let manifest: Promise<Manifest> | null = null;
 function getManifest(): Promise<Manifest> {
   manifest ??= fetch('/api/v1/audio-manifest', { headers: { Accept: 'application/json' } })
     .then((r) => (r.ok ? r.json() : Promise.reject()))
-    .catch(() => ({ ambient: false, adhan: false, adhanFajr: false, names: [] }));
+    .catch(() => ({ ambient: false, adhan: false, adhanFajr: false, names: [], voices: {} }));
   return manifest;
 }
+/** Recorded voices for the 99 Names (standard, kids, …) */
+export async function nameVoices(): Promise<Record<string, VoiceInfo>> {
+  return (await getManifest()).voices ?? {};
+}
+
 export async function hasFile(url: string): Promise<boolean> {
   const m = await getManifest();
   if (url === FILES.ambient) return m.ambient;
@@ -131,12 +137,16 @@ export function playClip(key: string, url: string): Promise<boolean> {
   return playOnce(url, () => { if (sound.clipPlaying === key) sound.clipPlaying = ''; });
 }
 
-/** Plays one of the 99 Names: the uploaded recording, or the device's Arabic voice reading `arabic`. */
-export async function playName(n: number, onEnd?: () => void, arabic?: string): Promise<boolean> {
+/**
+ * Plays one of the 99 Names in the chosen voice: its uploaded recording, otherwise
+ * the device's Arabic voice reading `arabic`. voice = '' means device voice only.
+ */
+export async function playName(n: number, onEnd?: () => void, arabic?: string, voice = 'standard'): Promise<boolean> {
   const done = () => { if (sound.namePlaying === n) sound.namePlaying = 0; onEnd?.(); };
-  if (await hasFile(FILES.name(n))) {
+  const v = voice ? (await nameVoices())[voice] : undefined;
+  if (v?.names.includes(n)) {
     sound.namePlaying = n;
-    return playOnce(FILES.name(n), done);
+    return playOnce(`/audio/${v.dir}/${n}.mp3`, done);
   }
   if (!arabic) return false;
   oneShot?.pause();

@@ -17,6 +17,8 @@ apt-get update -y
 apt-get install -y software-properties-common curl git unzip ufw fail2ban unattended-upgrades nginx mysql-server
 if ! apt-cache show php8.3-fpm >/dev/null 2>&1; then add-apt-repository -y ppa:ondrej/php && apt-get update -y; fi
 apt-get install -y php8.3-fpm php8.3-cli php8.3-mysql php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-intl php8.3-bcmath php8.3-gd
+# Audio uploads in /admin → Audio library (nginx allows 20 MB too)
+printf 'upload_max_filesize = 20M\npost_max_size = 25M\n' > /etc/php/8.3/fpm/conf.d/99-qurba.ini
 if ! command -v composer >/dev/null; then curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; fi
 if ! command -v node >/dev/null || [ "$(node -v | cut -c2- | cut -d. -f1)" -lt 20 ]; then
   curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs

@@ -321,7 +321,11 @@
     "playAll": "Play all",
     "stop": "Stop",
     "listen": "Listen to",
-    "deviceVoice": "Audio uses your device's Arabic voice until recitations are added."
+    "deviceVoice": "Audio uses your device's Arabic voice until recitations are added.",
+    "voice": "Voice",
+    "voice_standard": "Standard",
+    "voice_kids": "For kids",
+    "voice_device": "Device voice"
   },
   "sound": {
     "title": "Sounds",

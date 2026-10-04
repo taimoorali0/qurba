@@ -21,7 +21,8 @@ Route::get('api/v1/audio-manifest', function () {
     $d = \Illuminate\Support\Facades\Storage::disk('audio');
     $names = collect($d->files('names'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 99)->unique()->sort()->values();
     return response()->json(['ambient' => $d->exists('ambient.mp3'), 'adhan' => $d->exists('adhan.mp3'),
-        'adhanFajr' => $d->exists('adhan-fajr.mp3'), 'namesFull' => $d->exists('names-full.mp3'), 'names' => $names])->header('Cache-Control', 'public, max-age=300');
+        'adhanFajr' => $d->exists('adhan-fajr.mp3'), 'namesFull' => $d->exists('names-full.mp3'), 'names' => $names,
+        'voices' => \App\Support\NameVoices::manifest()])->header('Cache-Control', 'public, max-age=300');
 })->middleware('throttle:60,1');
 
 // Content version check (used by 7-day sync)

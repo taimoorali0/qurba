@@ -9,7 +9,7 @@ import QurbaShell from '../layouts/QurbaShell.vue';
 import Ornament from '../components/Ornament.vue';
 import { isMemorised, memorised, NAMES, toggleMemorised } from '../lib/asmaulHusna';
 import { toArabicDigits } from '../lib/quranLocal';
-import { canSpeakArabic, FILES, hasFile, playClip, playName, sound, stopOneShot } from '../lib/sounds';
+import { canSpeakArabic, nameVoices, playClip, playName, sound, stopOneShot, type VoiceInfo } from '../lib/sounds';
 
 const { t } = useI18n();
 const q = ref('');
@@ -23,36 +23,42 @@ const shown = computed(() => {
 const done = computed(() => memorised.ids.length);
 
 // Recitations appear only once public/audio/names/*.mp3 have been added
-// Recordings are used when uploaded; otherwise the device's Arabic voice reads the name
-const hasRecordings = ref(false);
+const playingAll = ref(false);
+// Voices: recorded sets (standard, kids, …) plus the device's own Arabic voice
+const voices = ref<Record<string, VoiceInfo>>({});
+const voice = ref<string>((() => { try { return localStorage.getItem('qurba.nameVoice') ?? 'standard'; } catch { return 'standard'; } })());
+watch(voice, (v) => { try { localStorage.setItem('qurba.nameVoice', v); } catch {} stopOneShot(); playingAll.value = false; });
+const available = computed(() => Object.entries(voices.value).filter(([, v]) => v.names.length || v.full));
+const current = computed(() => voices.value[voice.value]);
+const hasRecordings = computed(() => !!current.value && (current.value.names.length > 0 || !!current.value.full));
+const hasFull = computed(() => !!current.value?.full);
 const hasAudio = ref(false);
-const hasFull = ref(false);
 onMounted(async () => {
-  hasFull.value = await hasFile(FILES.namesFull);
-  hasRecordings.value = hasFull.value || (await hasFile(FILES.name(1)));
-  hasAudio.value = hasRecordings.value || canSpeakArabic();
+  voices.value = await nameVoices();
+  // Fall back to the first voice that has recordings, or the device voice
+  if (voice.value && !available.value.some(([k]) => k === voice.value)) voice.value = available.value[0]?.[0] ?? '';
+  hasAudio.value = available.value.length > 0 || canSpeakArabic();
 });
 const arabicOf = (n: number) => NAMES[n - 1]?.ar ?? '';
-const playingAll = ref(false);
 // The complete recitation ending also ends 'Play all'
 watch(() => sound.clipPlaying, (k, old) => { if (old === 'names-full' && !k) playingAll.value = false; });
 function listen(n: number) {
   playingAll.value = false;
-  if (sound.namePlaying === n) stopOneShot(); else playName(n, undefined, arabicOf(n));
+  if (sound.namePlaying === n) stopOneShot(); else playName(n, undefined, arabicOf(n), voice.value);
 }
 function playAll(from = 1) {
   if (playingAll.value && from === 1) { playingAll.value = false; stopOneShot(); return; }
   // One complete recitation of all 99 names, when uploaded
   if (hasFull.value) {
     playingAll.value = true;
-    playClip('names-full', FILES.namesFull).then((ok) => { if (!ok) playingAll.value = false; });
+    playClip('names-full', `/audio/${current.value!.full}`).then((ok) => { if (!ok) playingAll.value = false; });
     return;
   }
   playingAll.value = true;
   const step = (n: number) => {
     if (!playingAll.value || n > 99) { playingAll.value = false; return; }
     document.getElementById(`name-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    playName(n, () => window.setTimeout(() => step(n + 1), 350), arabicOf(n)).then((ok) => { if (!ok) playingAll.value = false; });
+    playName(n, () => window.setTimeout(() => step(n + 1), 350), arabicOf(n), voice.value).then((ok) => { if (!ok) playingAll.value = false; });
   };
   step(from);
 }
@@ -82,6 +88,14 @@ function playAll(from = 1) {
         <input v-model="q" type="search" :placeholder="t('names.search')" :aria-label="t('names.search')"
           class="w-full rounded-full border-line bg-paper py-2.5 ps-11 pe-4 text-sm focus:border-gold-500 focus:ring-0" />
       </label>
+      <div v-if="hasAudio" class="flex flex-wrap items-center gap-1 rounded-full bg-paper p-1 text-sm shadow-soft" role="radiogroup" :aria-label="t('names.voice')">
+        <button v-for="[key, v] in available" :key="key" role="radio" :aria-checked="voice === key"
+          class="rounded-full px-3 py-1.5 transition-colors" :class="voice === key ? 'bg-emerald-900 text-cream' : 'text-ink-soft hover:text-emerald-900'"
+          @click="voice = key">{{ key === 'kids' ? '🧒 ' : '' }}{{ t('names.voice_' + key, v.label) }}</button>
+        <button v-if="canSpeakArabic()" role="radio" :aria-checked="voice === ''"
+          class="rounded-full px-3 py-1.5 transition-colors" :class="voice === '' ? 'bg-emerald-900 text-cream' : 'text-ink-soft hover:text-emerald-900'"
+          @click="voice = ''">{{ t('names.voice_device') }}</button>
+      </div>
       <button v-if="hasAudio" class="inline-flex items-center gap-2 rounded-full bg-emerald-900 px-4 py-2 text-sm text-cream" @click="playAll()">
         <Pause v-if="playingAll" class="size-4" /><Volume2 v-else class="size-4" /> {{ playingAll ? t('names.stop') : t('names.playAll') }}
       </button>
@@ -117,7 +131,7 @@ function playAll(from = 1) {
     </ol>
     <p v-if="!shown.length" class="mt-10 text-center text-ink-soft">{{ t('names.none') }}</p>
 
-    <p v-if="hasAudio && !hasRecordings" class="mt-8 text-xs text-ink-soft">{{ t('names.deviceVoice') }}</p>
+    <p v-if="hasAudio && (!hasRecordings || current.names.length < 99)" class="mt-8 text-xs text-ink-soft">{{ t('names.deviceVoice') }}</p>
     <p class="mt-2 text-xs text-ink-soft">{{ t('names.source') }}</p>
   </QurbaShell>
 </template>

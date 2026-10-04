@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Storage;
+use App\Support\NameVoices;
 use App\Support\Quran\NamesOfAllah;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -21,6 +22,12 @@ class AudioFiles extends Page implements HasForms
 
     /** One-off uploads from the 99 Names grid, keyed by name number */
     public array $nameUploads = [];
+
+    /** Which voice the 99 Names grid is showing */
+    public string $voice = 'standard';
+
+    /** MIME types browsers report for .mp3 files */
+    private const MP3 = ['audio/mpeg', 'audio/mp3', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mp3'];
 
     protected static ?string $navigationIcon = 'heroicon-o-musical-note';
     protected static ?string $navigationGroup = 'Content';
@@ -44,7 +51,7 @@ class AudioFiles extends Page implements HasForms
     {
         return Forms\Components\FileUpload::make($field)->label($label)->helperText($help)
             ->disk('audio')->visibility('public')
-            ->acceptedFileTypes(['audio/mpeg', 'audio/mp3'])->maxSize(15 * 1024)
+            ->acceptedFileTypes(self::MP3)->maxSize(20 * 1024)
             ->getUploadedFileNameForStorageUsing(fn () => $file);
     }
 
@@ -55,12 +62,11 @@ class AudioFiles extends Page implements HasForms
                 self::single('ambient', 'Background sound', 'ambient.mp3', 'Soft sound that loops quietly in the app.'),
                 self::single('adhan', 'Adhan', 'adhan.mp3', 'Played at prayer time.'),
                 self::single('adhan_fajr', 'Fajr adhan (optional)', 'adhan-fajr.mp3', 'Used for Fajr instead of the main adhan.'),
-                self::single('names_full', 'Complete 99 Names recitation', 'names-full.mp3', 'One recording with all 99 names. Used by "Play all" on the 99 Names page.'),
             ]),
-            Forms\Components\Section::make('Upload many names at once')->description('Name each file by its number in the list: 1.mp3 … 99.mp3.')->collapsible()->collapsed()->schema([
+            Forms\Components\Section::make(fn () => 'Upload many names at once — ' . NameVoices::get($this->voice)['label'] . ' voice')->description('Name each file by its number in the list: 1.mp3 … 99.mp3.')->collapsible()->collapsed()->schema([
                 Forms\Components\FileUpload::make('names')->label('Name recordings')->multiple()->maxFiles(99)
-                    ->disk('audio')->directory('names')->visibility('public')->preserveFilenames()
-                    ->acceptedFileTypes(['audio/mpeg', 'audio/mp3'])->maxSize(5 * 1024)
+                    ->disk('audio')->directory(fn () => NameVoices::get($this->voice)['dir'])->visibility('public')->preserveFilenames()
+                    ->acceptedFileTypes(self::MP3)->maxSize(20 * 1024)
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
                         $n = (int) pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                         return ($n >= 1 && $n <= 99) ? "{$n}.mp3" : 'invalid-' . $file->getClientOriginalName();
@@ -72,7 +78,7 @@ class AudioFiles extends Page implements HasForms
     public function save(): void
     {
         $this->form->getState(); // stores the uploads
-        $bad = collect(Storage::disk('audio')->files('names'))->filter(fn ($f) => str_starts_with(basename($f), 'invalid-'));
+        $bad = collect(Storage::disk('audio')->files(NameVoices::get($this->voice)['dir']))->filter(fn ($f) => str_starts_with(basename($f), 'invalid-'));
         $bad->each(fn ($f) => Storage::disk('audio')->delete($f));
         $this->form->fill();
         $n = $bad->count();
@@ -85,9 +91,9 @@ class AudioFiles extends Page implements HasForms
     public function updatedNameUploads($file, $key): void
     {
         $n = (int) $key;
-        $this->validate(["nameUploads.{$n}" => 'file|mimetypes:audio/mpeg,audio/mp3|max:5120']);
+        $this->validate(["nameUploads.{$n}" => 'file|mimetypes:audio/mpeg,audio/mp3,audio/x-mpeg,audio/mpeg3,audio/x-mp3|max:20480']);
         abort_unless($n >= 1 && $n <= 99, 422);
-        $file->storeAs('names', "{$n}.mp3", 'audio');
+        $file->storeAs(NameVoices::get($this->voice)['dir'], "{$n}.mp3", 'audio');
         unset($this->nameUploads[$n]);
         Notification::make()->title("Name {$n} saved")->success()->send();
     }
@@ -95,7 +101,7 @@ class AudioFiles extends Page implements HasForms
     public function deleteName(int $n): void
     {
         abort_unless(R::is(R::CONTENT) && $n >= 1 && $n <= 99, 403);
-        Storage::disk('audio')->delete("names/{$n}.mp3");
+        Storage::disk('audio')->delete(NameVoices::get($this->voice)['dir'] . "/{$n}.mp3");
         Notification::make()->title("Name {$n} removed")->send();
     }
 
@@ -104,15 +110,46 @@ class AudioFiles extends Page implements HasForms
     {
         abort_unless(R::is(R::CONTENT) && $n >= 1 && $n <= 99, 403);
         $d = Storage::disk('audio');
-        if (! $d->exists("names/{$n}.mp3")) return;
-        $d->delete('names-full.mp3');
-        $d->move("names/{$n}.mp3", 'names-full.mp3');
+        $v = NameVoices::get($this->voice);
+        if (! $d->exists("{$v['dir']}/{$n}.mp3")) return;
+        $d->delete($v['full']);
+        $d->move("{$v['dir']}/{$n}.mp3", $v['full']);
         Notification::make()->title('Saved as the complete 99 Names recitation')->success()->send();
+    }
+
+    /** Upload / replace / remove the complete recitation of the selected voice */
+    public $fullUpload = null;
+
+    public function updatedFullUpload(): void
+    {
+        $this->validate(['fullUpload' => 'file|mimetypes:audio/mpeg,audio/mp3,audio/x-mpeg,audio/mpeg3,audio/x-mp3|max:20480']);
+        $this->fullUpload->storeAs('', NameVoices::get($this->voice)['full'], 'audio');
+        $this->fullUpload = null;
+        Notification::make()->title('Complete recitation saved')->success()->send();
+    }
+
+    public function deleteFull(): void
+    {
+        abort_unless(R::is(R::CONTENT), 403);
+        Storage::disk('audio')->delete(NameVoices::get($this->voice)['full']);
+        Notification::make()->title('Removed')->send();
+    }
+
+    public function fullUrl(): ?string
+    {
+        $f = NameVoices::get($this->voice)['full'];
+        $d = Storage::disk('audio');
+        return $d->exists($f) ? asset("audio/{$f}") . '?v=' . $d->lastModified($f) : null;
+    }
+
+    public function setVoice(string $key): void
+    {
+        $this->voice = array_key_exists($key, NameVoices::ALL) ? $key : 'standard';
     }
 
     public function deleteSound(string $file): void
     {
-        abort_unless(R::is(R::CONTENT) && in_array($file, ['ambient.mp3', 'adhan.mp3', 'adhan-fajr.mp3', 'names-full.mp3'], true), 403);
+        abort_unless(R::is(R::CONTENT) && in_array($file, ['ambient.mp3', 'adhan.mp3', 'adhan-fajr.mp3'], true), 403);
         Storage::disk('audio')->delete($file);
         Notification::make()->title('Removed')->send();
     }
@@ -121,7 +158,7 @@ class AudioFiles extends Page implements HasForms
     public function sounds(): array
     {
         $d = Storage::disk('audio');
-        return collect(['ambient.mp3' => 'Background sound', 'adhan.mp3' => 'Adhan', 'adhan-fajr.mp3' => 'Fajr adhan', 'names-full.mp3' => 'Complete 99 Names'])
+        return collect(['ambient.mp3' => 'Background sound', 'adhan.mp3' => 'Adhan', 'adhan-fajr.mp3' => 'Fajr adhan'])
             ->map(fn ($label, $file) => ['label' => $label, 'file' => $file,
                 'url' => $d->exists($file) ? asset("audio/{$file}") . '?v=' . $d->lastModified($file) : null])->values()->all();
     }
@@ -130,21 +167,33 @@ class AudioFiles extends Page implements HasForms
     public function names(): array
     {
         $d = Storage::disk('audio');
-        return array_map(fn ($x) => $x + ['url' => $d->exists("names/{$x['n']}.mp3")
-            ? asset("audio/names/{$x['n']}.mp3") . '?v=' . $d->lastModified("names/{$x['n']}.mp3") : null], NamesOfAllah::all());
+        $dir = NameVoices::get($this->voice)['dir'];
+        return array_map(fn ($x) => $x + ['url' => $d->exists("{$dir}/{$x['n']}.mp3")
+            ? asset("audio/{$dir}/{$x['n']}.mp3") . '?v=' . $d->lastModified("{$dir}/{$x['n']}.mp3") : null], NamesOfAllah::all());
+    }
+
+    /** Server upload limit in MB (the smaller of PHP's upload_max_filesize and post_max_size) */
+    public function serverLimitMb(): float
+    {
+        $toBytes = function (string $v): int {
+            $v = trim($v);
+            $n = (int) $v;
+            return match (strtolower(substr($v, -1))) { 'g' => $n * 1024 ** 3, 'm' => $n * 1024 ** 2, 'k' => $n * 1024, default => $n };
+        };
+        $limits = array_filter([$toBytes((string) ini_get('upload_max_filesize')), $toBytes((string) ini_get('post_max_size'))]);
+        return $limits ? round(min($limits) / 1024 ** 2, 1) : 0;
     }
 
     /** What is installed, for the status table */
     public function status(): array
     {
         $d = Storage::disk('audio');
-        $names = collect($d->files('names'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 99)->unique();
+
         return [
             'Background sound' => $d->exists('ambient.mp3'),
             'Adhan' => $d->exists('adhan.mp3'),
             'Fajr adhan' => $d->exists('adhan-fajr.mp3'),
-            'Complete 99 Names' => $d->exists('names-full.mp3'),
-            '99 Names' => $names->count() . ' / 99',
+            ...collect(NameVoices::ALL)->mapWithKeys(fn ($v, $k) => ["99 Names — {$v['label']}" => count(NameVoices::recorded($k)) . ' / 99' . ($d->exists($v['full']) ? ' + complete' : '')])->all(),
         ];
     }
 }
