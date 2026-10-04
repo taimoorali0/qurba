@@ -34,6 +34,9 @@ Route::get('/zikr/adhkar/{slug}', [\App\Http\Controllers\AdhkarController::class
 Route::get('/zikr/adhkar-favorites', [\App\Http\Controllers\AdhkarController::class, 'favorites'])->name('adhkar.favorites');
 Route::get('/zikr/tasbeeh', fn () => Inertia::render('Tasbeeh'))->name('zikr.tasbeeh');
 
+// 99 Names of Allah (static, on device)
+Route::get('/names', fn () => Inertia::render('Names'))->name('names');
+
 // Prayer + Qibla (guest access; calculated on the device)
 Route::get('/prayer', fn () => Inertia::render('Prayer'))->name('prayer');
 Route::get('/qibla', fn () => Inertia::render('Qibla'))->name('qibla');

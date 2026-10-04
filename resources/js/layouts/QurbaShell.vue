@@ -3,7 +3,7 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Home, BookOpen, CircleDot, Clock, Compass, GraduationCap, User, ChevronDown, Search } from 'lucide-vue-next';
+import { Home, BookOpen, CircleDot, Clock, Compass, GraduationCap, User, ChevronDown, Search, Sparkles } from 'lucide-vue-next';
 import { useLocale } from '../composables/useLocale';
 import type { QurbaLocale } from '../lib/i18n';
 import AppStatus from '../components/AppStatus.vue';
@@ -27,6 +27,7 @@ const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/lea
 const more = [
   { key: 'prayer', href: '/prayer', icon: Clock },
   { key: 'qibla', href: '/qibla', icon: Compass },
+  { key: 'names', href: '/names', icon: Sparkles },
   { key: 'profile', href: '/profile', icon: User },
 ];
 const moreActive = computed(() => more.some((m) => isActive(m.href)));

@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
-import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
+import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, Sparkles, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { getLastRead, type LastRead } from '../lib/quranLocal';
@@ -27,6 +27,7 @@ const tiles = [
   { key: 'nav.prayer', desc: 'home.d_prayer', href: '/prayer', icon: Clock },
   { key: 'nav.qibla', desc: 'home.d_qibla', href: '/qibla', icon: Compass },
   { key: 'nav.learn', desc: 'home.d_learn', href: '/learn', icon: GraduationCap },
+  { key: 'nav.names', desc: 'names.d', href: '/names', icon: Sparkles },
   { key: 'home.downloads', desc: 'home.d_downloads', href: '/quran/downloads', icon: Download },
 ];
 const lastRead = ref<LastRead | null>(null);
@@ -80,7 +81,7 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
     </section>
 
     <!-- Feature tiles -->
-    <nav class="mt-6 grid grid-cols-4 gap-3 lg:grid-cols-7">
+    <nav class="mt-6 grid grid-cols-4 gap-3 lg:grid-cols-8">
       <Link v-for="tile in tiles" :key="tile.href" :href="tile.href"
         class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] border border-line bg-paper px-2 py-4 text-center transition-colors hover:border-gold-500">
         <span class="grid size-11 place-items-center rounded-full bg-emerald-100/60">
