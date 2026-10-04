@@ -36,7 +36,7 @@ class ContentSourceResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Select::make('type')->options(['quran_text' => 'Quran text', 'translation' => 'Translation', 'audio' => 'Audio', 'adhkar' => 'Adhkar', 'other' => 'Other'])->required(),
+            Forms\Components\Select::make('type')->options(['quran_text' => 'Quran text', 'translation' => 'Translation', 'audio' => 'Audio', 'adhkar' => 'Adhkar', 'tafsir' => 'Tafsir', 'other' => 'Other'])->required(),
             Forms\Components\TextInput::make('name')->required()->maxLength(255),
             Forms\Components\TextInput::make('edition')->maxLength(255),
             Forms\Components\TextInput::make('language_code')->maxLength(10),
@@ -66,7 +66,7 @@ class ContentSourceResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')->options(['pending_review' => 'Pending review', 'approved' => 'Approved', 'rejected' => 'Rejected', 'retired' => 'Retired']),
-                Tables\Filters\SelectFilter::make('type')->options(['quran_text' => 'Quran text', 'translation' => 'Translation', 'audio' => 'Audio', 'adhkar' => 'Adhkar', 'other' => 'Other']),
+                Tables\Filters\SelectFilter::make('type')->options(['quran_text' => 'Quran text', 'translation' => 'Translation', 'audio' => 'Audio', 'adhkar' => 'Adhkar', 'tafsir' => 'Tafsir', 'other' => 'Other']),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

@@ -11,11 +11,13 @@ import { audioPrefs, next as nextAyah, player, prev as prevAyah, setReciter, set
 interface Tr { source_id: number; text: string }
 interface Ayah { n: number; key: string; text: string; translations: Tr[] }
 interface Source { id: number; name: string; author: string | null; language_code: string; status: string }
+interface TafsirSource { id: number; name: string; author: string | null; language_code: string; status: string }
 interface Surah { id: number; name_simple: string; name_arabic: string | null; name_english: string | null; revelation_place: string | null; ayah_count: number }
 
 const props = defineProps<{
   surah: Surah; bismillah: string | null; ayahs: Ayah[]; translation_sources: Source[];
   prev: number | null; next: number | null; surahs: Surah[]; reciters: Reciter[];
+  tafsir_sources?: TafsirSource[];
 }>();
 const { t } = useI18n();
 
@@ -56,6 +58,29 @@ async function share(a: Ayah) {
   } catch { /* cancelled */ }
 }
 const copied = ref('');
+
+// ---- Tafsir: fetched per surah when the tab is open ----
+const tafsirSources = computed(() => props.tafsir_sources ?? []);
+const tafsir = computed(() => tafsirSources.value.find((x) => x.id === readerSettings.tafsirId) ?? tafsirSources.value[0] ?? null);
+const tafsirRows = ref<{ n: number; text: string }[]>([]);
+const tafsirState = ref<'idle' | 'loading' | 'error'>('idle');
+const tafsirCache = new Map<string, { n: number; text: string }[]>();
+async function loadTafsir() {
+  if (tab.value !== 'tafsir' || !tafsir.value) return;
+  const key = `${tafsir.value.id}:${props.surah.id}`;
+  if (tafsirCache.has(key)) { tafsirRows.value = tafsirCache.get(key)!; tafsirState.value = 'idle'; return; }
+  tafsirState.value = 'loading';
+  try {
+    const res = await fetch(`/api/v1/quran/tafsir/${tafsir.value.id}/${props.surah.id}`, { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error(String(res.status));
+    const rows = (await res.json()).data as { n: number; text: string }[];
+    tafsirCache.set(key, rows);
+    if (key === `${tafsir.value?.id}:${props.surah.id}`) { tafsirRows.value = rows; tafsirState.value = 'idle'; }
+  } catch { tafsirState.value = 'error'; }
+}
+watch([tab, () => props.surah.id, () => tafsir.value?.id], loadTafsir, { immediate: true });
+const ayahText = (n: number) => props.ayahs.find((a) => a.n === n)?.text ?? '';
+const isUrdu = (lang?: string) => lang === 'ur';
 
 const place = (s: Surah) => s.revelation_place ? t('quran.' + s.revelation_place) : '';
 
@@ -257,10 +282,37 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
           </p>
         </div>
 
-        <!-- TAFSIR: no verified source yet -->
-        <div v-else class="mt-6 rounded-[var(--radius-sheet)] border border-line bg-paper px-6 py-10 text-center text-ink-soft">
+        <!-- TAFSIR -->
+        <div v-else-if="!tafsir" class="mt-6 rounded-[var(--radius-sheet)] border border-line bg-paper px-6 py-10 text-center text-ink-soft">
           {{ t('quran.tafsirSoon') }}
         </div>
+        <section v-else class="mt-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <p class="text-sm text-ink-soft">
+              <span class="font-medium text-ink">{{ tafsir.name }}</span><template v-if="tafsir.author"> · {{ tafsir.author }}</template>
+            </p>
+            <select v-if="tafsirSources.length > 1" v-model.number="readerSettings.tafsirId" :aria-label="t('quran.tafsir')"
+              class="rounded-full border-line bg-paper py-1.5 pe-8 ps-3 text-sm">
+              <option v-for="x in tafsirSources" :key="x.id" :value="x.id">{{ x.name }} ({{ x.language_code }})</option>
+            </select>
+          </div>
+          <p v-if="tafsirState === 'loading'" class="mt-6 flex items-center gap-2 text-ink-soft"><Loader2 class="size-4 animate-spin" /> {{ t('quran.tafsirLoading') }}</p>
+          <p v-else-if="tafsirState === 'error'" class="mt-6 rounded-xl bg-gold-200/50 px-4 py-3 text-sm text-ink">{{ t('quran.tafsirError') }}
+            <button class="ms-2 underline" @click="loadTafsir">{{ t('quran.retry') }}</button></p>
+          <p v-else-if="!tafsirRows.length" class="mt-6 text-ink-soft">{{ t('quran.tafsirEmpty') }}</p>
+          <ol v-else class="mt-4 rounded-[var(--radius-sheet)] border border-line bg-paper px-4 md:px-8">
+            <li v-for="r in tafsirRows" :id="`ayah-${r.n}`" :key="r.n" :data-n="r.n" class="scroll-mt-48 border-b border-line py-7 last:border-0">
+              <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs text-emerald-900">{{ surah.id }}:{{ r.n }}</span>
+              <p dir="rtl" lang="ar" class="mt-3 font-quran text-emerald-900" :style="{ fontSize: readerSettings.fontSize * 0.85 + 'rem', lineHeight: 2.2 }">
+                {{ ayahText(r.n) }} <span class="whitespace-nowrap text-gold-600">﴿{{ toArabicDigits(r.n) }}﴾</span>
+              </p>
+              <p :dir="isRtl(tafsir.language_code) ? 'rtl' : 'ltr'" :lang="tafsir.language_code"
+                class="mt-4 whitespace-pre-line text-ink"
+                :class="isUrdu(tafsir.language_code) ? 'font-[Noto_Nastaliq_Urdu] text-[1.05rem] leading-[2.4]' : 'leading-relaxed'">{{ r.text }}</p>
+            </li>
+          </ol>
+          <p v-if="tafsir.status !== 'approved'" class="mt-3 text-xs text-ink-soft">{{ t('quran.devReview') }}</p>
+        </section>
 
         <!-- Prev / next surah -->
         <nav class="mt-8 flex justify-between gap-3">

@@ -82,7 +82,11 @@
     "empty": "Quran content is not available yet. Please check back soon.",
     "surah": "Surah",
     "share": "Share",
-    "copied": "Copied"
+    "copied": "Copied",
+    "tafsirLoading": "Loading tafsir…",
+    "tafsirError": "Tafsir could not load. Check your connection.",
+    "retry": "Try again",
+    "tafsirEmpty": "No commentary for this surah in this tafsir."
   },
   "tasbeeh": {
     "counter": "Counter",

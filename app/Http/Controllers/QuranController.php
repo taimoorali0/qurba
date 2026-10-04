@@ -6,6 +6,7 @@ use App\Models\ContentSource;
 use App\Models\QuranAyah;
 use App\Models\QuranReciter;
 use App\Models\QuranSurah;
+use App\Models\QuranTafsir;
 use App\Models\QuranTranslation;
 use App\Support\Quran\ArabicNormalizer;
 use Illuminate\Http\JsonResponse;
@@ -32,6 +33,14 @@ class QuranController extends Controller
         return ContentSource::where('type', 'translation')
             ->when($this->reviewedOnly(), fn ($q) => $q->where('status', 'approved'))
             ->orderBy('language_code')
+            ->get(['id', 'name', 'author', 'language_code', 'status']);
+    }
+
+    private function tafsirSources()
+    {
+        return ContentSource::where('type', 'tafsir')
+            ->when($this->reviewedOnly(), fn ($q) => $q->where('status', 'approved'))
+            ->orderBy('language_code')->orderBy('name')
             ->get(['id', 'name', 'author', 'language_code', 'status']);
     }
 
@@ -89,6 +98,7 @@ class QuranController extends Controller
                     ->map(fn ($t) => ['source_id' => $t->content_source_id, 'text' => $t->text])->values(),
             ]),
             'translation_sources' => $sources,
+            'tafsir_sources' => $this->tafsirSources(),
             'reciters' => $this->reciters(),
             'prev' => $id > 1 ? $id - 1 : null,
             'next' => $id < 114 ? $id + 1 : null,
@@ -117,6 +127,16 @@ class QuranController extends Controller
     {
         abort_unless($surah >= 1 && $surah <= 114, 404);
         return response()->json(['data' => $this->surahPayload($surah)]);
+    }
+
+    /** One surah of one tafsir edition (loaded when the Tafsir tab opens) */
+    public function apiTafsir(int $source, int $surah): JsonResponse
+    {
+        abort_unless($surah >= 1 && $surah <= 114, 404);
+        abort_unless($this->tafsirSources()->contains('id', $source), 404);
+        $rows = QuranTafsir::where('content_source_id', $source)->where('surah_id', $surah)
+            ->orderBy('ayah_number')->get(['ayah_number as n', 'text']);
+        return response()->json(['data' => $rows])->header('Cache-Control', 'public, max-age=86400');
     }
 
     public function apiSearch(Request $request): JsonResponse
