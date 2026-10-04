@@ -15,7 +15,7 @@ function load(): Settings {
   try { const v = localStorage.getItem('qurba.reminders'); return v ? { ...d, ...JSON.parse(v) } : d; } catch { return d; }
 }
 export const rem = reactive<Settings>(load());
-watch(rem, (v) => { try { localStorage.setItem('qurba.reminders', JSON.stringify(v)); } catch {} }, { deep: true });
+watch(rem, (v) => { try { localStorage.setItem('qurba.reminders', JSON.stringify(v)); localStorage.setItem('qurba.remindersAt', String(Date.now())); localStorage.setItem('qurba.syncDirty', '1'); } catch {} }, { deep: true });
 
 export type Support = 'ok' | 'unsupported' | 'ios-install' | 'needs-build' | 'denied';
 export function support(): Support {
