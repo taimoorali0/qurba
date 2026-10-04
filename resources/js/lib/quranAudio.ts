@@ -76,7 +76,7 @@ export function start(surah: number, ayah: number, total: number) {
 export function toggle() {
   const e = audio();
   if (!e.src) return;
-  e.paused ? e.play() : e.pause();
+  if (e.paused) e.play(); else e.pause();
 }
 export function stop() { el?.pause(); player.playing = false; player.surah = 0; player.ayah = 0; }
 export function next() { if (player.ayah < player.total) load_(player.surah, player.ayah + 1); }

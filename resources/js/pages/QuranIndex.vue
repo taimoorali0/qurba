@@ -63,6 +63,7 @@ const filtered = computed(() => {
         </Link>
       </li>
     </ul>
-    <p v-if="!filtered.length" class="mt-10 text-center text-ink-soft">{{ t('quran.noMatch') }}</p>
+    <p v-if="!surahs.length" class="mt-10 text-center text-ink-soft">{{ t('quran.empty') }}</p>
+    <p v-else-if="!filtered.length" class="mt-10 text-center text-ink-soft">{{ t('quran.noMatch') }}</p>
   </QurbaShell>
 </template>

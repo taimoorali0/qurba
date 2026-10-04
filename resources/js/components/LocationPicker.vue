@@ -26,7 +26,7 @@ function pickCity(e: Event) { const c = CITIES.find((x) => x.label === (e.target
       <button class="inline-flex items-center gap-2 rounded-full bg-emerald-900 px-4 py-1.5 text-cream disabled:opacity-50" :disabled="loc.busy" @click="useDevice">
         <LocateFixed class="size-4" /> {{ loc.busy ? t('loc.locating') : t('loc.useDevice') }}
       </button>
-      <button class="rounded-full border border-line px-4 py-1.5" @click="showManual = !showManual">{{ t('loc.change') }}</button>
+      <button v-if="loc.place" class="rounded-full border border-line px-4 py-1.5" @click="showManual = !showManual">{{ t('loc.change') }}</button>
     </div>
     <p v-if="loc.error" class="mt-3 rounded-xl bg-gold-200/50 px-3 py-2 text-xs text-ink">{{ t('loc.err_' + loc.error) }}</p>
 
@@ -41,8 +41,8 @@ function pickCity(e: Event) { const c = CITIES.find((x) => x.label === (e.target
       <div>
         <span class="text-xs text-ink-soft">{{ t('loc.coords') }}</span>
         <div class="mt-1 flex gap-2">
-          <input v-model.number="lat" type="number" step="0.0001" placeholder="Lat" class="w-full rounded-full border-line py-1.5 text-sm" />
-          <input v-model.number="lng" type="number" step="0.0001" placeholder="Lng" class="w-full rounded-full border-line py-1.5 text-sm" />
+          <input v-model.number="lat" type="number" step="0.0001" :placeholder="t('loc.lat')" :aria-label="t('loc.lat')" class="w-full rounded-full border-line py-1.5 text-sm" />
+          <input v-model.number="lng" type="number" step="0.0001" :placeholder="t('loc.lng')" :aria-label="t('loc.lng')" class="w-full rounded-full border-line py-1.5 text-sm" />
           <button class="rounded-full bg-gold-500 px-3 text-emerald-950" @click="saveCoords">{{ t('loc.set') }}</button>
         </div>
         <p v-if="coordErr" class="mt-1 text-xs text-red-700">{{ t('loc.badCoords') }}</p>

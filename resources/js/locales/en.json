@@ -60,7 +60,8 @@
     "sleep": "Sleep timer",
     "sleepOff": "Sleep off",
     "audioDev": "Development audio, licence pending",
-    "audioError": "Audio could not load. Check your connection."
+    "audioError": "Audio could not load. Check your connection.",
+    "empty": "Quran content is not available yet. Please check back soon."
   },
   "tasbeeh": {
     "counter": "Counter",
@@ -106,7 +107,9 @@
     "badCoords": "Latitude must be −90 to 90 and longitude −180 to 180.",
     "err_denied": "Location permission was denied. Choose a city or enter coordinates instead.",
     "err_unavailable": "Your location could not be found. Choose a city or enter coordinates.",
-    "err_unsupported": "This browser cannot share location. Choose a city instead."
+    "err_unsupported": "This browser cannot share location. Choose a city instead.",
+    "lat": "Latitude",
+    "lng": "Longitude"
   },
   "prayer": {
     "fajr": "Fajr",

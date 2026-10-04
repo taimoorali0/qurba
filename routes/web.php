@@ -7,7 +7,8 @@ use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('Home'))->name('home');
 
-Route::get('dashboard', fn () => Inertia::render('Dashboard'))
+// Post-login landing: send account users to the Qurba profile, not the starter dashboard
+Route::get('dashboard', fn () => redirect()->route('profile'))
     ->middleware(['auth', 'verified'])->name('dashboard');
 
 // Quran (guest access)

@@ -38,7 +38,7 @@ watch(reciter, (r) => { setReciter(r); if (r) audioPrefs.reciterId = r.id; }, { 
 const isThisSurah = computed(() => player.surah === props.surah.id);
 const playingAyah = computed(() => (isThisSurah.value && !player.inBismillah ? player.ayah : 0));
 function playFrom(n: number) { if (reciter.value) start(props.surah.id, n, props.surah.ayah_count); }
-function mainButton() { isThisSurah.value ? toggle() : playFrom(1); }
+function mainButton() { if (isThisSurah.value) toggle(); else playFrom(1); }
 const repeatNext = { off: 'ayah', ayah: 'surah', surah: 'off' } as const;
 watch(playingAyah, async (n) => {
   if (!n) return;
