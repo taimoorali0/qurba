@@ -98,6 +98,29 @@ class AdhkarResource extends Resource
                     }),
                 Tables\Actions\DeleteAction::make(),
             ])
+            ->bulkActions([
+                Tables\Actions\BulkAction::make('approveSelected')->label('Approve selected')->icon('heroicon-o-check-badge')->color('success')
+                    ->visible(fn () => R::is(R::REVIEWER))
+                    ->requiresConfirmation()
+                    ->modalDescription('Confirm you have checked the Arabic text, translation(s), repetitions and reference of every selected item.')
+                    ->form([Forms\Components\Textarea::make('note')->label('Review note')->required()])
+                    ->deselectRecordsAfterCompletion()
+                    ->action(function (\Illuminate\Database\Eloquent\Collection $records, array $data) {
+                        $n = 0;
+                        Adhkar::$approving = true;
+                        try {
+                            foreach ($records as $record) {
+                                if ($record->status === 'approved') continue;
+                                $record->update(['status' => 'approved']);
+                                ContentAuditLog::record($record, 'approved', null, ['note' => $data['note']]);
+                                $n++;
+                            }
+                        } finally {
+                            Adhkar::$approving = false;
+                        }
+                        Notification::make()->title("{$n} approved")->success()->send();
+                    }),
+            ])
             ->defaultSort('sort')
             ->reorderable('sort');
     }

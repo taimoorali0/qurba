@@ -1,0 +1,132 @@
+// ===== QURBA: app sounds — soft background audio, adhan at prayer time, 99 Names recitations =====
+// Audio files are not bundled: add licensed recordings under public/audio/ (see public/audio/README.md).
+import { reactive, watch } from 'vue';
+import { loc } from './location';
+import { timesFor } from './prayer';
+import { player as quranPlayer } from './quranAudio';
+import { rem } from './reminders';
+
+export const FILES = {
+  ambient: '/audio/ambient.mp3',
+  adhan: '/audio/adhan.mp3',
+  adhanFajr: '/audio/adhan-fajr.mp3',
+  name: (n: number) => `/audio/names/${n}.mp3`,
+};
+
+interface Prefs { ambientOn: boolean; volume: number; muted: boolean; adhanOn: boolean }
+function load(): Prefs {
+  const d: Prefs = { ambientOn: true, volume: 0.25, muted: false, adhanOn: true };
+  try { const v = localStorage.getItem('qurba.sounds'); return v ? { ...d, ...JSON.parse(v) } : d; } catch { return d; }
+}
+export const soundPrefs = reactive<Prefs>(load());
+watch(soundPrefs, (v) => { try { localStorage.setItem('qurba.sounds', JSON.stringify(v)); } catch {} }, { deep: true });
+
+export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as boolean | null, adhanPlaying: '', namePlaying: 0 });
+
+// ---- File availability (checked once per URL) ----
+const known = new Map<string, Promise<boolean>>();
+export function hasFile(url: string): Promise<boolean> {
+  if (!known.has(url)) {
+    known.set(url, fetch(url, { method: 'HEAD' }).then((r) => r.ok && (r.headers.get('content-type') ?? '').startsWith('audio')).catch(() => false));
+  }
+  return known.get(url)!;
+}
+
+// ---- Background (ambient) audio: loops softly, starts on the first tap (browsers block autoplay) ----
+let ambient: HTMLAudioElement | null = null;
+let fade: number | undefined;
+const targetVolume = () => (soundPrefs.muted ? 0 : soundPrefs.volume);
+
+function fadeTo(v: number, done?: () => void) {
+  clearInterval(fade);
+  fade = window.setInterval(() => {
+    if (!ambient) return clearInterval(fade);
+    const step = 0.02;
+    const cur = ambient.volume;
+    if (Math.abs(cur - v) <= step) { ambient.volume = v; clearInterval(fade); done?.(); return; }
+    ambient.volume = Math.max(0, Math.min(1, cur + (v > cur ? step : -step)));
+  }, 60);
+}
+
+export async function playAmbient() {
+  if (!(await hasFile(FILES.ambient))) { sound.ambientAvailable = false; return; }
+  sound.ambientAvailable = true;
+  if (!ambient) { ambient = new Audio(FILES.ambient); ambient.loop = true; ambient.volume = 0; }
+  try { await ambient.play(); sound.ambientPlaying = true; fadeTo(targetVolume()); } catch { sound.ambientPlaying = false; }
+}
+export function pauseAmbient() {
+  if (!ambient) return;
+  fadeTo(0, () => { ambient?.pause(); });
+  sound.ambientPlaying = false;
+}
+export function toggleAmbient() {
+  if (sound.ambientPlaying) { soundPrefs.ambientOn = false; pauseAmbient(); } else { soundPrefs.ambientOn = true; playAmbient(); }
+}
+watch(() => [soundPrefs.volume, soundPrefs.muted], () => { if (ambient && sound.ambientPlaying) fadeTo(targetVolume()); });
+
+// Quran recitation, adhan and name recitations take priority over the background sound
+let resumeLater = false;
+const busy = () => quranPlayer.playing || !!sound.adhanPlaying || !!sound.namePlaying;
+watch(busy, (b) => {
+  if (b && sound.ambientPlaying) { pauseAmbient(); resumeLater = true; }
+  else if (!b && resumeLater && soundPrefs.ambientOn) { resumeLater = false; playAmbient(); }
+});
+
+// ---- One-shot audio (adhan, a name) ----
+let oneShot: HTMLAudioElement | null = null;
+function playOnce(url: string, onEnd: () => void): Promise<boolean> {
+  oneShot?.pause();
+  oneShot = new Audio(url);
+  oneShot.volume = soundPrefs.muted ? 0 : 1;
+  oneShot.addEventListener('ended', onEnd);
+  oneShot.addEventListener('error', onEnd);
+  return oneShot.play().then(() => true).catch(() => { onEnd(); return false; });
+}
+export function stopOneShot() { oneShot?.pause(); sound.adhanPlaying = ''; sound.namePlaying = 0; }
+
+/** Plays the adhan (a separate Fajr adhan is used when provided). Returns false if no file or the browser blocked it. */
+export async function playAdhan(prayer: string): Promise<boolean> {
+  const url = prayer === 'fajr' && (await hasFile(FILES.adhanFajr)) ? FILES.adhanFajr : FILES.adhan;
+  if (!(await hasFile(url))) return false;
+  sound.adhanPlaying = prayer;
+  return playOnce(url, () => { sound.adhanPlaying = ''; });
+}
+
+/** Plays one of the 99 Names; resolves false if the recording is missing. */
+export async function playName(n: number, onEnd?: () => void): Promise<boolean> {
+  if (!(await hasFile(FILES.name(n)))) return false;
+  sound.namePlaying = n;
+  return playOnce(FILES.name(n), () => { sound.namePlaying = 0; onEnd?.(); });
+}
+
+// ---- Adhan while the app is open: checks every 20 seconds ----
+const FARD = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+function checkAdhan() {
+  if (!soundPrefs.adhanOn || !loc.place) return;
+  const now = Date.now();
+  for (const p of timesFor(loc.place, new Date())) {
+    if (!FARD.includes(p.name) || rem.prayers[p.name] === false) continue;
+    const diff = now - p.time.getTime();
+    const key = `qurba.adhan.${p.time.toISOString()}`;
+    if (diff >= 0 && diff < 60_000 && !sessionStorage.getItem(key)) {
+      sessionStorage.setItem(key, '1');
+      playAdhan(p.name);
+    }
+  }
+}
+
+let started = false;
+/** Call once from the app shell. */
+export function initSounds() {
+  if (started || typeof window === 'undefined') return;
+  started = true;
+  const firstTap = () => {
+    window.removeEventListener('pointerdown', firstTap);
+    window.removeEventListener('keydown', firstTap);
+    if (soundPrefs.ambientOn && !busy()) playAmbient();
+  };
+  window.addEventListener('pointerdown', firstTap);
+  window.addEventListener('keydown', firstTap);
+  window.setInterval(checkAdhan, 20_000);
+  checkAdhan();
+}

@@ -86,7 +86,9 @@
     "tafsirLoading": "Loading tafsir…",
     "tafsirError": "Tafsir could not load. Check your connection.",
     "retry": "Try again",
-    "tafsirEmpty": "No commentary for this surah in this tafsir."
+    "tafsirEmpty": "No commentary for this surah in this tafsir.",
+    "autoNext": "Auto-play next surah",
+    "matchLanguage": "Match app language"
   },
   "tasbeeh": {
     "counter": "Counter",
@@ -315,6 +317,25 @@
     "markMemorised": "Mark memorised",
     "none": "No name matches your search.",
     "source": "Order as narrated in Jami' at-Tirmidhi 3507. English meanings are common renderings.",
-    "d": "Learn and memorise"
+    "d": "Learn and memorise",
+    "playAll": "Play all",
+    "stop": "Stop",
+    "listen": "Listen to"
+  },
+  "sound": {
+    "title": "Sounds",
+    "background": "Soft background sound",
+    "play": "Play",
+    "pause": "Pause",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume",
+    "missing": "No background sound has been added yet.",
+    "adhanOn": "Play adhan at prayer time",
+    "testAdhan": "Test adhan",
+    "stopAdhan": "Stop adhan",
+    "adhanMissing": "No adhan recording added yet.",
+    "adhanNote": "The adhan plays while Qurba is open. With reminders on, tapping the prayer notification opens Qurba and plays it.",
+    "playAdhan": "Play adhan"
   }
 }
