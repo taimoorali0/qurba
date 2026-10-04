@@ -17,7 +17,7 @@ async function download() {
   const paths = ['/quran', ...Array.from({ length: 114 }, (_, i) => `/quran/${i + 1}`)];
   await warmUp(paths, (d) => (progress.value = Math.round((d / paths.length) * 100)));
   saved.value = { at: Date.now() };
-  try { localStorage.setItem('qurba.offlineQuran', JSON.stringify(saved.value)); } catch {}
+  try { localStorage.setItem('qurba.offlineQuran', JSON.stringify(saved.value)); localStorage.setItem('qurba.downloads', JSON.stringify([{ type: 'quran_text', reference: 'all-surahs' }])); localStorage.setItem('qurba.downloadsAt', String(Date.now())); localStorage.setItem('qurba.syncDirty', '1'); } catch {}
   busy.value = false;
 }
 </script>
