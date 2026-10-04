@@ -68,3 +68,13 @@ it('lists installed sounds in the audio manifest', function () {
     $this->getJson('/api/v1/audio-manifest')->assertOk()
         ->assertJson(['ambient' => false, 'adhan' => true, 'adhanFajr' => false, 'names' => [3]]);
 });
+
+it('moves a full recitation from a name slot to the complete-recitation slot', function () {
+    Storage::fake('audio');
+    Storage::disk('audio')->put('names/99.mp3', 'full');
+    $this->actingAs(audioAdmin('content_admin'));
+    Livewire::test(AudioFiles::class)->call('useAsFull', 99);
+    Storage::disk('audio')->assertMissing('names/99.mp3');
+    expect(Storage::disk('audio')->get('names-full.mp3'))->toBe('full');
+    $this->getJson('/api/v1/audio-manifest')->assertJson(['namesFull' => true, 'names' => []]);
+});

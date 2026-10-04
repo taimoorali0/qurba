@@ -29,3 +29,4 @@ yarn-error.log
 /public/audio/adhan*.mp3
 /public/audio/names/*.mp3
 /public/audio/duas/*.mp3
+/public/audio/names-full.mp3
