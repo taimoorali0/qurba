@@ -28,6 +28,7 @@ class SyncController extends Controller
             'tasbeeh.custom' => 'array|max:200',
             'tasbeeh.removed' => 'array|max:200',
             'tasbeeh.daily' => 'array|max:400',
+            'adhkar' => 'array', 'reminders' => 'array', 'downloads' => 'array', 'listening' => 'array',
         ]);
         $u = $request->user();
         $now = now();
@@ -136,6 +137,20 @@ class SyncController extends Controller
                 }
             }
 
+            // ---- Extensible local-first state (LWW by client timestamp) ----
+            foreach (['adhkar', 'reminders', 'downloads', 'listening'] as $section) {
+                $snapshot = $request->input($section);
+                if (! is_array($snapshot)) continue;
+                $clientAt = max(0, (int) ($snapshot['t'] ?? 0));
+                $row = DB::table('user_sync_states')->where(['user_id' => $u->id, 'section' => $section])->first();
+                if (! $row || $clientAt >= (int) $row->client_updated_at) {
+                    DB::table('user_sync_states')->updateOrInsert(
+                        ['user_id' => $u->id, 'section' => $section],
+                        ['payload' => json_encode($snapshot, JSON_UNESCAPED_UNICODE), 'client_updated_at' => $clientAt, 'updated_at' => $now, 'created_at' => $row->created_at ?? $now]
+                    );
+                }
+            }
+
             DB::table('sync_logs')->insert(['user_id' => $u->id, 'status' => 'success', 'synced_at' => $now, 'created_at' => $now, 'updated_at' => $now,
                 'pushed' => count((array) $request->input('bookmarks', [])) + count((array) $request->input('tasbeeh.sessions', []))]);
         });
@@ -151,6 +166,10 @@ class SyncController extends Controller
         $prefs = DB::table('user_preferences')->where('user_id', $uid)->first();
         $prayer = DB::table('prayer_preferences')->where('user_id', $uid)->first();
         $progress = DB::table('quran_progress')->where('user_id', $uid)->first();
+
+        $snapshots = DB::table('user_sync_states')->where('user_id', $uid)->get()->mapWithKeys(
+            fn ($s) => [$s->section => json_decode($s->payload, true)]
+        );
 
         return [
             'bookmarks' => DB::table('quran_bookmarks')->where('user_id', $uid)->get(['ayah_key', 'deleted_at', 'updated_at'])
@@ -181,6 +200,10 @@ class SyncController extends Controller
             'consents' => DB::table('user_consents')->where('user_id', $uid)->orderBy('id')->get(['consent_type', 'granted'])
                 ->mapWithKeys(fn ($c) => [$c->consent_type => (bool) $c->granted]),
             'devices' => DB::table('user_devices')->where('user_id', $uid)->orderByDesc('last_synced_at')->get(['id', 'device_uuid', 'name', 'platform', 'last_synced_at']),
+            'adhkar' => $snapshots['adhkar'] ?? null,
+            'reminders' => $snapshots['reminders'] ?? null,
+            'downloads' => $snapshots['downloads'] ?? null,
+            'listening' => $snapshots['listening'] ?? null,
         ];
     }
 
@@ -188,7 +211,7 @@ class SyncController extends Controller
     {
         $uid = $request->user()->id;
         $tables = ['user_preferences', 'user_consents', 'user_devices', 'quran_bookmarks', 'quran_progress', 'quran_listening_progress',
-            'downloads', 'zikr_types', 'zikr_sessions', 'zikr_daily_totals', 'user_adhkar_progress', 'prayer_preferences', 'reminders', 'sync_logs'];
+            'downloads', 'zikr_types', 'zikr_sessions', 'zikr_daily_totals', 'user_adhkar_progress', 'prayer_preferences', 'reminders', 'sync_logs', 'user_sync_states'];
         $out = ['exported_at' => now()->toIso8601String(), 'user' => $request->user()->only(['name', 'email', 'created_at'])];
         foreach ($tables as $t) {
             $out[$t] = DB::table($t)->where('user_id', $uid)->get()->map(fn ($r) => collect((array) $r)->except(['user_id', 'push_subscription']));
