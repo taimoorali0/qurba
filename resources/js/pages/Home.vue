@@ -1,84 +1,108 @@
-<!-- ===== QURBA HOME — START ===== -->
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin } from 'lucide-vue-next';
-import { onMounted, ref } from 'vue';
+import { BookOpen, Sun, CircleDot, Clock3, Compass, GraduationCap, ArrowRight, MapPin } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { getLastRead, type LastRead } from '../lib/quranLocal';
 import { loc } from '../lib/location';
 import { countdown, fmtTime, nextPrayer } from '../lib/prayer';
-import { computed, onBeforeUnmount } from 'vue';
 
 const { t, locale } = useI18n();
 const now = ref(new Date());
+const lastRead = ref<LastRead | null>(null);
 let tick: number | undefined;
-onMounted(() => { tick = window.setInterval(() => (now.value = new Date()), 30000); });
+
+onMounted(() => {
+  lastRead.value = getLastRead();
+  tick = window.setInterval(() => (now.value = new Date()), 30000);
+});
 onBeforeUnmount(() => clearInterval(tick));
-const next = computed(() => (loc.place ? nextPrayer(loc.place, now.value) : null));
-const tiles = [
-  { key: 'nav.quran', href: '/quran', icon: BookOpen },
+
+const next = computed(() => loc.place ? nextPrayer(loc.place, now.value) : null);
+const secondary = [
   { key: 'home.adhkar', href: '/zikr', icon: Sun },
   { key: 'home.tasbeeh', href: '/zikr/tasbeeh', icon: CircleDot },
-  { key: 'nav.prayer', href: '/prayer', icon: Clock },
   { key: 'nav.qibla', href: '/qibla', icon: Compass },
   { key: 'nav.learn', href: '/learn', icon: GraduationCap },
-  { key: 'home.downloads', href: '/quran/downloads', icon: Download },
 ];
-const lastRead = ref<LastRead | null>(null);
-onMounted(() => { lastRead.value = getLastRead(); });
 </script>
 
 <template>
   <Head title="Qurba" />
   <QurbaShell>
-    <section class="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-      <div>
-        <h1 class="font-display text-3xl text-emerald-900 md:text-5xl">{{ t('home.greeting') }}</h1>
-        <p class="mt-2 text-ink-soft">{{ t('home.sub') }}</p>
+    <section class="mb-7">
+      <p class="qurba-eyebrow">{{ t('home.sub') }}</p>
+      <h1 class="qurba-title mt-2 max-w-3xl text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{{ t('home.greeting') }}</h1>
+    </section>
 
-        <!-- Next prayer -->
-        <div class="mt-6 rounded-[var(--radius-sheet)] bg-emerald-900 p-6 text-cream">
-          <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
-          <template v-if="next && loc.place">
-            <p class="mt-2 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, loc.place.tz, locale) }}</span></p>
-            <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }} · {{ loc.place.label }}</p>
-            <Link href="/prayer" class="mt-5 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-medium text-emerald-950">{{ t('nav.prayer') }}</Link>
-          </template>
-          <template v-else>
-            <p class="mt-3 max-w-sm text-lg">{{ t('home.setLocation') }}</p>
-            <Link href="/prayer" class="mt-5 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-medium text-emerald-950">
-              <MapPin class="size-4" /> {{ t('home.setLocationBtn') }}
+    <section class="grid gap-4 lg:grid-cols-[1.35fr_.85fr]">
+      <div class="relative overflow-hidden rounded-[2rem] bg-emerald-950 p-6 text-white shadow-[0_24px_60px_rgba(11,59,45,.18)] sm:p-8">
+        <div class="pointer-events-none absolute -end-16 -top-20 size-64 rounded-full border border-white/10"></div>
+        <div class="pointer-events-none absolute -end-6 -top-6 size-40 rounded-full border border-[#c49e4b]/25"></div>
+        <div class="relative flex min-h-[250px] flex-col justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[.14em] text-[#e2c77d]">{{ t('home.nextPrayer') }}</p>
+            <template v-if="next && loc.place">
+              <div class="mt-5 flex flex-wrap items-end gap-x-5 gap-y-2">
+                <h2 class="qurba-title text-5xl text-white sm:text-6xl">{{ t('prayer.' + next.name) }}</h2>
+                <p class="pb-1 text-2xl font-semibold text-[#e2c77d]">{{ fmtTime(next.time, loc.place.tz, locale) }}</p>
+              </div>
+              <p class="mt-3 text-sm text-white/65">{{ t('prayer.in', { t: countdown(next.time, now) }) }} · {{ loc.place.label }}</p>
+            </template>
+            <template v-else>
+              <h2 class="qurba-title mt-5 max-w-xl text-4xl text-white">{{ t('home.setLocation') }}</h2>
+              <p class="mt-3 max-w-lg text-sm leading-6 text-white/60">{{ t('home.sub') }}</p>
+            </template>
+          </div>
+          <div class="mt-8">
+            <Link href="/prayer" class="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#d1ad5a] px-4 py-2.5 text-sm font-bold text-emerald-950">
+              <Clock3 v-if="loc.place" class="size-4" /><MapPin v-else class="size-4" />
+              {{ loc.place ? t('nav.prayer') : t('home.setLocationBtn') }}
             </Link>
-          </template>
+          </div>
         </div>
       </div>
 
-      <div class="rounded-[var(--radius-sheet)] border border-line bg-paper p-6">
-        <h2 class="font-display text-xl text-emerald-900">{{ t('home.continue') }}</h2>
-        <template v-if="lastRead">
-          <p class="mt-2 text-lg text-ink">{{ lastRead.name }}</p>
-          <p class="text-sm text-ink-soft">{{ t('quran.ayah') }} {{ lastRead.ayah }}</p>
-          <Link :href="`/quran/${lastRead.surah}#ayah-${lastRead.ayah}`" class="mt-5 inline-flex rounded-full bg-emerald-900 px-5 py-2 text-sm text-cream">
-            {{ t('quran.resume') }}
-          </Link>
-        </template>
-        <template v-else>
-          <p class="mt-2 text-sm text-ink-soft">{{ t('home.continueEmpty') }}</p>
-          <Link href="/quran" class="mt-5 inline-flex rounded-full border border-emerald-900 px-5 py-2 text-sm text-emerald-900">
-            {{ t('home.startReading') }}
-          </Link>
-        </template>
+      <div class="qurba-surface flex min-h-[250px] flex-col justify-between rounded-[2rem] p-6 sm:p-7">
+        <div>
+          <div class="flex items-center justify-between">
+            <span class="grid size-11 place-items-center rounded-2xl bg-emerald-100 text-emerald-950"><BookOpen class="size-5" /></span>
+            <span class="text-xs font-semibold text-ink-soft">{{ t('nav.quran') }}</span>
+          </div>
+          <p class="qurba-eyebrow mt-7">{{ t('home.continue') }}</p>
+          <template v-if="lastRead">
+            <h2 class="qurba-title mt-2 text-3xl">{{ lastRead.name }}</h2>
+            <p class="mt-1 text-sm text-ink-soft">{{ t('quran.ayah') }} {{ lastRead.ayah }}</p>
+          </template>
+          <template v-else>
+            <h2 class="qurba-title mt-2 text-3xl">{{ t('home.startReading') }}</h2>
+            <p class="mt-2 text-sm leading-6 text-ink-soft">{{ t('home.continueEmpty') }}</p>
+          </template>
+        </div>
+        <Link :href="lastRead ? `/quran/${lastRead.surah}#ayah-${lastRead.ayah}` : '/quran'"
+          class="mt-7 flex items-center justify-between rounded-xl border border-emerald-950/10 bg-white/70 px-4 py-3 text-sm font-semibold text-emerald-950">
+          <span>{{ lastRead ? t('quran.resume') : t('home.startReading') }}</span><ArrowRight class="size-4 rtl:rotate-180" />
+        </Link>
       </div>
     </section>
 
-    <nav class="mt-8 grid grid-cols-4 gap-3 sm:grid-cols-7">
-      <Link v-for="tile in tiles" :key="tile.href" :href="tile.href"
-        class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] border border-line bg-paper px-2 py-4 text-center text-xs transition-colors hover:border-gold-500">
-        <component :is="tile.icon" class="size-6 text-emerald-700 group-hover:text-emerald-900" :stroke-width="1.6" />
-        {{ t(tile.key) }}
-      </Link>
-    </nav>
+    <section class="mt-8">
+      <div class="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <p class="qurba-eyebrow">Daily essentials</p>
+          <h2 class="qurba-title mt-1 text-2xl sm:text-3xl">Your Qurba</h2>
+        </div>
+      </div>
+      <nav class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <Link v-for="item in secondary" :key="item.href" :href="item.href"
+          class="qurba-surface group flex min-h-[130px] flex-col justify-between rounded-[1.4rem] p-4 transition hover:-translate-y-0.5 hover:border-emerald-900/20">
+          <span class="grid size-10 place-items-center rounded-xl bg-emerald-50 text-emerald-800"><component :is="item.icon" class="size-5" :stroke-width="1.7" /></span>
+          <span class="mt-5 flex items-end justify-between gap-2 text-sm font-semibold text-emerald-950">
+            {{ t(item.key) }}<ArrowRight class="size-4 opacity-40 transition group-hover:translate-x-0.5 group-hover:opacity-80 rtl:rotate-180" />
+          </span>
+        </Link>
+      </nav>
+    </section>
   </QurbaShell>
 </template>
-<!-- ===== QURBA HOME — END ===== -->
