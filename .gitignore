@@ -28,3 +28,4 @@ yarn-error.log
 # Audio uploaded through /admin → Audio files (licensed per install)
 /public/audio/adhan*.mp3
 /public/audio/names/*.mp3
+/public/audio/duas/*.mp3

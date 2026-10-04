@@ -19,6 +19,8 @@ class AdhkarController extends Controller
         return $items->map(fn (Adhkar $a) => [
             'id' => $a->id, 'ar' => $a->text_arabic, 'translit' => $a->transliteration, 'reference' => $a->reference,
             'repeat' => $a->repeat_count, 'status' => $a->status,
+            // Uploaded files live under public/audio; older rows may hold a full URL
+            'audio' => $a->audio_url ? (str_starts_with($a->audio_url, 'http') ? $a->audio_url : asset('audio/' . ltrim($a->audio_url, '/'))) : null,
             'tr' => $a->translations->pluck('text', 'language_code'),
         ])->values();
     }

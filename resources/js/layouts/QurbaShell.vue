@@ -91,7 +91,7 @@ const langs: { code: QurbaLocale; label: string }[] = [
           </select>
           <Link v-if="user" href="/profile" class="grid size-9 place-items-center rounded-full bg-emerald-900 text-sm font-medium text-cream"
             :aria-label="t('nav.profile')">{{ initial }}</Link>
-          <Link v-else href="/login" class="hidden rounded-full bg-emerald-900 px-5 py-2 text-sm text-cream hover:bg-emerald-700 md:inline-flex">
+          <Link v-else href="/login" class="hidden whitespace-nowrap rounded-full bg-emerald-900 px-5 py-2 text-sm text-cream hover:bg-emerald-700 md:inline-flex">
             {{ t('nav.signIn') }}
           </Link>
         </div>
