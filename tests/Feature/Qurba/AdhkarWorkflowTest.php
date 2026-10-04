@@ -39,3 +39,10 @@ it('shows only approved adhkar to users', function () {
     $this->get('/zikr/adhkar/morning')->assertOk()
         ->assertInertia(fn (Assert $p) => $p->component('AdhkarCategory')->has('items', 1)->where('items.0.id', $ok->id));
 });
+
+it('gives each dua its audio URL when a recording is attached', function () {
+    $a = makeDhikr();
+    Adhkar::$approving = true; $a->update(['status' => 'approved', 'audio_url' => 'duas/morning-1.mp3']); Adhkar::$approving = false;
+    $this->get('/zikr/adhkar/morning')->assertOk()
+        ->assertInertia(fn (Assert $p) => $p->where('items.0.audio', asset('audio/duas/morning-1.mp3')));
+});

@@ -16,6 +16,14 @@ Route::get('/quran', [QuranController::class, 'index'])->name('quran.index');
 Route::get('/quran/{surah}', [QuranController::class, 'show'])->whereNumber('surah')->name('quran.show');
 Route::get('/quran/{any}', fn () => Inertia::render('Section', ['section' => 'quran']))->where('any', '.*');
 
+// Which app sounds are installed (so the app never probes for missing files)
+Route::get('api/v1/audio-manifest', function () {
+    $d = \Illuminate\Support\Facades\Storage::disk('audio');
+    $names = collect($d->files('names'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 99)->unique()->sort()->values();
+    return response()->json(['ambient' => $d->exists('ambient.mp3'), 'adhan' => $d->exists('adhan.mp3'),
+        'adhanFajr' => $d->exists('adhan-fajr.mp3'), 'names' => $names])->header('Cache-Control', 'public, max-age=300');
+})->middleware('throttle:60,1');
+
 // Content version check (used by 7-day sync)
 Route::get('api/v1/content-version', fn () => response()->json(['data' => \Illuminate\Support\Facades\DB::table('content_versions')
     ->select('content_type', 'version', 'dataset_hash', 'updated_at')->orderByDesc('id')->limit(50)->get()]))->middleware('throttle:30,1');

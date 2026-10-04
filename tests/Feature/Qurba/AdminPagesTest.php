@@ -20,7 +20,7 @@ it('renders every admin list page with data', function () {
     $admin->forceFill(['role' => 'super_admin', 'two_factor_confirmed_at' => now()])->save();
     $this->actingAs($admin)->withSession(['admin_2fa_passed' => true]);
 
-    foreach (['adhkars', 'audio-files', 'content-audit-logs', 'content-sources', 'courses', 'learn-interests',
+    foreach (['', 'adhkars', 'audio-files', 'content-audit-logs', 'content-sources', 'courses', 'learn-interests',
         'quran-ayahs', 'quran-reciters', 'quran-surahs', 'users'] as $page) {
         $this->get("/admin/{$page}")->assertOk();
     }

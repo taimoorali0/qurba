@@ -15,7 +15,7 @@ function audioAdmin(string $role): User
 
 it('lets content admins open the audio page and blocks support staff', function () {
     $this->actingAs(audioAdmin('content_admin'))->withSession(['admin_2fa_passed' => true])
-        ->get('/admin/audio-files')->assertOk()->assertSee('Audio files');
+        ->get('/admin/audio-files')->assertOk()->assertSee('Audio library')->assertSee('99 Names of Allah');
     $this->actingAs(audioAdmin('support'))->withSession(['admin_2fa_passed' => true])
         ->get('/admin/audio-files')->assertForbidden();
 });
@@ -36,4 +36,35 @@ it('stores uploads under fixed names and drops misnamed name files', function ()
     Storage::disk('audio')->assertExists('adhan.mp3');
     Storage::disk('audio')->assertExists('names/7.mp3');
     expect(collect(Storage::disk('audio')->files('names'))->filter(fn ($f) => str_contains($f, 'invalid'))->count())->toBe(0);
+});
+
+it('replaces and removes a single name recording from the grid', function () {
+    Storage::fake('audio');
+    $this->actingAs(audioAdmin('content_admin'));
+
+    Livewire::test(AudioFiles::class)
+        ->set('nameUploads.12', UploadedFile::fake()->create('anything.mp3', 40, 'audio/mpeg'))
+        ->assertHasNoErrors();
+    Storage::disk('audio')->assertExists('names/12.mp3');
+
+    Livewire::test(AudioFiles::class)->call('deleteName', 12);
+    Storage::disk('audio')->assertMissing('names/12.mp3');
+});
+
+it('rejects a non-audio file in the grid', function () {
+    Storage::fake('audio');
+    $this->actingAs(audioAdmin('content_admin'));
+    Livewire::test(AudioFiles::class)
+        ->set('nameUploads.5', UploadedFile::fake()->create('notes.pdf', 10, 'application/pdf'))
+        ->assertHasErrors('nameUploads.5');
+    Storage::disk('audio')->assertMissing('names/5.mp3');
+});
+
+it('lists installed sounds in the audio manifest', function () {
+    Storage::fake('audio');
+    Storage::disk('audio')->put('adhan.mp3', 'x');
+    Storage::disk('audio')->put('names/3.mp3', 'x');
+    Storage::disk('audio')->put('names/notes.txt', 'x');
+    $this->getJson('/api/v1/audio-manifest')->assertOk()
+        ->assertJson(['ambient' => false, 'adhan' => true, 'adhanFajr' => false, 'names' => [3]]);
 });

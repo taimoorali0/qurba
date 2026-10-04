@@ -3,12 +3,13 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { BookHeart, Check, ChevronLeft, HandHeart, Heart, Moon, Plane, RotateCcw, Sparkles, Sun, Sunset } from 'lucide-vue-next';
+import { BookHeart, Check, ChevronLeft, HandHeart, Heart, Moon, Pause, Plane, Play, RotateCcw, Sparkles, Sun, Sunset } from 'lucide-vue-next';
+import { playClip, sound, stopOneShot } from '../lib/sounds';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { ak, bump, countOf, isFav, resetItem, toggleFav } from '../lib/adhkarLocal';
 import { canVibrate, tb } from '../lib/tasbeeh';
 
-interface Item { id: number; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
+interface Item { id: number; audio?: string | null; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
 const props = defineProps<{ category: { slug: string; name: Record<string, string> }; items: Item[]; dev?: boolean; favoritesPage?: boolean;
   categories?: { slug: string; name: Record<string, string> }[] }>();
 const { t, locale } = useI18n();
@@ -19,6 +20,9 @@ const catName = (n: Record<string, string>) => n[locale.value] ?? n.en;
 const done = (a: Item) => countOf(a.id) >= a.repeat;
 const completed = computed(() => props.items.filter(done).length);
 const translation = (a: Item) => a.tr[locale.value === 'ar' ? 'en' : locale.value] ?? a.tr.en ?? '';
+
+const clipKey = (a: Item) => `dua-${a.id}`;
+function listen(a: Item) { if (sound.clipPlaying === clipKey(a)) stopOneShot(); else if (a.audio) playClip(clipKey(a), a.audio); }
 
 function tap(a: Item) {
   if (done(a)) return;
@@ -69,9 +73,15 @@ function tap(a: Item) {
             <span v-if="dev && a.status !== 'approved'" class="me-2 rounded-full bg-gold-200 px-2 py-0.5 text-ink">{{ a.status }}</span>
             {{ a.reference }}
           </span>
+          <span class="flex items-center gap-1">
+          <button v-if="a.audio" class="grid size-8 place-items-center rounded-full border border-line text-emerald-900" @click="listen(a)"
+            :aria-label="sound.clipPlaying === clipKey(a) ? t('sound.pause') : t('sound.play')">
+            <Pause v-if="sound.clipPlaying === clipKey(a)" class="size-3.5" /><Play v-else class="size-3.5" />
+          </button>
           <button class="grid size-8 place-items-center rounded-full" @click="toggleFav(a.id)" :aria-pressed="isFav(a.id)" :aria-label="t('adhkar.favorite')">
             <Heart class="size-4" :class="isFav(a.id) ? 'fill-gold-500 text-gold-600' : ''" />
           </button>
+          </span>
         </div>
         <p dir="rtl" lang="ar" class="mt-3 font-quran text-[1.7rem] leading-[2.3] text-ink">{{ a.ar }}</p>
         <p v-if="ak.translit && a.translit" class="mt-3 text-sm italic text-ink-soft">{{ a.translit }}</p>

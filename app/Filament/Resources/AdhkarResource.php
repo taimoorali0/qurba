@@ -50,6 +50,10 @@ class AdhkarResource extends Resource
             Forms\Components\Select::make('content_source_id')->label('Content source')
                 ->relationship('source', 'name', fn ($query) => $query->where('type', 'adhkar'))->searchable()->preload(),
             Forms\Components\TextInput::make('sort')->numeric()->default(0),
+            Forms\Components\FileUpload::make('audio_url')->label('Recitation audio (optional)')->columnSpanFull()
+                ->disk('audio')->directory('duas')->visibility('public')
+                ->acceptedFileTypes(['audio/mpeg', 'audio/mp3'])->maxSize(10 * 1024)
+                ->helperText('MP3 of this dua being recited. Only upload recordings you have permission to publish.'),
             Forms\Components\Repeater::make('translations')->relationship()->columnSpanFull()->maxItems(5)->defaultItems(0)
                 ->schema([
                     Forms\Components\Select::make('language_code')->options(['en' => 'English', 'ur' => 'Urdu', 'ar' => 'Arabic (explanation)'])->required(),

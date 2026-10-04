@@ -21,15 +21,24 @@ function load(): Prefs {
 export const soundPrefs = reactive<Prefs>(load());
 watch(soundPrefs, (v) => { try { localStorage.setItem('qurba.sounds', JSON.stringify(v)); } catch {} }, { deep: true });
 
-export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as boolean | null, adhanPlaying: '', namePlaying: 0 });
+export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as boolean | null, adhanPlaying: '', namePlaying: 0, clipPlaying: '' });
 
-// ---- File availability (checked once per URL) ----
-const known = new Map<string, Promise<boolean>>();
-export function hasFile(url: string): Promise<boolean> {
-  if (!known.has(url)) {
-    known.set(url, fetch(url, { method: 'HEAD' }).then((r) => r.ok && (r.headers.get('content-type') ?? '').startsWith('audio')).catch(() => false));
-  }
-  return known.get(url)!;
+// ---- File availability: one small manifest from the server instead of probing each file ----
+interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; names: number[] }
+let manifest: Promise<Manifest> | null = null;
+function getManifest(): Promise<Manifest> {
+  manifest ??= fetch('/api/v1/audio-manifest', { headers: { Accept: 'application/json' } })
+    .then((r) => (r.ok ? r.json() : Promise.reject()))
+    .catch(() => ({ ambient: false, adhan: false, adhanFajr: false, names: [] }));
+  return manifest;
+}
+export async function hasFile(url: string): Promise<boolean> {
+  const m = await getManifest();
+  if (url === FILES.ambient) return m.ambient;
+  if (url === FILES.adhan) return m.adhan;
+  if (url === FILES.adhanFajr) return m.adhanFajr;
+  const n = url.match(/\/audio\/names\/(\d+)\.mp3$/);
+  return n ? m.names.includes(Number(n[1])) : false;
 }
 
 // ---- Background (ambient) audio: loops softly, starts on the first tap (browsers block autoplay) ----
@@ -66,7 +75,7 @@ watch(() => [soundPrefs.volume, soundPrefs.muted], () => { if (ambient && sound.
 
 // Quran recitation, adhan and name recitations take priority over the background sound
 let resumeLater = false;
-const busy = () => quranPlayer.playing || !!sound.adhanPlaying || !!sound.namePlaying;
+const busy = () => quranPlayer.playing || !!sound.adhanPlaying || !!sound.namePlaying || !!sound.clipPlaying;
 watch(busy, (b) => {
   if (b && sound.ambientPlaying) { pauseAmbient(); resumeLater = true; }
   else if (!b && resumeLater && soundPrefs.ambientOn) { resumeLater = false; playAmbient(); }
@@ -82,7 +91,7 @@ function playOnce(url: string, onEnd: () => void): Promise<boolean> {
   oneShot.addEventListener('error', onEnd);
   return oneShot.play().then(() => true).catch(() => { onEnd(); return false; });
 }
-export function stopOneShot() { oneShot?.pause(); sound.adhanPlaying = ''; sound.namePlaying = 0; }
+export function stopOneShot() { oneShot?.pause(); sound.adhanPlaying = ''; sound.namePlaying = 0; sound.clipPlaying = ''; }
 
 /** Plays the adhan (a separate Fajr adhan is used when provided). Returns false if no file or the browser blocked it. */
 export async function playAdhan(prayer: string): Promise<boolean> {
@@ -90,6 +99,12 @@ export async function playAdhan(prayer: string): Promise<boolean> {
   if (!(await hasFile(url))) return false;
   sound.adhanPlaying = prayer;
   return playOnce(url, () => { sound.adhanPlaying = ''; });
+}
+
+/** Plays any recording (e.g. a dua); the key identifies what is playing. */
+export function playClip(key: string, url: string): Promise<boolean> {
+  sound.clipPlaying = key;
+  return playOnce(url, () => { if (sound.clipPlaying === key) sound.clipPlaying = ''; });
 }
 
 /** Plays one of the 99 Names; resolves false if the recording is missing. */
