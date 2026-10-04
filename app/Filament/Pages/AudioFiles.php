@@ -22,6 +22,9 @@ class AudioFiles extends Page implements HasForms
     /** One-off uploads from the 99 Names grid, keyed by name number */
     public array $nameUploads = [];
 
+    /** MIME types browsers report for .mp3 files */
+    private const MP3 = ['audio/mpeg', 'audio/mp3', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mp3'];
+
     protected static ?string $navigationIcon = 'heroicon-o-musical-note';
     protected static ?string $navigationGroup = 'Content';
     protected static ?string $title = 'Audio library';
@@ -44,7 +47,7 @@ class AudioFiles extends Page implements HasForms
     {
         return Forms\Components\FileUpload::make($field)->label($label)->helperText($help)
             ->disk('audio')->visibility('public')
-            ->acceptedFileTypes(['audio/mpeg', 'audio/mp3'])->maxSize(15 * 1024)
+            ->acceptedFileTypes(self::MP3)->maxSize(20 * 1024)
             ->getUploadedFileNameForStorageUsing(fn () => $file);
     }
 
@@ -60,7 +63,7 @@ class AudioFiles extends Page implements HasForms
             Forms\Components\Section::make('Upload many names at once')->description('Name each file by its number in the list: 1.mp3 … 99.mp3.')->collapsible()->collapsed()->schema([
                 Forms\Components\FileUpload::make('names')->label('Name recordings')->multiple()->maxFiles(99)
                     ->disk('audio')->directory('names')->visibility('public')->preserveFilenames()
-                    ->acceptedFileTypes(['audio/mpeg', 'audio/mp3'])->maxSize(5 * 1024)
+                    ->acceptedFileTypes(self::MP3)->maxSize(20 * 1024)
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
                         $n = (int) pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                         return ($n >= 1 && $n <= 99) ? "{$n}.mp3" : 'invalid-' . $file->getClientOriginalName();
@@ -85,7 +88,7 @@ class AudioFiles extends Page implements HasForms
     public function updatedNameUploads($file, $key): void
     {
         $n = (int) $key;
-        $this->validate(["nameUploads.{$n}" => 'file|mimetypes:audio/mpeg,audio/mp3|max:5120']);
+        $this->validate(["nameUploads.{$n}" => 'file|mimetypes:audio/mpeg,audio/mp3,audio/x-mpeg,audio/mpeg3,audio/x-mp3|max:20480']);
         abort_unless($n >= 1 && $n <= 99, 422);
         $file->storeAs('names', "{$n}.mp3", 'audio');
         unset($this->nameUploads[$n]);
@@ -132,6 +135,18 @@ class AudioFiles extends Page implements HasForms
         $d = Storage::disk('audio');
         return array_map(fn ($x) => $x + ['url' => $d->exists("names/{$x['n']}.mp3")
             ? asset("audio/names/{$x['n']}.mp3") . '?v=' . $d->lastModified("names/{$x['n']}.mp3") : null], NamesOfAllah::all());
+    }
+
+    /** Server upload limit in MB (the smaller of PHP's upload_max_filesize and post_max_size) */
+    public function serverLimitMb(): float
+    {
+        $toBytes = function (string $v): int {
+            $v = trim($v);
+            $n = (int) $v;
+            return match (strtolower(substr($v, -1))) { 'g' => $n * 1024 ** 3, 'm' => $n * 1024 ** 2, 'k' => $n * 1024, default => $n };
+        };
+        $limits = array_filter([$toBytes((string) ini_get('upload_max_filesize')), $toBytes((string) ini_get('post_max_size'))]);
+        return $limits ? round(min($limits) / 1024 ** 2, 1) : 0;
     }
 
     /** What is installed, for the status table */

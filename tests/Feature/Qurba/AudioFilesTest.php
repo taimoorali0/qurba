@@ -78,3 +78,12 @@ it('moves a full recitation from a name slot to the complete-recitation slot', f
     expect(Storage::disk('audio')->get('names-full.mp3'))->toBe('full');
     $this->getJson('/api/v1/audio-manifest')->assertJson(['namesFull' => true, 'names' => []]);
 });
+
+it('accepts a large background sound up to 20 MB', function () {
+    Storage::fake('audio');
+    $this->actingAs(audioAdmin('content_admin'));
+    Livewire::test(AudioFiles::class)
+        ->set('data.ambient', [UploadedFile::fake()->create('nasheed.mp3', 18 * 1024, 'audio/mpeg')])
+        ->call('save')->assertHasNoErrors();
+    Storage::disk('audio')->assertExists('ambient.mp3');
+});

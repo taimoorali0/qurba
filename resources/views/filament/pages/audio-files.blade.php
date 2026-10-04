@@ -1,8 +1,18 @@
 <x-filament-panels::page>
+    @php $limit = $this->serverLimitMb(); @endphp
+    @if ($limit && $limit < 20)
+        <div class="q-card" style="border:1px solid #F1D9A6; background:#FFFBF0">
+            <p class="q-card-title"><x-filament::icon icon="heroicon-o-exclamation-triangle" /> Uploads are limited to {{ $limit }} MB on this server</p>
+            <p class="q-card-sub" style="margin-top:.5rem">Bigger files fail without a clear message. To allow up to 20 MB, set these in your <b>php.ini</b> and restart the server:</p>
+            <pre style="margin-top:.5rem; background:#F7F8F5; padding:.6rem .8rem; border-radius:.6rem; font-size:.8rem">upload_max_filesize = 20M
+post_max_size = 25M</pre>
+            <p class="q-card-sub" style="margin-top:.4rem">Laragon: Menu → PHP → php.ini, change the two lines, save, then Stop All / Start All (or restart <code>php artisan serve</code>). Or compress the MP3 (mono, 64–96 kbps is plenty).</p>
+        </div>
+    @endif
     {{-- Sounds: listen, replace, remove --}}
     <x-filament::section icon="heroicon-o-speaker-wave">
         <x-slot name="heading">App sounds</x-slot>
-        <x-slot name="description">Listen to what is installed. Upload replacements below.</x-slot>
+        <x-slot name="description">Listen to what is installed. Upload replacements below — MP3 only, up to {{ $limit && $limit < 20 ? $limit : 20 }} MB.</x-slot>
         <div class="q-sounds">
             @foreach ($this->sounds() as $s)
                 <div class="q-card">
