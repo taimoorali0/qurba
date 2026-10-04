@@ -23,11 +23,11 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Create an account" description="Enter your details below to create your account">
+    <AuthBase title="Create your Qurba account" description="Save your progress, bookmarks and preferences while keeping the core Qurba experience simple.">
         <Head title="Register" />
 
-        <form @submit.prevent="submit" class="flex flex-col gap-6">
-            <div class="grid gap-6">
+        <form @submit.prevent="submit" class="flex flex-col gap-5">
+            <div class="grid gap-5">
                 <div class="grid gap-2">
                     <Label for="name">Name</Label>
                     <Input id="name" type="text" required autofocus tabindex="1" autocomplete="name" v-model="form.name" placeholder="Full name" />
@@ -36,7 +36,7 @@ const submit = () => {
 
                 <div class="grid gap-2">
                     <Label for="email">Email address</Label>
-                    <Input id="email" type="email" required tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
+                    <Input id="email" type="email" required tabindex="2" autocomplete="email" v-model="form.email" placeholder="you@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
 
@@ -68,14 +68,14 @@ const submit = () => {
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 
-                <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
+                <Button type="submit" class="mt-2 min-h-12 w-full rounded-xl bg-[#073f31] font-semibold text-white hover:bg-[#0b4d3c]" tabindex="5" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Create account
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                Already have an account?
+                Already use Qurba?
                 <TextLink :href="route('login')" class="underline underline-offset-4" tabindex="6">Log in</TextLink>
             </div>
         </form>
