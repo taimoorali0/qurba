@@ -1,0 +1,37 @@
+{
+ "engineering": {
+  "slug": "engineering-services",
+  "en": "Engineering Services",
+  "ar": "الخدمات الهندسية"
+ },
+ "pulp-paper": {
+  "slug": "pulp-paper",
+  "en": "Pulp & Paper",
+  "ar": "اللب والورق"
+ },
+ "corrugated": {
+  "slug": "corrugated-packaging",
+  "en": "Corrugated Packaging",
+  "ar": "التغليف المموج"
+ },
+ "water": {
+  "slug": "water-wastewater-treatment",
+  "en": "Water & Wastewater",
+  "ar": "المياه ومياه الصرف"
+ },
+ "rental": {
+  "slug": "rental-services",
+  "en": "Rental Services",
+  "ar": "خدمات التأجير"
+ },
+ "about": {
+  "slug": "about-us",
+  "en": "About Us",
+  "ar": "من نحن"
+ },
+ "contact": {
+  "slug": "contact-us",
+  "en": "Contact Us",
+  "ar": "تواصلوا معنا"
+ }
+}

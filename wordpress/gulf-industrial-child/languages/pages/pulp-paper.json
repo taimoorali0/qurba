@@ -1,0 +1,557 @@
+{
+ "slug": "pulp-paper",
+ "hero_image": "pulp-hero",
+ "en": {
+  "nav": "Pulp & Paper",
+  "eyebrow": "Pulp & Paper",
+  "title": "Complete Solutions for the Pulp & Paper Industry",
+  "line": "From Idea to Execution"
+ },
+ "ar": {
+  "nav": "اللب والورق",
+  "eyebrow": "لب الورق والورق",
+  "title": "حلول متكاملة لصناعة اللب والورق",
+  "line": "من الفكرة إلى التنفيذ"
+ },
+ "sections": [
+  {
+   "type": "text",
+   "image": "pulp-overview",
+   "en": {
+    "eyebrow": "Pulp & Paper Overview",
+    "title": "Supporting Modern Paper Production",
+    "body": [
+     "Gulf Industrial Solutions provides solutions for different stages of pulp and paper production, tailored to the specific requirements of each project and production environment.",
+     "Our capabilities cover project planning, stock preparation, paper and board machinery, paper machine upgrades, finishing, chemicals, quality control, product development, process optimisation, recycling, wastewater treatment, and technical training."
+    ]
+   },
+   "ar": {
+    "eyebrow": "نظرة عامة على قطاع اللب والورق",
+    "title": "دعم إنتاج الورق الحديث",
+    "body": [
+     "تقدّم الخليج للحلول الصناعية حلولًا لمختلف مراحل إنتاج اللب والورق، مصممة خصيصًا لتلبية المتطلبات الخاصة بكل مشروع وبيئة إنتاجية.",
+     "تشمل قدراتنا تخطيط المشاريع، وتجهيز اللب، ومعدات ماكينات الورق والكرتون، وتحديث ماكينات الورق، وأعمال التشطيب، والمواد الكيميائية، ومراقبة الجودة، وتطوير المنتجات، وتحسين العمليات، وإعادة التدوير، ومعالجة مياه الصرف، والتدريب الفني."
+    ]
+   }
+  },
+  {
+   "type": "list",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Our Capabilities",
+    "title": "Solutions Across the Paper Production Process",
+    "list": [
+     "Project Consultation, Planning & Execution",
+     "Stock Preparation & Recycling",
+     "Paper & Board Machine Equipment",
+     "Paper Machine Upgrades",
+     "Finishing & Cutting Equipment",
+     "Functional & Specialty Chemicals",
+     "Wood Pulp Supply",
+     "Laboratory Testing & Quality Control",
+     "New Paper Product Development",
+     "Process & Operation Optimisation",
+     "Wastewater Treatment",
+     "Technical Training",
+     "Turnkey Projects"
+    ]
+   },
+   "ar": {
+    "eyebrow": "قدراتنا",
+    "title": "حلول عبر مراحل إنتاج الورق",
+    "list": [
+     "الاستشارات والتخطيط والتنفيذ للمشاريع",
+     "تجهيز اللب وإعادة التدوير",
+     "معدات ماكينات الورق والكرتون",
+     "تحديث ماكينات الورق",
+     "معدات التشطيب والقص",
+     "المواد الكيميائية الوظيفية والمتخصصة",
+     "توريد لب الخشب",
+     "الاختبارات المخبرية ومراقبة الجودة",
+     "تطوير منتجات ورقية جديدة",
+     "تحسين العمليات والتشغيل",
+     "معالجة مياه الصرف",
+     "التدريب الفني",
+     "المشاريع بنظام تسليم المفتاح"
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-consultation",
+   "flip": true,
+   "en": {
+    "eyebrow": "Project Consultation, Planning & Execution",
+    "title": "From Concept to Project Delivery",
+    "body": [
+     "We provide consultation, planning, and execution support for pulp and paper initiatives.",
+     "Our services can cover early-stage ideas, raw material sourcing, plant layouts, workflow planning, technology selection, and full execution, based on the specific objectives and operational needs of each initiative."
+    ]
+   },
+   "ar": {
+    "eyebrow": "الاستشارات والتخطيط والتنفيذ للمشاريع",
+    "title": "من الفكرة إلى تنفيذ المشروع",
+    "body": [
+     "نقدّم خدمات الاستشارات والتخطيط والتنفيذ لمبادرات ومشاريع صناعة اللب والورق.",
+     "تشمل خدماتنا الأفكار والمراحل الأولية للمشروع، وتوفير المواد الخام، وتخطيط المصانع، وتخطيط سير العمل، واختيار التقنيات المناسبة، والتنفيذ الكامل، بما يتوافق مع الأهداف المحددة والمتطلبات التشغيلية لكل مشروع."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-stock-prep",
+   "en": {
+    "eyebrow": "Stock Preparation & Recycling",
+    "title": "Preparing Fiber for Consistent Production",
+    "body": [
+     "Our stock preparation solutions support the processing of both virgin and recycled fibers.",
+     "Equipment includes:"
+    ],
+    "tags": [
+     "Pulpers",
+     "Refiners",
+     "Cleaners",
+     "Screens",
+     "Agitators"
+    ],
+    "after": [
+     "These systems support fiber preparation, contaminant removal, fiber consistency, energy management, and production throughput.",
+     "Our recycling solutions also support wastepaper collection, sorting, contamination removal, and the recovery of wastepaper for recycling or use as raw material."
+    ]
+   },
+   "ar": {
+    "eyebrow": "تجهيز اللب وإعادة التدوير",
+    "title": "تجهيز الألياف لضمان إنتاج متسق",
+    "body": [
+     "تدعم حلولنا لتجهيز اللب معالجة كل من الألياف البكر والألياف المعاد تدويرها.",
+     "تشمل المعدات:"
+    ],
+    "tags": [
+     "أجهزة تفكيك اللب",
+     "أجهزة التكرير",
+     "أجهزة التنقية",
+     "الغرابيل",
+     "الخلاطات"
+    ],
+    "after": [
+     "تدعم هذه الأنظمة تجهيز الألياف، وإزالة الشوائب والملوثات، والحفاظ على اتساق الألياف، وإدارة استهلاك الطاقة، وتحسين تدفق الإنتاج.",
+     "كما تدعم حلولنا لإعادة التدوير عمليات جمع وفرز الورق المستعمل، وإزالة الشوائب والملوثات، واستعادة الورق المستعمل لإعادة تدويره أو استخدامه كمواد خام."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-machine",
+   "flip": true,
+   "en": {
+    "eyebrow": "Paper & Board Machine Equipment",
+    "title": "Equipment for Paper and Board Production",
+    "body": [
+     "We supply equipment for different stages of paper and board manufacturing, including:"
+    ],
+    "tags": [
+     "Headboxes",
+     "Forming Sections",
+     "Press Sections",
+     "Dryers",
+     "Coaters",
+     "Calenders",
+     "Rewinding Systems"
+    ],
+    "after": [
+     "Solutions can be selected according to production capacity, paper grade, and project requirements, with support for integration and performance tuning."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معدات ماكينات الورق والكرتون",
+    "title": "معدات لإنتاج الورق والكرتون",
+    "body": [
+     "نوفّر معدات لمختلف مراحل تصنيع الورق والكرتون، بما في ذلك:"
+    ],
+    "tags": [
+     "صناديق التوزيع",
+     "أقسام التشكيل",
+     "أقسام الضغط",
+     "المجففات",
+     "آلات الطلاء",
+     "آلات التقويم",
+     "أنظمة إعادة اللف"
+    ],
+    "after": [
+     "يمكن اختيار الحلول وفقًا للطاقة الإنتاجية، ونوع الورق، ومتطلبات المشروع، مع توفير الدعم للتكامل وضبط الأداء."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-upgrades",
+   "en": {
+    "eyebrow": "Paper Machine Upgrades",
+    "title": "Improving Existing Machine Performance",
+    "body": [
+     "We provide paper machine upgrade solutions to support performance improvement, cost reduction, product quality, and production efficiency.",
+     "Upgrade requirements may include:"
+    ],
+    "list": [
+     "Mechanical retrofits",
+     "Automation improvements",
+     "Energy-efficiency enhancements",
+     "Performance assessment",
+     "Identification of production gaps",
+     "Integration of upgraded systems"
+    ],
+    "after": [
+     "Our approach is based on the existing machine configuration and the specific objectives of the upgrade project."
+    ]
+   },
+   "ar": {
+    "eyebrow": "تحديث آلات الورق",
+    "title": "تحسين أداء الآلات القائمة",
+    "body": [
+     "نقدّم حلولًا لتحديث آلات الورق بهدف دعم تحسين الأداء، وخفض التكاليف، وتحسين جودة المنتجات، ورفع كفاءة الإنتاج.",
+     "قد تشمل متطلبات التحديث:"
+    ],
+    "list": [
+     "التعديلات الميكانيكية",
+     "تحسينات الأتمتة",
+     "تحسينات كفاءة استهلاك الطاقة",
+     "تقييم الأداء",
+     "تحديد فجوات الإنتاج",
+     "دمج الأنظمة المطوّرة"
+    ],
+    "after": [
+     "يعتمد نهجنا على تكوين الآلة الحالية والأهداف المحددة لمشروع التحديث."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-finishing",
+   "flip": true,
+   "en": {
+    "eyebrow": "Finishing & Cutting Equipment",
+    "title": "Precision Equipment for Paper Finishing",
+    "body": [
+     "We provide equipment for paper finishing, trimming, rewinding, and cutting applications.",
+     "Solutions include:"
+    ],
+    "tags": [
+     "Sheeters",
+     "Slitters",
+     "Rewinders",
+     "Cutters"
+    ],
+    "after": [
+     "Equipment selection is based on production requirements, setup, and capacity, with a focus on reliable finishing and efficient operation."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معدات التشطيب والقص",
+    "title": "معدات دقيقة لتشطيب الورق",
+    "body": [
+     "نوفر معدات لتطبيقات تشطيب الورق، والتشذيب، وإعادة اللف، والقص.",
+     "تشمل الحلول:"
+    ],
+    "tags": [
+     "آلات التقطيع إلى شرائح",
+     "آلات الشق الطولي",
+     "آلات إعادة اللف",
+     "آلات القص"
+    ],
+    "after": [
+     "يتم اختيار المعدات وفقًا لمتطلبات الإنتاج، وتجهيزات التشغيل، والطاقة الإنتاجية، مع التركيز على تشطيب موثوق وتشغيل فعال."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-chemicals",
+   "en": {
+    "eyebrow": "Functional & Specialty Chemicals",
+    "title": "Chemical Solutions for Paper & Pulp Applications",
+    "body": [
+     "Our functional and specialty chemical solutions support different paper and pulp production requirements.",
+     "These include:"
+    ],
+    "tags": [
+     "Sizing Agents",
+     "Retention Aids",
+     "Defoamers",
+     "Wet Strength Resins",
+     "Dyes",
+     "Pigments",
+     "Coating Chemicals"
+    ],
+    "after": [
+     "Solutions are selected according to specific process and product requirements, with technical assistance, laboratory testing, and process audit support available."
+    ]
+   },
+   "ar": {
+    "eyebrow": "المواد الكيميائية الوظيفية والمتخصصة",
+    "title": "حلول كيميائية لتطبيقات صناعة اللب والورق",
+    "body": [
+     "تدعم حلولنا من المواد الكيميائية الوظيفية والمتخصصة مختلف متطلبات إنتاج اللب والورق.",
+     "وتشمل:"
+    ],
+    "tags": [
+     "عوامل تحجيم الورق",
+     "مساعدات الاحتفاظ",
+     "مزيلات الرغوة",
+     "راتنجات مقاومة البلل",
+     "الأصباغ",
+     "الخضاب",
+     "المواد الكيميائية المستخدمة في الطلاء"
+    ],
+    "after": [
+     "يتم اختيار الحلول وفقًا لمتطلبات العملية والمنتج المحددة، مع توفر الدعم الفني، والاختبارات المعملية، ودعم تدقيق العمليات."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-wood",
+   "flip": true,
+   "en": {
+    "eyebrow": "Wood Pulp Supply",
+    "title": "Pulp Supply for Different Paper Grades",
+    "body": [
+     "We provide wood pulp supply solutions covering:"
+    ],
+    "tags": [
+     "Softwood Pulp",
+     "Hardwood Pulp",
+     "Specialty Pulp"
+    ],
+    "after": [
+     "Our team supports pulp grade selection according to product specifications and production requirements, with sourcing from sustainable and certified forests as part of our current offering."
+    ]
+   },
+   "ar": {
+    "eyebrow": "توريد لب الخشب",
+    "title": "توريد اللب لمختلف أنواع الورق",
+    "body": [
+     "نقدّم حلولًا لتوريد لب الخشب تشمل:"
+    ],
+    "tags": [
+     "لب الخشب اللين",
+     "لب الخشب الصلب",
+     "أنواع اللب المتخصصة"
+    ],
+    "after": [
+     "يدعم فريقنا اختيار نوع اللب وفقًا لمواصفات المنتج ومتطلبات الإنتاج، مع التوريد من غابات مستدامة ومعتمدة كجزء من عروضنا الحالية."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-lab",
+   "en": {
+    "eyebrow": "Quality Control & Laboratory Solutions",
+    "title": "Supporting Consistent Product Quality",
+    "body": [
+     "We supply laboratory testing and quality control instruments for pulp and paper applications.",
+     "Testing solutions cover key parameters including:"
+    ],
+    "tags": [
+     "Strength",
+     "Moisture",
+     "Grammage",
+     "Surface Properties",
+     "Brightness"
+    ],
+    "after": [
+     "Support includes equipment selection, installation, training, and maintenance."
+    ]
+   },
+   "ar": {
+    "eyebrow": "حلول مراقبة الجودة والمختبرات",
+    "title": "دعم جودة المنتج بشكل متسق",
+    "body": [
+     "نوفر أجهزة ومعدات للاختبارات المعملية ومراقبة الجودة لتطبيقات صناعة اللب والورق.",
+     "تشمل حلول الاختبار قياس المعايير الرئيسية، بما في ذلك:"
+    ],
+    "tags": [
+     "المتانة",
+     "الرطوبة",
+     "الوزن الأساسي",
+     "خصائص السطح",
+     "درجة السطوع"
+    ],
+    "after": [
+     "تشمل خدمات الدعم اختيار المعدات، والتركيب، والتدريب، والصيانة."
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "More capabilities",
+    "title": "Development, efficiency and recovery",
+    "cards": [
+     [
+      "Developing New Paper & Board Products",
+      "Our product development support covers new fibers, additives, manufacturing techniques, and the development of specialty papers, custom grades, and packaging-related paper products. Support can extend from concept development to pilot production, depending on project requirements."
+     ],
+     [
+      "Process Optimisation & Plant Efficiency",
+      "We support manufacturers with process and operational optimisation focused on identifying bottlenecks, energy inefficiencies, process gaps, production waste and equipment underperformance. Solutions may include automation, real-time monitoring, workflow improvements, and process optimisation."
+     ],
+     [
+      "Wastepaper & Recycling Solutions",
+      "Collection, sorting, contamination removal, and processing to recover wastepaper as a usable raw material, supporting more efficient material utilisation and stronger recycling practices across the sector."
+     ],
+     [
+      "Wastewater Treatment",
+      "Biological treatment, chemical dosing, filtration and sludge handling, tailored to each facility's wastewater characteristics, with support for installation, commissioning, and performance monitoring."
+     ],
+     [
+      "Technical Training",
+      "Customised training programmes delivered by local and international experts, covering machine operation, process control, quality assurance, maintenance and safety, through workshops and hands-on sessions."
+     ],
+     [
+      "After-Sales, Spare Parts & Technical Support",
+      "For equipment and systems we supply, support can extend beyond installation: technical assistance, equipment maintenance, performance support, and spare-part requirements, where applicable to the project scope."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "قدرات إضافية",
+    "title": "التطوير والكفاءة واستعادة الموارد",
+    "cards": [
+     [
+      "تطوير منتجات جديدة من الورق والكرتون",
+      "يشمل دعمنا في مجال تطوير المنتجات الألياف الجديدة، والمواد المضافة، وتقنيات التصنيع، بالإضافة إلى تطوير الأوراق المتخصصة، والدرجات المخصصة، ومنتجات الورق المرتبطة بالتغليف. ويمكن أن يمتد الدعم من مرحلة تطوير الفكرة إلى مرحلة الإنتاج التجريبي، وذلك بحسب متطلبات كل مشروع."
+     ],
+     [
+      "تحسين العمليات وكفاءة المصانع",
+      "ندعم مصنّعي اللب والورق من خلال تحسين العمليات والتشغيل، مع التركيز على تحديد الاختناقات، وأوجه القصور في كفاءة استخدام الطاقة، وفجوات العمليات، والهدر في الإنتاج، وضعف أداء المعدات. وقد تشمل حلولنا الأتمتة، والمراقبة في الوقت الفعلي، وتحسين سير العمل."
+     ],
+     [
+      "حلول الورق المسترجع وإعادة التدوير",
+      "عمليات الجمع والفرز وإزالة الملوثات والمعالجة لاستعادة الورق المسترجع كمادة خام قابلة للاستخدام، بما يسهم في استخدام أكثر كفاءة للمواد وتعزيز ممارسات إعادة التدوير."
+     ],
+     [
+      "معالجة مياه الصرف الصحي",
+      "المعالجة البيولوجية، والجرعات الكيميائية، والترشيح، ومعالجة الحمأة، بما يتناسب مع خصائص مياه الصرف في كل منشأة، مع الدعم في التركيب والتشغيل التجريبي ومراقبة الأداء."
+     ],
+     [
+      "التدريب التقني",
+      "برامج تدريبية مخصصة يقدّمها خبراء محليون ودوليون، تشمل تشغيل الآلات، والتحكم في العمليات، وضمان الجودة، والصيانة، والسلامة، من خلال ورش عمل وجلسات تطبيقية."
+     ],
+     [
+      "خدمات ما بعد البيع وقطع الغيار والدعم الفني",
+      "بالنسبة للمعدات والأنظمة المورّدة ضمن حلولنا، يمكن أن يمتد الدعم إلى ما بعد التركيب: المساعدة الفنية، وصيانة المعدات، ودعم الأداء، ومتطلبات قطع الغيار، حيثما ينطبق ذلك على نطاق المشروع."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "pulp-turnkey",
+   "flip": true,
+   "en": {
+    "eyebrow": "Turnkey Projects — From Idea to Execution",
+    "title": "Complete Project Support for Pulp & Paper",
+    "body": [
+     "Gulf Industrial Solutions supports turnkey pulp and paper projects from initial consultation and concept development through implementation and handover.",
+     "Project support can include:"
+    ],
+    "tags": [
+     "Technology Selection",
+     "Plant Design",
+     "Equipment Procurement",
+     "Installation",
+     "Testing",
+     "Commissioning"
+    ],
+    "after": [
+     "We also support individual equipment requirements and production upgrades according to the project scope."
+    ]
+   },
+   "ar": {
+    "eyebrow": "مشروعات متكاملة — من الفكرة إلى التنفيذ",
+    "title": "دعم متكامل للمشروعات في قطاع اللب والورق",
+    "body": [
+     "تدعم الخليج للحلول الصناعية مشروعات اللب والورق المتكاملة، بدءًا من الاستشارات الأولية وتطوير الفكرة وصولًا إلى التنفيذ والتسليم.",
+     "وقد يشمل دعم المشروع:"
+    ],
+    "tags": [
+     "اختيار التكنولوجيا",
+     "تصميم المصنع",
+     "توريد المعدات",
+     "التركيب",
+     "الاختبار",
+     "التشغيل التجريبي"
+    ],
+    "after": [
+     "كما ندعم متطلبات المعدات الفردية وترقيات الإنتاج وفقًا لنطاق المشروع."
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "en": {
+    "eyebrow": "Why Choose Gulf Industrial Solutions",
+    "title": "Technical Expertise Across the Paper Production Process",
+    "cards": [
+     [
+      "Industry-Focused Solutions",
+      "Solutions covering pulp, paper, tissue, and board production requirements."
+     ],
+     [
+      "Integrated Capabilities",
+      "From project planning and equipment selection to optimisation, quality control, and technical support."
+     ],
+     [
+      "Equipment & Process Knowledge",
+      "Support across stock preparation, paper machines, finishing, chemicals, recycling, and related processes."
+     ],
+     [
+      "Flexible Project Scope",
+      "Support ranging from individual equipment requirements to complete turnkey projects."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "لماذا تختارون الخليج للحلول الصناعية",
+    "title": "خبرة تقنية تغطي كامل عملية إنتاج الورق",
+    "cards": [
+     [
+      "حلول تركز على احتياجات القطاع",
+      "حلول تغطي متطلبات إنتاج اللب والورق والمناديل والكرتون."
+     ],
+     [
+      "قدرات متكاملة",
+      "من تخطيط المشاريع واختيار المعدات إلى تحسين العمليات ومراقبة الجودة والدعم الفني."
+     ],
+     [
+      "معرفة بالمعدات والعمليات",
+      "دعم يشمل تحضير اللب، وآلات الورق، والتشطيب، والمواد الكيميائية، وإعادة التدوير، والعمليات ذات الصلة."
+     ],
+     [
+      "مرونة في نطاق المشروع",
+      "دعم يتراوح بين متطلبات المعدات الفردية والمشروعات المتكاملة بنظام تسليم المفتاح."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "en": {
+    "title": "Let's Build the Right Solution for Your Operation.",
+    "body": [
+     "Have an industrial challenge, upcoming project, or technical requirement?",
+     "Get in touch with Gulf Industrial Solutions and discuss how we can support your operation."
+    ]
+   },
+   "ar": {
+    "title": "لنبنِ معًا الحل الأنسب لعملياتكم.",
+    "body": [
+     "هل لديكم تحدٍ صناعي، أو مشروع قادم، أو متطلب فني؟",
+     "تواصلوا مع الخليج للحلول الصناعية لمناقشة احتياجاتكم ومعرفة كيف يمكننا دعم عملياتكم."
+    ]
+   }
+  }
+ ]
+}

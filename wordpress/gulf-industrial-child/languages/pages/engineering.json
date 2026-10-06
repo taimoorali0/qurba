@@ -1,0 +1,296 @@
+{
+ "slug": "engineering-services",
+ "hero_image": "engineering-hero",
+ "en": {
+  "nav": "Engineering Services",
+  "eyebrow": "Engineering Services",
+  "title": "Engineering Services",
+  "line": "Expert Field Engineering for Seamless Industrial Operations"
+ },
+ "ar": {
+  "nav": "الخدمات الهندسية",
+  "eyebrow": "الخدمات الهندسية",
+  "title": "الخدمات الهندسية",
+  "line": "هندسة ميدانية متخصصة لضمان سلاسة العمليات الصناعية"
+ },
+ "sections": [
+  {
+   "type": "text",
+   "image": "engineering-overview",
+   "en": {
+    "eyebrow": "Engineering Overview",
+    "title": "Technical Support for Industrial Operations",
+    "body": [
+     "Our engineering services are designed to support the technical and operational requirements of production industries.",
+     "From individual equipment requirements to complete project execution, we provide practical field engineering support across different stages of industrial operations."
+    ]
+   },
+   "ar": {
+    "eyebrow": "نظرة عامة على الخدمات الهندسية",
+    "title": "دعم فني للعمليات الصناعية",
+    "body": [
+     "تم تصميم خدماتنا الهندسية لتلبية المتطلبات الفنية والتشغيلية للقطاعات الإنتاجية.",
+     "بدءًا من متطلبات المعدات الفردية وصولًا إلى تنفيذ المشاريع الكاملة، نقدّم دعمًا هندسيًا ميدانيًا عمليًا عبر مختلف مراحل العمليات الصناعية."
+    ]
+   }
+  },
+  {
+   "type": "list",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Core Engineering Capabilities",
+    "title": "Our engineering capabilities include:",
+    "list": [
+     "Process & Operational Parameter Optimisation",
+     "Industrial Troubleshooting",
+     "Design & Mechanical Job Services",
+     "Electrical Equipment Installation & Commissioning",
+     "Process Instrumentation",
+     "DCS & PLC Support",
+     "Instrument Calibration",
+     "Turnkey Projects",
+     "Individual Equipment Installation & Commissioning"
+    ]
+   },
+   "ar": {
+    "eyebrow": "القدرات الهندسية الأساسية",
+    "title": "تشمل قدراتنا الهندسية ما يلي:",
+    "list": [
+     "تحسين العمليات ومعايير التشغيل",
+     "استكشاف الأعطال الصناعية وإصلاحها",
+     "خدمات التصميم والأعمال الميكانيكية",
+     "تركيب وتشغيل المعدات الكهربائية",
+     "أجهزة القياس والتحكم في العمليات",
+     "دعم أنظمة DCS وPLC",
+     "معايرة أجهزة القياس",
+     "المشاريع بنظام تسليم المفتاح",
+     "تركيب وتشغيل المعدات الفردية"
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "engineering-process",
+   "en": {
+    "eyebrow": "Process Optimisation & Troubleshooting",
+    "title": "Supporting Efficient Industrial Operations",
+    "body": [
+     "We provide process and operational parameter optimisation and troubleshooting services to help address technical and operational challenges within production environments.",
+     "Our field engineering teams work across industrial environments to support plant efficiency, operational continuity, and equipment performance."
+    ]
+   },
+   "ar": {
+    "eyebrow": "تحسين العمليات واستكشاف الأعطال وإصلاحها",
+    "title": "دعم كفاءة العمليات الصناعية",
+    "body": [
+     "نقدّم خدمات تحسين العمليات ومعايير التشغيل، إضافةً إلى خدمات استكشاف الأعطال وإصلاحها، للمساعدة في معالجة التحديات الفنية والتشغيلية داخل بيئات الإنتاج.",
+     "تعمل فرقنا الهندسية الميدانية في مختلف البيئات الصناعية لدعم كفاءة المصانع، واستمرارية التشغيل، وأداء المعدات."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "engineering-mechanical",
+   "flip": true,
+   "en": {
+    "eyebrow": "Mechanical, Electrical & Commissioning",
+    "title": "Supporting Equipment Installation and Project Execution",
+    "body": [
+     "Our engineering services include design and mechanical job services, along with electrical equipment installation and commissioning.",
+     "We support individual equipment needs as well as broader project scopes, depending on the technical and operational demands of the facility."
+    ]
+   },
+   "ar": {
+    "eyebrow": "الخدمات الميكانيكية والكهربائية وخدمات التشغيل والتكليف",
+    "title": "دعم تركيب المعدات وتنفيذ المشاريع",
+    "body": [
+     "تشمل خدماتنا الهندسية خدمات التصميم والأعمال الميكانيكية، إلى جانب تركيب وتكليف وتشغيل المعدات الكهربائية.",
+     "نلبي احتياجات المعدات الفردية، بالإضافة إلى نطاقات المشاريع الأوسع، وفقًا للمتطلبات الفنية والتشغيلية الخاصة بالمنشأة."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "engineering-dcs",
+   "en": {
+    "eyebrow": "Instrumentation, DCS & PLC",
+    "title": "Supporting Process Monitoring and Control",
+    "body": [
+     "We provide technical services for process instrumentation, DCS and PLC systems, and instrument calibration, supporting reliable monitoring and control across industrial operations."
+    ]
+   },
+   "ar": {
+    "eyebrow": "أجهزة القياس والتحكم في العمليات، وأنظمة DCS وPLC",
+    "title": "دعم مراقبة العمليات والتحكم بها",
+    "body": [
+     "نقدّم خدمات فنية لأجهزة القياس والتحكم في العمليات، وأنظمة DCS وPLC، ومعايرة أجهزة القياس، بما يدعم المراقبة والتحكم الموثوقين في مختلف العمليات الصناعية."
+    ]
+   }
+  },
+  {
+   "type": "list",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Industries We Support",
+    "title": "Industry-Focused Engineering Services",
+    "body": [
+     "We provide complete engineering services for:"
+    ],
+    "tags": [
+     "Pulp & Paper",
+     "Tissue Manufacturing",
+     "Converting",
+     "Corrugated Packaging"
+    ],
+    "lead": [
+     "Our support extends from idea to execution, including:"
+    ],
+    "list": [
+     "Product development",
+     "Plant efficiency improvement",
+     "Process troubleshooting",
+     "Technical engineering requirements",
+     "Equipment installation and commissioning"
+    ]
+   },
+   "ar": {
+    "eyebrow": "الصناعات التي ندعمها",
+    "title": "خدمات هندسية متخصصة حسب القطاع الصناعي",
+    "body": [
+     "نقدّم خدمات هندسية متكاملة في القطاعات التالية:"
+    ],
+    "tags": [
+     "لب الورق والورق",
+     "تصنيع المناديل الورقية",
+     "التحويل",
+     "التغليف بالكرتون المموج"
+    ],
+    "lead": [
+     "يمتد دعمنا من مرحلة الفكرة إلى مرحلة التنفيذ، ويشمل:"
+    ],
+    "list": [
+     "تطوير المنتجات",
+     "تحسين كفاءة المصنع",
+     "استكشاف أعطال العمليات وإصلاحها",
+     "المتطلبات الهندسية الفنية",
+     "تركيب وتشغيل المعدات"
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "engineering-turnkey",
+   "flip": true,
+   "en": {
+    "eyebrow": "Turnkey Projects",
+    "title": "From Individual Equipment to Complete Project Execution",
+    "body": [
+     "Gulf Industrial Solutions supports turnkey projects as well as individual equipment installation and commissioning.",
+     "Our engineering support can be structured according to the project scope, from specific equipment needs to full-scale execution."
+    ],
+    "note": "From Idea to Execution"
+   },
+   "ar": {
+    "eyebrow": "المشاريع بنظام تسليم المفتاح",
+    "title": "من تركيب المعدات الفردية إلى تنفيذ المشاريع الكاملة",
+    "body": [
+     "تدعم الخليج للحلول الصناعية المشاريع بنظام تسليم المفتاح، إضافةً إلى تركيب وتكليف وتشغيل المعدات الفردية.",
+     "يمكن تنظيم دعمنا الهندسي وفقًا لنطاق المشروع، بدءًا من احتياجات معدات محددة وصولًا إلى التنفيذ الكامل للمشروع."
+    ],
+    "note": "من الفكرة إلى التنفيذ"
+   }
+  },
+  {
+   "type": "cards",
+   "en": {
+    "eyebrow": "Why Choose Gulf Industrial Solutions",
+    "title": "Engineering support you can rely on",
+    "cards": [
+     [
+      "Skilled Field Personnel",
+      "Onsite engineering expertise for production and industrial facilities."
+     ],
+     [
+      "Practical Engineering Support",
+      "Solutions focused on real operational and technical needs."
+     ],
+     [
+      "Integrated Capabilities",
+      "Process, mechanical, electrical, instrumentation, DCS and PLC support."
+     ],
+     [
+      "Project Flexibility",
+      "Coverage for individual equipment needs as well as turnkey projects."
+     ],
+     [
+      "Industry-Focused Experience",
+      "Engineering services for pulp & paper, tissue manufacturing, converting, and corrugated packaging."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "لماذا تختارون الخليج للحلول الصناعية",
+    "title": "دعم هندسي يمكنكم الاعتماد عليه",
+    "cards": [
+     [
+      "طاقم ميداني ماهر",
+      "خبرة هندسية ميدانية لدعم منشآت الإنتاج والصناعة"
+     ],
+     [
+      "دعم هندسي عملي",
+      "حلول تركّز على الاحتياجات التشغيلية والفنية الفعلية"
+     ],
+     [
+      "قدرات متكاملة",
+      "دعم في مجالات العمليات، والأعمال الميكانيكية، والكهربائية، وأجهزة القياس، وأنظمة DCS وPLC"
+     ],
+     [
+      "مرونة في تنفيذ المشاريع",
+      "تغطية لاحتياجات المعدات الفردية، إضافة إلى المشاريع المتكاملة (تسليم مفتاح)"
+     ],
+     [
+      "خبرة متخصصة حسب القطاع",
+      "خدمات هندسية لقطاعات لب الورق والورق، وتصنيع المناديل الورقية، والتحويل، والتغليف"
+     ]
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "tone": "dark",
+   "en": {
+    "eyebrow": "Saudi Vision 2030",
+    "title": "Supporting Saudi Arabia's Industrial Growth",
+    "body": [
+     "Through skilled field personnel, effective equipment management, and quality-focused engineering support, Gulf Industrial Solutions supports the technical and operational requirements of Saudi Arabia's production industries.",
+     "Our engineering services contribute to industrial development and align with the growing requirements of the Saudi industrial sector and Saudi Vision 2030."
+    ]
+   },
+   "ar": {
+    "eyebrow": "رؤية السعودية 2030",
+    "title": "دعم النمو الصناعي في المملكة العربية السعودية",
+    "body": [
+     "من خلال طاقم ميداني ماهر، وإدارة فعّالة للمعدات، ودعم هندسي يركّز على الجودة، تدعم الخليج للحلول الصناعية المتطلبات الفنية والتشغيلية للقطاعات الإنتاجية في المملكة العربية السعودية.",
+     "تسهم خدماتنا الهندسية في التنمية الصناعية، وتتوافق مع المتطلبات المتنامية للقطاع الصناعي السعودي ورؤية السعودية 2030."
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "en": {
+    "title": "Let's Build the Right Solution for Your Operation.",
+    "body": [
+     "Have an industrial challenge, upcoming project, or technical requirement?",
+     "Get in touch with Gulf Industrial Solutions and discuss how we can support your operation."
+    ]
+   },
+   "ar": {
+    "title": "لنبنِ معًا الحل الأنسب لعملياتكم.",
+    "body": [
+     "هل لديكم تحدٍ صناعي، أو مشروع قادم، أو متطلب فني؟",
+     "تواصلوا مع الخليج للحلول الصناعية لمناقشة احتياجاتكم ومعرفة كيف يمكننا دعم عملياتكم."
+    ]
+   }
+  }
+ ]
+}

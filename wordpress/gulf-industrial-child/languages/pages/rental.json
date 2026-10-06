@@ -1,0 +1,287 @@
+{
+ "slug": "rental-services",
+ "hero_image": "rental-hero",
+ "en": {
+  "nav": "Rental Services",
+  "eyebrow": "Rental Services",
+  "title": "Heavy Equipment Rental for Industrial & Construction Projects",
+  "line": "Equipment When You Need It",
+  "text": "Our rental services provide access to a range of equipment for projects requiring reliable machinery without the upfront investment associated with equipment ownership."
+ },
+ "ar": {
+  "nav": "خدمات التأجير",
+  "eyebrow": "خدمات التأجير",
+  "title": "تأجير المعدات الثقيلة للمشاريع الصناعية والإنشائية",
+  "line": "المعدات عند الحاجة إليها",
+  "text": "تتيح خدمات التأجير لدينا الوصول إلى مجموعة من المعدات للمشاريع التي تتطلب معدات موثوقة، دون الحاجة إلى الاستثمار المسبق المرتبط بامتلاك المعدات."
+ },
+ "sections": [
+  {
+   "type": "text",
+   "image": "rental-overview",
+   "en": {
+    "eyebrow": "Rental Services Overview",
+    "title": "Supporting Construction & Industrial Operations",
+    "body": [
+     "Gulf Industrial Solutions provides heavy equipment rental solutions for construction, industrial, infrastructure, and site development requirements.",
+     "We provide flexible heavy equipment rental solutions for different project and operational requirements.",
+     "Our equipment can support activities ranging from construction and excavation to road development, mining, industrial site development, and waste management."
+    ]
+   },
+   "ar": {
+    "eyebrow": "نظرة عامة على خدمات التأجير",
+    "title": "دعم عمليات البناء والصناعة",
+    "body": [
+     "توفر الخليج للحلول الصناعية حلول تأجير المعدات الثقيلة لمشاريع البناء والصناعة والبنية التحتية وتطوير المواقع.",
+     "نوفر حلول تأجير مرنة للمعدات الثقيلة لمختلف متطلبات المشاريع والتشغيل.",
+     "تدعم معداتنا مجموعة من الأنشطة، بدءًا من البناء والحفر، وصولًا إلى تطوير الطرق، والتعدين، وتطوير المواقع الصناعية، وإدارة النفايات."
+    ]
+   }
+  },
+  {
+   "type": "fleet",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Equipment Available",
+    "title": "Our Heavy Equipment Fleet",
+    "fleet": [
+     [
+      "Backhoe Loaders",
+      "JCB 4CX Super Backhoe Loader · JCB Backhoe Loader",
+      "rental-backhoe"
+     ],
+     [
+      "Telescopic Handlers",
+      "JCB 540-170 Telescopic Handler",
+      "rental-telehandler"
+     ],
+     [
+      "Scissor Lifts",
+      "10–14 Meter Scissor Lifts",
+      "rental-scissor"
+     ],
+     [
+      "Forklifts",
+      "3–16 Ton Forklifts · TCM 10 Ton Diesel Forklift · ZOOMLION Forklifts",
+      "rental-forklift"
+     ]
+    ],
+    "after": [
+     "Equipment availability should be confirmed according to the project requirement and rental period."
+    ]
+   },
+   "ar": {
+    "eyebrow": "المعدات المتوفرة",
+    "title": "أسطول المعدات الثقيلة لدينا",
+    "fleet": [
+     [
+      "Backhoe Loaders",
+      "JCB 4CX Super Backhoe Loader · JCB Backhoe Loader",
+      "rental-backhoe"
+     ],
+     [
+      "Telescopic Handlers",
+      "JCB 540-170 Telescopic Handler",
+      "rental-telehandler"
+     ],
+     [
+      "Scissor Lifts",
+      "10–14 Meter Scissor Lifts",
+      "rental-scissor"
+     ],
+     [
+      "Forklifts",
+      "3–16 Ton Forklifts · TCM 10 Ton Diesel Forklift · ZOOMLION Forklifts",
+      "rental-forklift"
+     ]
+    ],
+    "after": [
+     "يجب تأكيد توفر المعدات وفقًا لمتطلبات المشروع ومدة التأجير."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "rental-construction",
+   "flip": true,
+   "en": {
+    "eyebrow": "Construction & Excavation Equipment",
+    "title": "Equipment for Site & Construction Operations",
+    "body": [
+     "Our heavy equipment rental solutions support:"
+    ],
+    "tags": [
+     "Construction",
+     "Excavation",
+     "Site Development"
+    ],
+    "after": [
+     "Backhoe loaders and other heavy equipment can support material handling, excavation, earthmoving, and general construction activities according to project requirements."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معدات البناء والحفر",
+    "title": "معدات لعمليات المواقع والبناء",
+    "body": [
+     "تدعم حلول تأجير المعدات الثقيلة لدينا:"
+    ],
+    "tags": [
+     "البناء",
+     "الحفر",
+     "تطوير المواقع"
+    ],
+    "after": [
+     "يمكن لمعدات Backhoe Loaders وغيرها من المعدات الثقيلة دعم مناولة المواد، والحفر، وتحريك التربة، وأنشطة البناء العامة وفقًا لمتطلبات المشروع."
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "en": {
+    "eyebrow": "Road Building, Mining & Industrial Applications",
+    "title": "Supporting Demanding Site Operations",
+    "body": [
+     "Our rental equipment can be used across a range of applications, including:"
+    ],
+    "cards": [
+     [
+      "Road Building & Paving",
+      "Equipment support for road construction, site preparation, and paving-related operations."
+     ],
+     [
+      "Mining & Quarrying",
+      "Heavy equipment for material handling and site activities within mining and quarrying environments."
+     ],
+     [
+      "Industrial Site Development",
+      "Equipment support for industrial construction, site preparation, and infrastructure development."
+     ],
+     [
+      "Waste Management",
+      "Heavy equipment solutions for material handling and waste management operations."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "إنشاء الطرق والتعدين والتطبيقات الصناعية",
+    "title": "دعم عمليات المواقع التي تتطلب معدات ثقيلة",
+    "body": [
+     "يمكن استخدام معدات التأجير لدينا في مجموعة واسعة من التطبيقات، بما في ذلك:"
+    ],
+    "cards": [
+     [
+      "إنشاء الطرق والرصف",
+      "دعم بالمعدات اللازمة لأعمال إنشاء الطرق، وتجهيز المواقع، وأعمال الرصف."
+     ],
+     [
+      "التعدين واستغلال المحاجر",
+      "معدات ثقيلة لمناولة المواد وتنفيذ أنشطة المواقع في بيئات التعدين واستغلال المحاجر."
+     ],
+     [
+      "تطوير المواقع الصناعية",
+      "دعم بالمعدات اللازمة لأعمال البناء الصناعي، وتجهيز المواقع، وتطوير البنية التحتية."
+     ],
+     [
+      "إدارة النفايات",
+      "حلول بالمعدات الثقيلة لمناولة المواد وعمليات إدارة النفايات."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Why Gulf Industrial Solutions",
+    "title": "Practical Rental Solutions for Your Projects",
+    "cards": [
+     [
+      "Cost-Effective Equipment Access",
+      "Rent equipment according to project requirements without the upfront investment associated with ownership."
+     ],
+     [
+      "Flexible Rental Solutions",
+      "Access equipment based on your project and operational requirements."
+     ],
+     [
+      "Modern Equipment",
+      "Our rental fleet includes heavy machinery and equipment designed to support demanding project environments."
+     ],
+     [
+      "Maintenance Support",
+      "Equipment maintenance and servicing are handled as part of the rental service, allowing project teams to focus on their operations."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "لماذا الخليج للحلول الصناعية",
+    "title": "حلول تأجير عملية لمشاريعكم",
+    "cards": [
+     [
+      "الوصول إلى المعدات بتكلفة فعّالة",
+      "استأجروا المعدات وفقًا لمتطلبات المشروع دون الحاجة إلى الاستثمار المسبق المرتبط بامتلاك المعدات."
+     ],
+     [
+      "حلول تأجير مرنة",
+      "إتاحة المعدات وفقًا لمتطلبات مشروعكم واحتياجاتكم التشغيلية."
+     ],
+     [
+      "معدات حديثة",
+      "يشمل أسطول التأجير لدينا آليات ومعدات ثقيلة مصممة لدعم بيئات المشاريع التي تتطلب معدات موثوقة."
+     ],
+     [
+      "دعم الصيانة",
+      "تُجرى أعمال صيانة المعدات وخدمتها كجزء من خدمة التأجير، مما يتيح لفرق المشاريع التركيز على عملياتها."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "tone": "dark",
+   "en": {
+    "eyebrow": "From Equipment Rental to Project Support",
+    "title": "Equipment for the Work You Need to Get Done",
+    "body": [
+     "Whether your requirement involves construction, excavation, road building, mining, industrial site development, or waste management, Gulf Industrial Solutions can provide suitable heavy equipment rental options based on your project requirements."
+    ],
+    "tags": [
+     "Equipment",
+     "Availability",
+     "Rental",
+     "Support"
+    ]
+   },
+   "ar": {
+    "eyebrow": "من تأجير المعدات إلى دعم المشاريع",
+    "title": "المعدات اللازمة لإنجاز أعمالكم",
+    "body": [
+     "سواء كان مشروعكم يتعلق بالبناء، أو الحفر، أو إنشاء الطرق، أو التعدين، أو تطوير المواقع الصناعية، أو إدارة النفايات، يمكن للخليج للحلول الصناعية توفير خيارات مناسبة من المعدات الثقيلة للتأجير وفقًا لمتطلبات مشروعكم."
+    ],
+    "tags": [
+     "المعدات",
+     "التوفر",
+     "التأجير",
+     "الدعم"
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "en": {
+    "title": "Let's Build the Right Solution for Your Operation.",
+    "body": [
+     "Have an industrial challenge, upcoming project, or technical requirement?",
+     "Get in touch with Gulf Industrial Solutions and discuss how we can support your operation."
+    ]
+   },
+   "ar": {
+    "title": "لنبنِ معًا الحل الأنسب لعملياتكم.",
+    "body": [
+     "هل لديكم تحدٍ صناعي، أو مشروع قادم، أو متطلب فني؟",
+     "تواصلوا مع الخليج للحلول الصناعية لمناقشة احتياجاتكم ومعرفة كيف يمكننا دعم عملياتكم."
+    ]
+   }
+  }
+ ]
+}

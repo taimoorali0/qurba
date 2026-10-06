@@ -1,0 +1,168 @@
+.gulf-site{margin:0;color:#252525;background:#fff;font-family:Arial,"Tahoma",sans-serif;font-size:16px;line-height:1.65;letter-spacing:0}.gulf-site *,.gulf-main *{box-sizing:border-box}.gulf-site a{color:inherit;text-decoration:none}.gulf-site img{display:block;max-width:100%;height:auto}.gulf-site button,.gulf-site a,.gulf-site summary{-webkit-tap-highlight-color:transparent}.gulf-site :focus-visible{outline:3px solid #e7532a;outline-offset:5px}.gulf-wrap{width:min(1280px,calc(100% - 96px));margin-inline:auto}.gulf-site h1,.gulf-site h2,.gulf-site h3,.gulf-main h1,.gulf-main h2,.gulf-main h3{font-family:inherit;letter-spacing:0;line-height:1.12;font-weight:600;margin:0;text-wrap:balance}.gulf-site h2,.gulf-main h2{font-size:44px}.gulf-site h3,.gulf-main h3{font-size:25px}.gulf-site p{margin:0 0 20px}.gulf-top{background:#013938;color:#fff;font-size:12px}.gulf-top .gulf-wrap{display:flex;justify-content:space-between;padding-block:9px;gap:16px}.gulf-header{background:#fff;border-bottom:1px solid #e7eae8}.gulf-header-inner{min-height:106px;display:flex;align-items:center;gap:28px}.gulf-brand{width:178px;flex-shrink:0;padding-block:10px}.gulf-nav{display:flex;gap:28px;margin-inline-start:auto;font-size:14px;font-weight:600}.gulf-nav a:hover,.gulf-language:hover{color:#b93916}.gulf-language{border-inline-start:1px solid #dce2df;padding-inline-start:24px;white-space:nowrap}.gulf-button{display:inline-flex;align-items:center;justify-content:center;gap:25px;padding:15px 23px;border-radius:3px;background:#013938;color:#fff!important;font-size:14px;font-weight:600;min-height:50px}.gulf-button:hover{background:#07514f}.gulf-orange{background:#e7532a;color:#fff!important}.gulf-orange:hover{background:#bd3c18}.gulf-menu-toggle{display:none}.gulf-hero{position:relative;min-height:650px;display:flex;align-items:center;isolation:isolate;background:#173e3b;color:white;overflow:hidden}.gulf-hero-image{position:absolute;inset:0;width:100%;height:100%!important;object-fit:cover;z-index:-2}.gulf-hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,29,29,.92),rgba(0,29,29,.67) 46%,rgba(0,29,29,.04) 100%)}.gulf-hero-content{padding-block:72px 100px}.gulf-eyebrow{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0;display:flex;align-items:center;gap:12px;margin-bottom:22px!important}.gulf-eyebrow:before{content:"";width:26px;height:2px;background:#e7532a;flex-shrink:0}.gulf-hero h1{font-size:64px;max-width:680px;color:#fff}.gulf-hero-line{font-size:29px;line-height:1.3;margin-top:22px!important}.gulf-hero-description{max-width:530px;color:#e2ece9;font-size:17px}.gulf-actions{display:flex;gap:28px;align-items:center;margin-top:34px;flex-wrap:wrap}.gulf-text-link{font-size:14px;border-bottom:1px solid #97aaa4;padding-block:10px}.gulf-text-link span{margin-inline-start:14px}.gulf-hero-caption{position:absolute;bottom:30px;inset-inline-end:48px;font-size:12px}.gulf-hero-caption span{color:#ffab88;margin-inline-end:15px}.gulf-capability-strip{border-bottom:1px solid #dce3df;background:#f5f7f5}.gulf-capability-strip .gulf-wrap{display:grid;grid-template-columns:repeat(3,1fr);padding-block:23px;gap:20px;font-size:13px;font-weight:600}.gulf-capability-strip span{display:flex;gap:13px;align-items:center}.gulf-capability-strip span:before{content:"+";color:#d3441e;font-size:22px}.gulf-section{padding-block:96px;scroll-margin-top:25px}.gulf-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px}.gulf-intro-grid h2{max-width:490px}.gulf-lead{font-size:21px;line-height:1.55}.gulf-intro-grid p:not(.gulf-eyebrow),.gulf-section-heading>p{color:#53615c}.gulf-inline-link{display:inline-flex;gap:24px;color:#013938!important;font-size:14px;font-weight:700;padding-block:12px;border-bottom:1px solid #013938}.gulf-vision{background:#013938;color:#fff;padding-block:65px}.gulf-vision-grid{display:grid;grid-template-columns:.8fr 1.4fr;align-items:center;gap:95px}.gulf-vision-number{font-size:116px;font-weight:600;line-height:1;color:#c5ded5;border-inline-end:1px solid #446561;padding-block:20px}.gulf-vision-number span{display:block;font-size:12px;font-weight:400;margin-top:20px}.gulf-vision h2{font-size:34px;max-width:620px;margin-bottom:20px}.gulf-vision p:not(.gulf-eyebrow){color:#d0dfda;max-width:680px}.gulf-vision-points{display:flex;gap:24px;font-size:12px;flex-wrap:wrap}.gulf-vision-points span:before{content:"+";color:#ff9974;margin-inline-end:9px}.gulf-section-heading{display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:end;margin-bottom:46px}.gulf-section-heading>p{margin:0}.gulf-solutions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.gulf-solution{border:1px solid #dae1dc;border-radius:4px;padding:28px;display:flex;flex-direction:column;align-items:start}.gulf-solution-top{width:100%;display:flex;justify-content:space-between;color:#698078;font-size:13px;margin-bottom:32px}.gulf-solution-top span:last-child{font-size:24px;color:#c6411c}.gulf-solution h3{color:#013938;margin-bottom:18px}.gulf-solution>p{font-size:15px;color:#53615c}.gulf-solution details{margin-top:auto;width:100%;border-top:1px solid #e3e7e4;padding-top:17px;font-size:14px}.gulf-solution summary{cursor:pointer;font-weight:600;color:#013938;min-height:28px}.gulf-solution details p{margin-top:16px;color:#53615c}.gulf-industries{background:#f3f6f3}.gulf-industry-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}.gulf-industry-photo img{width:100%;height:530px;object-fit:cover}.gulf-industries h2{margin-bottom:24px}.gulf-industries p:not(.gulf-eyebrow){color:#53615c}.gulf-sector-list{list-style:none;padding:0;margin:25px 0 0}.gulf-sector-list li{display:flex;justify-content:space-between;gap:20px;padding-block:15px;border-bottom:1px solid #d4ded7;font-size:15px}.gulf-sector-list li span:last-child{color:#c6411c}.gulf-process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;margin-top:48px}.gulf-step{display:block;font-size:14px;color:#c6411c;border-top:1px solid #d4ded7;padding-top:20px;margin-bottom:26px}.gulf-process-grid h3{margin-bottom:18px}.gulf-process-grid p{font-size:15px;color:#53615c}.gulf-contact{padding-block:76px;background:#013938;color:white;scroll-margin-top:25px}.gulf-contact-grid{display:grid;grid-template-columns:1.4fr 1fr;align-items:center;gap:80px}.gulf-contact h2{max-width:650px;margin-bottom:22px}.gulf-contact p:not(.gulf-eyebrow){max-width:600px;color:#cdded7}.gulf-contact-actions{display:flex;flex-direction:column;align-items:start;gap:18px;justify-self:end}.gulf-contact-phone{font-size:26px}.gulf-contact-actions>span{font-size:13px;color:#ccded7}.gulf-footer{padding-top:58px;background:#f5f7f5;font-size:14px}.gulf-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;padding-bottom:45px}.gulf-footer-grid>div{display:flex;flex-direction:column;align-items:start;gap:10px}.gulf-footer-brand{font-size:25px;font-weight:600;color:#013938;margin:0!important}.gulf-footer-grid strong{margin-bottom:9px}.gulf-footer-grid p{color:#53615c}.gulf-footer-bottom{display:flex;justify-content:space-between;gap:20px;font-size:12px;padding-block:22px;border-top:1px solid #dce3df}.gulf-skip{position:absolute;top:-100px;z-index:100;background:white;padding:14px}.gulf-skip:focus{top:0}.gulf-site[dir=rtl],html[dir=rtl] .gulf-site{font-family:Tahoma,Arial,sans-serif;line-height:1.9}html[dir=rtl] .gulf-hero:after{transform:scaleX(-1)}html[dir=rtl] .gulf-hero h1{line-height:1.35;font-size:56px}html[dir=rtl] .gulf-site h2{line-height:1.5}html[dir=rtl] .gulf-site h3{line-height:1.5}.gulf-main .elementor-widget-shortcode,.gulf-main .elementor-widget-container{margin:0}.gulf-main .e-con{--container-default-padding-top:0;--container-default-padding-right:0;--container-default-padding-bottom:0;--container-default-padding-left:0}
+.gulf-orange{color:#171717!important}.gulf-orange:hover{color:#fff!important}
+@media(min-width:1700px){.gulf-hero{min-height:720px}}
+@media(max-width:1100px){.gulf-wrap{width:calc(100% - 64px)}.gulf-header-inner{gap:20px}.gulf-header-cta{display:none}.gulf-nav{gap:20px}.gulf-intro-grid,.gulf-industry-grid,.gulf-contact-grid{gap:45px}.gulf-vision-grid{gap:40px}.gulf-vision-number{font-size:90px}.gulf-section-heading{gap:40px}.gulf-solutions-grid{grid-template-columns:repeat(2,1fr)}.gulf-site h2{font-size:37px}}
+@media(max-width:760px){.gulf-wrap{width:calc(100% - 40px)}.gulf-top{font-size:10px}.gulf-top .gulf-wrap{gap:10px}.gulf-header-inner{min-height:88px;position:relative;gap:18px;flex-wrap:wrap}.gulf-brand{width:139px}.gulf-menu-toggle{display:flex;align-items:center;gap:8px;margin-inline-start:auto;background:none;border:0;color:#013938;padding:12px 0;font:inherit;font-size:13px}.gulf-language{font-size:13px;padding-inline-start:16px}.gulf-nav{display:none;width:100%;order:4;padding:0 0 20px;margin:0;flex-direction:column;gap:0}.gulf-nav.is-open{display:flex}.gulf-nav a{padding:12px 0;border-top:1px solid #e2e7e3}.gulf-hero{min-height:610px}.gulf-hero-content{padding-block:55px 85px}.gulf-hero h1{font-size:44px;max-width:520px}.gulf-hero-line{font-size:24px}.gulf-hero-description{font-size:15px}.gulf-hero:after{background:rgba(0,29,29,.76)}.gulf-hero-caption{inset-inline-end:20px;font-size:11px;bottom:23px}.gulf-eyebrow{font-size:11px}.gulf-actions{gap:17px}.gulf-button{font-size:13px;padding:14px 19px}.gulf-capability-strip .gulf-wrap{grid-template-columns:1fr;gap:5px;padding-block:18px}.gulf-capability-strip span{font-size:12px}.gulf-section{padding-block:58px}.gulf-intro-grid,.gulf-vision-grid,.gulf-industry-grid,.gulf-section-heading,.gulf-contact-grid{grid-template-columns:1fr;gap:28px}.gulf-site h2{font-size:32px}.gulf-site h3{font-size:24px}.gulf-lead{font-size:19px}.gulf-vision{padding-block:45px}.gulf-vision-number{font-size:80px;border-inline-end:0;border-bottom:1px solid #446561;padding:0 0 26px}.gulf-vision-number span{margin-top:12px}.gulf-vision h2{font-size:30px}.gulf-solutions-grid{grid-template-columns:1fr}.gulf-solution{padding:25px}.gulf-solution-top{margin-bottom:18px}.gulf-industry-photo img{height:330px}.gulf-process-grid{grid-template-columns:1fr;gap:16px;margin-top:30px}.gulf-step{margin-bottom:16px}.gulf-contact{padding-block:55px}.gulf-contact-actions{justify-self:start}.gulf-footer-grid{grid-template-columns:1fr 1fr;gap:30px}.gulf-footer-grid>div:first-child{grid-column:1/-1}.gulf-footer-bottom{flex-direction:column;gap:8px}html[dir=rtl] .gulf-hero h1{font-size:38px}}
+@media(prefers-reduced-motion:no-preference){.gulf-site{scroll-behavior:smooth}.gulf-button{transition:background .18s ease}}
+
+/* ---- v2: header fixes (Hello Elementor button reset was showing "Menu" on desktop) ---- */
+.gulf-site .gulf-header .gulf-menu-toggle{display:none!important}
+.gulf-site .gulf-header button{background:none;border:0;border-radius:0;color:inherit;font:inherit;padding:0;cursor:pointer}
+.gulf-site .gulf-header button:hover,.gulf-site .gulf-header button:focus{background:none;color:#b93916}
+.gulf-top-links{display:flex;gap:22px}
+.gulf-nav{align-items:center}
+.gulf-nav a[aria-current],.gulf-dropdown.is-current>.gulf-dropdown-toggle{color:#b93916}
+.gulf-dropdown{position:relative}
+.gulf-site .gulf-dropdown-toggle{font-weight:600;font-size:14px;display:flex;gap:6px;align-items:center}
+.gulf-dropdown-menu{display:none;position:absolute;top:100%;inset-inline-start:-18px;z-index:50;min-width:250px;background:#fff;border:1px solid #e1e6e3;border-top:3px solid #e7532a;box-shadow:0 18px 40px rgba(1,57,56,.12);padding:8px 0}
+.gulf-dropdown-menu a{display:block;padding:11px 20px;font-weight:600}
+.gulf-dropdown-menu a:hover{background:#f3f6f3}
+.gulf-dropdown:hover .gulf-dropdown-menu,.gulf-dropdown:focus-within .gulf-dropdown-menu,.gulf-dropdown.is-open .gulf-dropdown-menu{display:block}
+.gulf-dropdown:before{content:"";position:absolute;top:100%;inset-inline:0;height:14px}
+
+/* ---- image placeholders ---- */
+.gulf-placeholder{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:20px;background:repeating-linear-gradient(135deg,#eef3f0 0 14px,#e5ece8 14px 28px);border:2px dashed #7fa59a;color:#013938;font-family:Arial,sans-serif}
+.gulf-placeholder strong{font-size:22px;line-height:1.2}
+.gulf-placeholder span{font-size:13px;color:#456159}
+.gulf-placeholder .gulf-placeholder-tag{background:#e7532a;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+.gulf-img{width:100%;height:auto}
+
+/* ---- inner page hero ---- */
+.gulf-page-hero{position:relative;isolation:isolate;min-height:470px;display:flex;align-items:flex-end;background:#013938;color:#fff;overflow:hidden}
+.gulf-page-hero>.gulf-img,.gulf-page-hero>.gulf-placeholder{position:absolute;inset:0;width:100%;height:100%!important;object-fit:cover;z-index:-2}
+.gulf-page-hero>.gulf-placeholder{justify-content:flex-start;padding-top:28px;align-items:flex-end;padding-inline:48px;opacity:.9}
+.gulf-page-hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,29,29,.93),rgba(0,29,29,.72) 55%,rgba(0,29,29,.2))}
+html[dir=rtl] .gulf-page-hero:after{transform:scaleX(-1)}
+.gulf-page-hero-content{padding-block:64px 70px}
+.gulf-page-hero h1{font-size:52px;max-width:820px;color:#fff}
+.gulf-page-hero .gulf-hero-line{font-size:24px;color:#ffc2a8}
+.gulf-page-hero .gulf-hero-description{max-width:640px}
+.gulf-crumbs{font-size:13px;color:#b9d0c8;margin-bottom:26px}
+.gulf-crumbs a:hover{color:#fff}
+
+/* ---- section tones & layouts ---- */
+.gulf-tone-soft{background:#f3f6f3}
+.gulf-tone-dark{background:#013938;color:#fff}
+.gulf-tone-dark h2{color:#fff}
+.gulf-tone-dark p:not(.gulf-eyebrow){color:#d0dfda}
+.gulf-tone-dark .gulf-tags li{border-color:#446561;color:#fff}
+.gulf-section h2{color:#013938;margin-bottom:24px}
+.gulf-tone-dark.gulf-section h2{color:#fff}
+.gulf-narrow{max-width:900px}
+.gulf-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.gulf-split-flip .gulf-split-media{order:2}
+.gulf-split-media img,.gulf-split-media .gulf-placeholder{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:3px}
+.gulf-split-text p:not(.gulf-eyebrow){color:#53615c}
+.gulf-tone-dark .gulf-split-text p:not(.gulf-eyebrow){color:#d0dfda}
+.gulf-list-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px}
+.gulf-list-grid .gulf-split-text{display:contents}
+.gulf-list-grid p:not(.gulf-eyebrow){color:#53615c}
+.gulf-tags{list-style:none;margin:6px 0 24px;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.gulf-tags li{border:1px solid #c9d6d0;border-radius:40px;padding:7px 16px;font-size:14px;font-weight:600;color:#013938;background:#fff}
+.gulf-check-list{list-style:none;margin:0 0 24px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 30px}
+.gulf-check-list li{display:flex;gap:12px;padding-block:13px;border-bottom:1px solid #d4ded7;font-size:15px;font-weight:600;color:#1e2e2a}
+.gulf-check-list li:before{content:"+";color:#d3441e;font-size:20px;line-height:1.1}
+.gulf-split .gulf-check-list{grid-template-columns:1fr}
+.gulf-note{display:inline-block;font-weight:700;color:#b93916!important;border-top:2px solid #e7532a;padding-top:10px}
+.gulf-footnote{margin-top:28px!important;font-size:14px;color:#53615c;font-style:italic}
+
+.gulf-cards{display:grid;gap:22px}
+.gulf-cards-2{grid-template-columns:repeat(2,1fr)}
+.gulf-cards-3{grid-template-columns:repeat(3,1fr)}
+.gulf-card{background:#fff;border:1px solid #dae1dc;border-radius:4px;padding:30px}
+.gulf-card h3{color:#013938;font-size:21px;margin-bottom:14px}
+.gulf-card p{font-size:15px;color:#53615c;margin-bottom:10px}
+.gulf-card a{color:#013938;font-weight:600;font-size:14px;border-bottom:1px solid #9fb3ad}
+.gulf-card-num{display:block;color:#c6411c;font-size:13px;margin-bottom:22px;border-top:2px solid #e7532a;width:34px;padding-top:8px}
+.gulf-card-kicker{font-size:12px;font-weight:700;text-transform:uppercase;color:#c6411c!important;margin-bottom:10px!important}
+.gulf-wide-media{margin-block:10px 36px}
+.gulf-wide-media img,.gulf-wide-media .gulf-placeholder{width:100%;aspect-ratio:3/1;object-fit:cover}
+
+.gulf-fleet{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.gulf-fleet-card{padding:0;overflow:hidden}
+.gulf-fleet-card img,.gulf-fleet-card .gulf-placeholder{aspect-ratio:4/3;object-fit:cover;border:0}
+.gulf-fleet-card .gulf-placeholder strong{font-size:17px}
+.gulf-fleet-card>div{padding:22px}
+
+.gulf-logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px}
+.gulf-logos img,.gulf-logos .gulf-placeholder{aspect-ratio:2/1;object-fit:contain;background:#fff}
+.gulf-logos .gulf-placeholder strong{font-size:15px}
+
+.gulf-ceo-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:80px;align-items:start}
+.gulf-ceo-photo img,.gulf-ceo-photo .gulf-placeholder{aspect-ratio:4/5;object-fit:cover;position:sticky;top:30px}
+.gulf-quote{margin:0 0 28px;padding:0 0 0;font-size:26px;line-height:1.4;color:#b93916;border:0}
+.gulf-ceo-grid p:not(.gulf-eyebrow){color:#53615c}
+.gulf-signature{font-weight:700;color:#013938!important;border-top:1px solid #d4ded7;padding-top:16px}
+
+.gulf-solution-link{margin-top:16px}
+.gulf-ghost{background:transparent;border:1px solid #6f9890;color:#fff!important}
+.gulf-ghost:hover{background:#07514f}
+.gulf-contact-actions .gulf-button{width:100%}
+
+/* ---- contact & form ---- */
+.gulf-form-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:70px;align-items:start}
+.gulf-form{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px;margin-top:30px}
+.gulf-field{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:600;color:#1e2e2a}
+.gulf-field-wide{grid-column:1/-1}
+.gulf-site .gulf-field input,.gulf-site .gulf-field select,.gulf-site .gulf-field textarea{width:100%;border:1px solid #c5d1cb;border-radius:3px;padding:13px 14px;font:inherit;font-weight:400;background:#fff;color:#252525;min-height:50px}
+.gulf-site .gulf-field input:focus,.gulf-site .gulf-field select:focus,.gulf-site .gulf-field textarea:focus{border-color:#013938;outline:2px solid #e7532a;outline-offset:1px}
+.gulf-form button{justify-self:start;border:0;cursor:pointer}
+.gulf-hp{position:absolute!important;width:1px;height:1px;overflow:hidden}
+.gulf-notice{padding:14px 18px;border-radius:3px;font-weight:600;margin-top:20px!important}
+.gulf-notice-ok{background:#e3f3ea;color:#11553a!important;border:1px solid #9dd1b5}
+.gulf-notice-error{background:#fdecE6;color:#8e2a10!important;border:1px solid #f1b5a1}
+.gulf-contact-card{background:#013938;color:#fff;padding:36px;border-radius:4px;position:sticky;top:30px}
+.gulf-contact-card h3{color:#fff;font-size:22px;margin-bottom:12px}
+.gulf-contact-card p{color:#cdded7}
+.gulf-contact-card dl{margin:0 0 10px}
+.gulf-contact-card dt{font-size:12px;text-transform:uppercase;color:#ffab88;margin-top:14px}
+.gulf-contact-card dd{margin:2px 0 0;font-size:17px}
+.gulf-contact-card hr{border:0;border-top:1px solid #2f5a56;margin:26px 0}
+.gulf-offices{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:36px}
+.gulf-address{text-align:start}
+html[dir=rtl] .gulf-address{text-align:end}
+
+.gulf-footer-grid{grid-template-columns:1.6fr 1fr 1fr 1.1fr}
+.gulf-footer-logo{width:150px;margin-bottom:6px}
+.gulf-footer-grid a:hover{color:#b93916}
+
+@media(max-width:1100px){
+.gulf-split,.gulf-list-grid,.gulf-ceo-grid,.gulf-form-grid{gap:45px}
+.gulf-cards-3,.gulf-offices{grid-template-columns:repeat(2,1fr)}
+.gulf-fleet{grid-template-columns:repeat(2,1fr)}
+.gulf-page-hero h1{font-size:42px}
+.gulf-footer-grid{grid-template-columns:1fr 1fr}
+.gulf-footer-grid>div:first-child{grid-column:1/-1}
+.gulf-nav{gap:18px}
+}
+@media(max-width:760px){
+.gulf-site .gulf-header .gulf-menu-toggle{display:flex!important;align-items:center;gap:8px;margin-inline-start:auto;color:#013938;padding:12px 0;font-size:13px}
+.gulf-top-links a:first-child{display:none}
+.gulf-nav{align-items:stretch}
+.gulf-dropdown-toggle{width:100%;padding:12px 0!important;border-top:1px solid #e2e7e3!important;justify-content:space-between}
+.gulf-dropdown:before{display:none}
+.gulf-dropdown-menu{position:static;display:block;box-shadow:none;border:0;padding:0 0 6px;min-width:0}
+.gulf-dropdown-menu a{padding:9px 16px;border-top:0!important;font-weight:400}
+.gulf-page-hero{min-height:420px}
+.gulf-page-hero-content{padding-block:48px}
+.gulf-page-hero h1{font-size:34px}
+html[dir=rtl] .gulf-page-hero h1{font-size:30px;line-height:1.45}
+.gulf-page-hero .gulf-hero-line{font-size:19px}
+.gulf-page-hero>.gulf-placeholder{padding-inline:20px}
+.gulf-split,.gulf-list-grid,.gulf-ceo-grid,.gulf-form-grid,.gulf-form{grid-template-columns:1fr;gap:28px}
+.gulf-split-flip .gulf-split-media{order:0}
+.gulf-check-list,.gulf-cards-2,.gulf-cards-3,.gulf-offices,.gulf-fleet{grid-template-columns:1fr}
+.gulf-card{padding:24px}
+.gulf-wide-media img,.gulf-wide-media .gulf-placeholder{aspect-ratio:3/2}
+.gulf-ceo-photo img,.gulf-ceo-photo .gulf-placeholder,.gulf-contact-card{position:static}
+.gulf-contact-card{padding:26px}
+.gulf-quote{font-size:21px}
+.gulf-placeholder strong{font-size:17px}
+.gulf-logos{grid-template-columns:repeat(2,1fr)}
+.gulf-footer-grid{grid-template-columns:1fr}
+}
+.gulf-placeholder{min-width:0;overflow:hidden}
+.gulf-logos>*{min-width:0}
+.gulf-logos .gulf-placeholder{padding:10px}
+.gulf-logos .gulf-placeholder span:not(.gulf-placeholder-tag){font-size:11px}
+.gulf-hp{left:auto;clip:rect(0 0 0 0);clip-path:inset(50%)}

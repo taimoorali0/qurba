@@ -1,0 +1,171 @@
+{
+ "slug": "about-us",
+ "hero_image": "about-hero",
+ "en": {
+  "nav": "About Us",
+  "eyebrow": "Who We Are",
+  "title": "Your Partner in Industrial Progress",
+  "line": "A World of Possibilities"
+ },
+ "ar": {
+  "nav": "من نحن",
+  "eyebrow": "من نحن",
+  "title": "شريككم في التقدم الصناعي",
+  "line": "عالم من الإمكانات"
+ },
+ "sections": [
+  {
+   "type": "text",
+   "image": "about-team",
+   "en": {
+    "eyebrow": "Who We Are",
+    "title": "Reliable technical expertise. Practical solutions.",
+    "body": [
+     "Gulf Industrial Solutions is a growing industrial solutions provider committed to supporting manufacturing and production industries with reliable technical expertise and practical solutions.",
+     "Our capabilities span engineering services, pulp & paper, corrugated packaging, water & wastewater solutions, and industrial equipment support.",
+     "Through strategic partnerships, technical knowledge, and industry-focused solutions, we help our clients improve operational performance, production efficiency, and long-term reliability.",
+     "Our mission is simple: to deliver the right solution for every industrial challenge from initial planning to successful execution and beyond."
+    ]
+   },
+   "ar": {
+    "eyebrow": "من نحن",
+    "title": "خبرة فنية موثوقة. حلول عملية.",
+    "body": [
+     "الخليج للحلول الصناعية هي شركة متنامية في مجال الحلول الصناعية، تلتزم بدعم قطاعات التصنيع والإنتاج من خلال خبرات فنية موثوقة وحلول عملية.",
+     "تشمل قدراتنا خدمات الهندسة، واللب والورق، والتغليف المموج، وحلول المياه ومياه الصرف الصحي، ودعم المعدات الصناعية.",
+     "ومن خلال الشراكات الاستراتيجية، والمعرفة الفنية، والحلول المتخصصة التي تركز على احتياجات القطاعات الصناعية، نساعد عملاءنا على تحسين الأداء التشغيلي، وكفاءة الإنتاج، والموثوقية على المدى الطويل.",
+     "مهمتنا بسيطة: تقديم الحل المناسب لكل تحدٍ صناعي، بدءًا من التخطيط الأولي وحتى التنفيذ الناجح وما بعده."
+    ]
+   }
+  },
+  {
+   "type": "ceo",
+   "image": "about-ceo",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "CEO Message",
+    "title": "Empowering Industry Through Technical Solutions",
+    "quote": "To serve industries is one of the greatest passions of my life.",
+    "body": [
+     "My goal is to empower industry leaders through unique solutions that address their requirements today and support their opportunities for tomorrow.",
+     "I believe industrial services require a customised approach because every industrial requirement is different. For this reason, I focus on developing solutions according to the specific needs of each customer.",
+     "I also believe that industrial services should be approached as a technical profession rather than simply a commercial business activity. Our team therefore brings together professionals from diverse engineering, process and operations backgrounds.",
+     "With an engineering degree and more than 20 years of industrial experience covering production, research and development, and industrial development, I remain focused on delivering solutions with technical understanding and practical value.",
+     "Throughout my career, I have focused on serving clients with responsibility and respect while maintaining the quality of products and services. I believe in building long-term relationships based on commitment, care, and business ethics.",
+     "I welcome the opportunity to discuss your industrial requirements and explore the right techno-commercial solutions for your needs."
+    ],
+    "note": "Chief Executive Officer, Gulf Industrial Solutions"
+   },
+   "ar": {
+    "eyebrow": "رسالة الرئيس التنفيذي",
+    "title": "تمكين الصناعة من خلال حلول تقنية",
+    "quote": "خدمة القطاع الصناعي هي من أعظم شغفي في الحياة.",
+    "body": [
+     "هدفي هو تمكين قادة الصناعة من خلال حلول فريدة تلبي متطلباتهم اليوم وتدعم فرصهم في المستقبل.",
+     "أؤمن بأن الخدمات الصناعية تتطلب نهجًا مخصصًا، لأن كل متطلب صناعي يختلف عن الآخر. ولهذا السبب، أركّز على تطوير حلول وفقًا للاحتياجات المحددة لكل عميل.",
+     "كما أؤمن بأن الخدمات الصناعية ينبغي التعامل معها كمهنة تقنية، وليس مجرد نشاط تجاري. ولذلك، يضم فريقنا متخصصين من خلفيات متنوعة في مجالات الهندسة والعمليات والتشغيل.",
+     "بفضل حصولي على درجة جامعية في الهندسة وأكثر من 20 عامًا من الخبرة الصناعية التي تشمل الإنتاج، والبحث والتطوير، والتطوير الصناعي، أظل ملتزمًا بتقديم حلول تجمع بين الفهم التقني والقيمة العملية.",
+     "على مدار مسيرتي المهنية، ركّزت على خدمة العملاء بمسؤولية واحترام، مع الحفاظ على جودة المنتجات والخدمات. وأؤمن ببناء علاقات طويلة الأمد قائمة على الالتزام، والاهتمام، وأخلاقيات العمل.",
+     "يسعدني أن أناقش متطلباتكم الصناعية وأن نستكشف معًا الحلول التقنية والتجارية المناسبة لاحتياجاتكم."
+    ],
+    "note": "الرئيس التنفيذي، الخليج للحلول الصناعية"
+   }
+  },
+  {
+   "type": "cards",
+   "en": {
+    "eyebrow": "Our Values",
+    "title": "What guides our work",
+    "cards": [
+     [
+      "Commitment",
+      "We believe our commitment to our customers is an important part of the relationships we build and the services we provide."
+     ],
+     [
+      "Attitude",
+      "We focus on customer satisfaction and continued support throughout our relationship with clients."
+     ],
+     [
+      "Safety",
+      "We place importance on the safety of people and the environment across our activities, particularly within the paper and corrugated packaging industries."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "قيمنا",
+    "title": "ما يوجّه عملنا",
+    "cards": [
+     [
+      "الالتزام",
+      "نؤمن بأن التزامنا تجاه عملائنا يُعد جزءًا أساسيًا من العلاقات التي نبنيها والخدمات التي نقدمها."
+     ],
+     [
+      "التعامل مع العملاء",
+      "نركّز على رضا العملاء وتقديم الدعم المستمر طوال فترة علاقتنا معهم."
+     ],
+     [
+      "السلامة",
+      "نولي أهمية كبيرة لسلامة الأفراد والبيئة في جميع أنشطتنا، وبخاصة في قطاعي صناعة الورق وتغليف الكرتون المضلع."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "tone": "dark",
+   "en": {
+    "eyebrow": "Saudi Vision 2030",
+    "title": "Supporting a Sustainable Industrial Future",
+    "body": [
+     "Through strategic partnerships and advanced technologies, Gulf Industrial Solutions is committed to advancing global best practices in engineering, manufacturing, and environmental solutions. Our goal is to support sustainable growth while promoting long-term environmental responsibility.",
+     "From water and wastewater treatment to industrial engineering and sustainable packaging, we provide efficient, innovative solutions that contribute to the objectives of Saudi Vision 2030 and help build a more sustainable industrial future."
+    ]
+   },
+   "ar": {
+    "eyebrow": "رؤية 2030",
+    "title": "دعم مستقبل صناعي مستدام",
+    "body": [
+     "من خلال الشراكات الاستراتيجية والتقنيات المتقدمة، تلتزم الخليج للحلول الصناعية بتعزيز أفضل الممارسات العالمية في مجالات الهندسة والتصنيع والحلول البيئية. ونسعى إلى دعم النمو المستدام، مع تعزيز المسؤولية البيئية على المدى الطويل.",
+     "ومن معالجة المياه ومياه الصرف الصحي إلى الهندسة الصناعية وحلول التغليف المستدام، نقدم حلولًا مبتكرة وفعّالة تسهم في تحقيق مستهدفات رؤية السعودية 2030، وتدعم بناء مستقبل صناعي أكثر استدامة."
+    ]
+   }
+  },
+  {
+   "type": "logos",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Our Group Companies",
+    "title": "Part of a wider group",
+    "body": [
+     "Gulf Industrial Solutions is part of a wider group of companies serving different industrial and commercial requirements."
+    ],
+    "logos": 4
+   },
+   "ar": {
+    "eyebrow": "شركات مجموعتنا",
+    "title": "جزء من مجموعة أوسع",
+    "body": [
+     "الخليج للحلول الصناعية هي جزء من مجموعة أوسع من الشركات التي تخدم مختلف المتطلبات الصناعية والتجارية."
+    ],
+    "logos": 4
+   }
+  },
+  {
+   "type": "cta",
+   "en": {
+    "title": "Let's Build the Right Solution for Your Operation.",
+    "body": [
+     "Have an industrial challenge, upcoming project, or technical requirement?",
+     "Get in touch with Gulf Industrial Solutions and discuss how we can support your operation."
+    ]
+   },
+   "ar": {
+    "title": "لنبنِ معًا الحل الأنسب لعملياتكم.",
+    "body": [
+     "هل لديكم تحدٍ صناعي، أو مشروع قادم، أو متطلب فني؟",
+     "تواصلوا مع الخليج للحلول الصناعية لمناقشة احتياجاتكم ومعرفة كيف يمكننا دعم عملياتكم."
+    ]
+   }
+  }
+ ]
+}

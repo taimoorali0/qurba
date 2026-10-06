@@ -1,0 +1,122 @@
+{
+ "slug": "contact-us",
+ "hero_image": "contact-hero",
+ "en": {
+  "nav": "Contact Us",
+  "eyebrow": "Contact Us",
+  "title": "Let's Discuss Your Industrial Requirements",
+  "line": "Get in Touch With Our Team",
+  "text": "Whether you need technical support, equipment, engineering services, water treatment solutions, packaging systems, or industrial project support, our team is ready to discuss your requirements."
+ },
+ "ar": {
+  "nav": "تواصلوا معنا",
+  "eyebrow": "تواصلوا معنا",
+  "title": "لنناقش متطلباتكم الصناعية",
+  "line": "تواصلوا مع فريقنا",
+  "text": "سواء كنتم بحاجة إلى دعم فني، أو معدات، أو خدمات هندسية، أو حلول لمعالجة المياه، أو أنظمة تغليف، أو دعم لمشاريع صناعية، فإن فريقنا جاهز لمناقشة متطلباتكم."
+ },
+ "sections": [
+  {
+   "type": "form",
+   "en": {
+    "eyebrow": "Send Us Your Enquiry",
+    "title": "Tell Us About Your Requirement",
+    "body": [
+     "Have a project in mind or need information about our industrial solutions? Fill in the form below and our team will get back to you."
+    ],
+    "ksa_title": "KSA Team",
+    "ksa_text": "For industrial projects, technical requirements, and business enquiries in Saudi Arabia.",
+    "help_title": "Need Immediate Assistance?",
+    "help_text": "For enquiries related to Saudi Arabia, contact our KSA team directly."
+   },
+   "ar": {
+    "eyebrow": "أرسلوا لنا استفساركم",
+    "title": "شاركوا متطلباتكم معنا",
+    "body": [
+     "هل لديكم مشروع أو تحتاجون إلى معلومات حول حلولنا الصناعية؟ املأوا النموذج أدناه، وسيتواصل معكم فريقنا."
+    ],
+    "ksa_title": "فريق المملكة العربية السعودية",
+    "ksa_text": "للاستفسارات المتعلقة بالمشاريع الصناعية، والمتطلبات الفنية، والاستفسارات التجارية في المملكة العربية السعودية.",
+    "help_title": "هل تحتاجون إلى مساعدة فورية؟",
+    "help_text": "للاستفسارات المتعلقة بالمملكة العربية السعودية، تواصلوا مع فريقنا مباشرة."
+   }
+  },
+  {
+   "type": "offices",
+   "tone": "soft",
+   "image": "contact-map",
+   "en": {
+    "eyebrow": "Our Offices",
+    "title": "Where to find us",
+    "offices": [
+     [
+      "Saudi Arabia",
+      "Gulf Industrial Company | شركة الخليج الصناعية",
+      "Office 21, 4th Floor, Bin Himad Center, King Fahad Rd, Jeddah 23443, Saudi Arabia",
+      "+966 56 735 5540 | +966 59 606 0624"
+     ],
+     [
+      "Pakistan",
+      "Gulf Industrial Solutions",
+      "75-Sunflower Society J-1, Johar Town, Lahore, Punjab, Pakistan",
+      ""
+     ],
+     [
+      "United Kingdom",
+      "Gulf Industrial Solutions UK Ltd.",
+      "589 Yardley Wood Road, Birmingham, B13 0TB, United Kingdom",
+      ""
+     ],
+     [
+      "United Arab Emirates",
+      "Najm Al Thaqib Trading UAE",
+      "Office #102, Building #511, Muwaileh, Sharjah 22726, United Arab Emirates",
+      ""
+     ],
+     [
+      "Oman",
+      "Shining Star International Oman",
+      "P.O. Box 221, Saham 319, Sultanate of Oman",
+      ""
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "مكاتبنا",
+    "title": "أين تجدوننا",
+    "offices": [
+     [
+      "المملكة العربية السعودية",
+      "Gulf Industrial Company | شركة الخليج الصناعية",
+      "Office 21, 4th Floor, Bin Himad Center, King Fahad Rd, Jeddah 23443, Saudi Arabia",
+      "+966 56 735 5540 | +966 59 606 0624"
+     ],
+     [
+      "باكستان",
+      "Gulf Industrial Solutions",
+      "75-Sunflower Society J-1, Johar Town, Lahore, Punjab, Pakistan",
+      ""
+     ],
+     [
+      "المملكة المتحدة",
+      "Gulf Industrial Solutions UK Ltd.",
+      "589 Yardley Wood Road, Birmingham, B13 0TB, United Kingdom",
+      ""
+     ],
+     [
+      "الإمارات العربية المتحدة",
+      "Najm Al Thaqib Trading UAE",
+      "Office #102, Building #511, Muwaileh, Sharjah 22726, United Arab Emirates",
+      ""
+     ],
+     [
+      "عُمان",
+      "Shining Star International Oman",
+      "P.O. Box 221, Saham 319, Sultanate of Oman",
+      ""
+     ]
+    ]
+   }
+  }
+ ]
+}

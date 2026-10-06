@@ -1,0 +1,523 @@
+{
+ "slug": "water-wastewater-treatment",
+ "hero_image": "water-hero",
+ "en": {
+  "nav": "Water & Wastewater",
+  "eyebrow": "Water & Wastewater Treatment Solutions",
+  "title": "Complete Solutions for Water & Wastewater Treatment",
+  "line": "From Treatment Requirements to Plant Operation",
+  "text": "From treatment programs and chemicals to wastewater treatment processes and RO plant treatment, our solutions are based on specific water quality, process, and operational requirements."
+ },
+ "ar": {
+  "nav": "المياه ومياه الصرف",
+  "eyebrow": "حلول معالجة المياه ومياه الصرف الصناعي",
+  "title": "حلول متكاملة لمعالجة المياه ومياه الصرف الصناعي",
+  "line": "من متطلبات المعالجة إلى تشغيل المحطة",
+  "text": "بدءًا من برامج ومواد المعالجة الكيميائية، وصولًا إلى عمليات معالجة مياه الصرف ومعالجة مياه محطات التناضح العكسي، تُبنى حلولنا وفقًا لخصائص جودة المياه، ومتطلبات العمليات، والظروف التشغيلية."
+ },
+ "sections": [
+  {
+   "type": "list",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Our Water & Wastewater Capabilities",
+    "title": "Solutions for Industrial Water Treatment",
+    "body": [
+     "Our solutions cover key water and wastewater treatment requirements, including:"
+    ],
+    "list": [
+     "Process Water Treatment",
+     "Boiler Water Treatment",
+     "Cooling Water Treatment",
+     "Wastewater Treatment Plants & Chemicals",
+     "Reverse Osmosis Treatment",
+     "Chemical Cleaning",
+     "Water Treatment Chemicals",
+     "Desalination & Related Water Treatment Processes"
+    ]
+   },
+   "ar": {
+    "eyebrow": "قدراتنا في مجال معالجة المياه ومياه الصرف الصناعي",
+    "title": "حلول لمعالجة المياه الصناعية",
+    "body": [
+     "تغطي حلولنا أهم متطلبات معالجة المياه ومياه الصرف الصناعي، وتشمل:"
+    ],
+    "list": [
+     "معالجة مياه العمليات الصناعية",
+     "معالجة مياه الغلايات",
+     "معالجة مياه التبريد",
+     "محطات معالجة مياه الصرف والمواد الكيميائية المستخدمة فيها",
+     "معالجة المياه بالتناضح العكسي",
+     "التنظيف الكيميائي",
+     "المواد الكيميائية لمعالجة المياه",
+     "التحلية وعمليات معالجة المياه ذات الصلة"
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "water-process",
+   "en": {
+    "eyebrow": "Process Water Treatment",
+    "title": "Treatment Solutions for Industrial Water Systems",
+    "body": [
+     "We provide process water treatment programs and chemicals for a range of industrial applications, including:"
+    ],
+    "list": [
+     "Open evaporative and closed cooling water systems",
+     "Boiler water treatment",
+     "Refinery treatment programs",
+     "Fertilizer and chemical process industries",
+     "Power generation",
+     "Steel and metal process industries",
+     "Pharmaceutical and food industries",
+     "Potable water treatment",
+     "Pretreatment and wastewater treatment",
+     "Swimming pool applications",
+     "Desalination and related processes"
+    ],
+    "after": [
+     "Our solutions also include online and offline chemical cleaning, as well as reverse osmosis antiscalants and biocontrol agents."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معالجة مياه العمليات الصناعية",
+    "title": "حلول معالجة المياه للأنظمة الصناعية",
+    "body": [
+     "نقدم برامج ومواد كيميائية لمعالجة مياه العمليات الصناعية لمجموعة من التطبيقات الصناعية، بما في ذلك:"
+    ],
+    "list": [
+     "أنظمة مياه التبريد المفتوحة بالتبخر والمغلقة",
+     "معالجة مياه الغلايات",
+     "برامج معالجة مياه المصافي",
+     "صناعات الأسمدة والصناعات الكيميائية",
+     "توليد الطاقة",
+     "صناعات الحديد والصلب والمعادن",
+     "الصناعات الدوائية والغذائية",
+     "معالجة مياه الشرب",
+     "المعالجة الأولية ومعالجة مياه الصرف",
+     "تطبيقات أحواض السباحة",
+     "التحلية والعمليات ذات الصلة"
+    ],
+    "after": [
+     "تشمل حلولنا أيضًا التنظيف الكيميائي داخل الخط وخارجه، بالإضافة إلى مضادات الترسب المستخدمة في أنظمة التناضح العكسي، ومواد المكافحة الحيوية."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "water-boiler",
+   "flip": true,
+   "en": {
+    "eyebrow": "Boiler Water Treatment",
+    "title": "Chemical Solutions for Boiler Systems",
+    "body": [
+     "Gulf Industrial Solutions provides treatment products for boiler systems ranging from low-pressure steam generators to high-pressure water tube systems.",
+     "Our solutions include:"
+    ],
+    "list": [
+     "Oxygen Scavengers",
+     "Phosphate Residual Programs",
+     "Polymer Programs",
+     "Alkalinity Builders",
+     "Defoamers",
+     "Sludge Conditioners",
+     "Condensate Treatments",
+     "Filming, Neutralising & Combined Amines",
+     "pH Correction"
+    ],
+    "after": [
+     "These treatment programs address different boiler and condensate treatment requirements according to system conditions."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معالجة مياه الغلايات",
+    "title": "حلول كيميائية لأنظمة الغلايات",
+    "body": [
+     "توفر الخليج للحلول الصناعية منتجات معالجة لأنظمة الغلايات، بدءًا من مولدات البخار منخفضة الضغط وحتى أنظمة الغلايات ذات الأنابيب المائية عالية الضغط.",
+     "تشمل حلولنا:"
+    ],
+    "list": [
+     "Oxygen Scavengers",
+     "Phosphate Residual Programs",
+     "Polymer Programs",
+     "Alkalinity Builders",
+     "Defoamers",
+     "Sludge Conditioners",
+     "Condensate Treatments",
+     "Filming, Neutralising & Combined Amines",
+     "pH Correction"
+    ],
+    "after": [
+     "تعالج هذه البرامج مختلف متطلبات معالجة مياه الغلايات والمكثفات وفقًا لظروف كل نظام."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "water-cooling",
+   "en": {
+    "eyebrow": "Cooling Water Treatment",
+    "title": "Supporting Cooling Tower Performance",
+    "body": [
+     "We provide chemical solutions for cooling tower systems, including pre-commission cleaning, flushing, and passivation.",
+     "Our inhibitor solutions are designed to help control:"
+    ],
+    "tags": [
+     "Scale",
+     "Corrosion",
+     "Fouling"
+    ],
+    "after": [
+     "These treatment programs support the ongoing water treatment requirements of cooling tower systems."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معالجة مياه التبريد",
+    "title": "دعم أداء أبراج التبريد",
+    "body": [
+     "نوفر حلولًا كيميائية لأنظمة أبراج التبريد، بما في ذلك التنظيف قبل التشغيل، والغسيل، والتخميل.",
+     "صُممت مثبطاتنا للمساعدة في التحكم في:"
+    ],
+    "tags": [
+     "Scale",
+     "Corrosion",
+     "Fouling"
+    ],
+    "after": [
+     "تدعم برامج المعالجة هذه متطلبات معالجة المياه المستمرة لأنظمة أبراج التبريد."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "water-wastewater",
+   "flip": true,
+   "en": {
+    "eyebrow": "Wastewater Treatment Plants & Chemicals",
+    "title": "Treatment Processes for Industrial Wastewater",
+    "body": [
+     "Gulf Industrial Solutions provides wastewater treatment solutions using physical, chemical, and biological treatment processes, according to the type and concentration of pollutants present in the wastewater.",
+     "Treatment solutions may include:"
+    ],
+    "list": [
+     "Physical Treatment",
+     "Chemical Treatment",
+     "Biological Treatment",
+     "Aerobic Treatment",
+     "Anaerobic Treatment",
+     "Oil-Water Separation",
+     "Physicochemical Treatment",
+     "Dissolved Air Flotation (DAF)",
+     "Disinfection"
+    ],
+    "after": [
+     "Our wastewater treatment plants cater to applications requiring different treatment processes, with treated water intended for appropriate discharge or reuse applications."
+    ]
+   },
+   "ar": {
+    "eyebrow": "محطات ومواد معالجة مياه الصرف الصناعي",
+    "title": "عمليات معالجة مياه الصرف الصناعي",
+    "body": [
+     "توفر الخليج للحلول الصناعية حلولًا لمعالجة مياه الصرف باستخدام عمليات المعالجة الفيزيائية والكيميائية والبيولوجية، وفقًا لنوع الملوثات الموجودة في مياه الصرف وتركيزها.",
+     "قد تشمل حلول المعالجة:"
+    ],
+    "list": [
+     "المعالجة الفيزيائية",
+     "المعالجة الكيميائية",
+     "المعالجة البيولوجية",
+     "المعالجة الهوائية",
+     "المعالجة اللاهوائية",
+     "فصل الزيت عن الماء",
+     "المعالجة الفيزيوكيميائية",
+     "التعويم بالهواء المذاب (DAF)",
+     "التطهير"
+    ],
+    "after": [
+     "تلبي محطات معالجة مياه الصرف لدينا متطلبات التطبيقات المختلفة التي تتطلب عمليات معالجة متنوعة، مع تخصيص المياه المعالجة للتصريف أو إعادة استخدامها في التطبيقات المناسبة."
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "tone": "soft",
+   "image": "water-ro",
+   "en": {
+    "eyebrow": "Reverse Osmosis Treatment",
+    "title": "Supporting RO Plant Operation & Maintenance",
+    "body": [
+     "Reverse osmosis plants require appropriate chemical treatment for operation and maintenance. Our RO treatment solutions include:"
+    ],
+    "cards": [
+     [
+      "Antiscalants",
+      "To help control scale and mineral deposits on RO membranes."
+     ],
+     [
+      "Biocides",
+      "To control biological growth that can contribute to membrane fouling."
+     ],
+     [
+      "pH Adjusters",
+      "To maintain suitable pH conditions for RO membrane operation."
+     ],
+     [
+      "Cleaning Agents",
+      "For membrane cleaning and removal of fouling and scale buildup."
+     ],
+     [
+      "Disinfectants",
+      "For system disinfection and microbial control."
+     ]
+    ],
+    "after": [
+     "We provide both online and offline chemical cleaning solutions, along with treatment chemicals for process water, boiler systems, cooling towers, wastewater, and RO applications."
+    ]
+   },
+   "ar": {
+    "eyebrow": "معالجة التناضح العكسي",
+    "title": "دعم تشغيل وصيانة محطات التناضح العكسي",
+    "body": [
+     "تتطلب محطات التناضح العكسي معالجة كيميائية مناسبة للتشغيل والصيانة. تشمل حلولنا لمعالجة التناضح العكسي:"
+    ],
+    "cards": [
+     [
+      "مضادات الترسب",
+      "للمساعدة في التحكم في الترسبات والرواسب المعدنية على أغشية التناضح العكسي."
+     ],
+     [
+      "المبيدات الحيوية",
+      "للتحكم في النمو البيولوجي الذي قد يسهم في تلوث الأغشية وانسدادها."
+     ],
+     [
+      "مواد ضبط الأس الهيدروجيني",
+      "للحفاظ على مستويات مناسبة للأس الهيدروجيني لتشغيل أغشية التناضح العكسي."
+     ],
+     [
+      "مواد التنظيف",
+      "لتنظيف الأغشية وإزالة التلوث والترسبات المتراكمة."
+     ],
+     [
+      "المطهرات",
+      "لتطهير النظام والسيطرة على الميكروبات."
+     ]
+    ],
+    "after": [
+     "نوفر حلول التنظيف الكيميائي أثناء التشغيل وخارج التشغيل، إلى جانب مواد المعالجة الكيميائية لمياه العمليات، وأنظمة الغلايات، وأبراج التبريد، ومياه الصرف الصناعي، وتطبيقات التناضح العكسي."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "water-filtration",
+   "en": {
+    "eyebrow": "Filtration & Water Treatment Systems",
+    "title": "Filtration and Treatment for Industrial Water Applications",
+    "body": [
+     "Filtration is an important part of water and wastewater treatment, particularly where suspended solids and other contaminants need to be separated before further treatment or reuse.",
+     "Our water treatment capabilities include filtration processes used as part of physical treatment and pretreatment requirements."
+    ]
+   },
+   "ar": {
+    "eyebrow": "أنظمة الترشيح ومعالجة المياه",
+    "title": "الترشيح والمعالجة للتطبيقات الصناعية لمعالجة المياه",
+    "body": [
+     "تُعد عملية الترشيح جزءًا مهمًا من معالجة المياه ومياه الصرف الصناعي، خاصةً في الحالات التي تتطلب فصل المواد الصلبة العالقة والملوثات الأخرى قبل مراحل المعالجة اللاحقة أو إعادة الاستخدام.",
+     "تشمل قدراتنا في معالجة المياه عمليات الترشيح المستخدمة كجزء من متطلبات المعالجة الفيزيائية والمعالجة الأولية."
+    ]
+   }
+  },
+  {
+   "type": "text",
+   "image": "water-chemicals",
+   "flip": true,
+   "en": {
+    "eyebrow": "Water Treatment Chemicals & Chemical Cleaning",
+    "title": "Chemical Solutions for Water Treatment Systems",
+    "body": [
+     "We provide chemical treatment solutions for different industrial water applications, including boiler, cooling tower, process water, wastewater and RO systems.",
+     "Chemical solutions include:"
+    ],
+    "tags": [
+     "Oxygen Scavengers",
+     "Phosphates",
+     "Polymers",
+     "Alkalinity Builders",
+     "Defoamers",
+     "Sludge Conditioners",
+     "Condensate Treatment Chemicals",
+     "Scale and Corrosion Inhibitors",
+     "RO Antiscalants",
+     "Biocides",
+     "pH Adjusters",
+     "Cleaning Agents",
+     "Disinfectants"
+    ],
+    "after": [
+     "Chemical cleaning services include both online and offline chemical cleaning."
+    ]
+   },
+   "ar": {
+    "eyebrow": "المواد الكيميائية لمعالجة المياه والتنظيف الكيميائي",
+    "title": "حلول كيميائية لأنظمة معالجة المياه",
+    "body": [
+     "نوفر حلول معالجة كيميائية لمختلف تطبيقات المياه الصناعية، بما في ذلك أنظمة الغلايات، وأبراج التبريد، ومياه العمليات، ومياه الصرف الصناعي، وأنظمة التناضح العكسي.",
+     "تشمل الحلول الكيميائية:"
+    ],
+    "tags": [
+     "Oxygen Scavengers",
+     "Phosphates",
+     "Polymers",
+     "Alkalinity Builders",
+     "Defoamers",
+     "Sludge Conditioners",
+     "Condensate Treatment Chemicals",
+     "Scale and Corrosion Inhibitors",
+     "RO Antiscalants",
+     "Biocides",
+     "pH Adjusters",
+     "Cleaning Agents",
+     "Disinfectants"
+    ],
+    "after": [
+     "تشمل خدمات التنظيف الكيميائي التنظيف أثناء التشغيل والتنظيف خارج التشغيل."
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "en": {
+    "eyebrow": "Projects & support",
+    "title": "From Treatment Requirements to Project Execution",
+    "cards": [
+     [
+      "Turnkey Water & Wastewater Projects",
+      "For projects requiring more than individual treatment products or chemicals, Gulf Industrial Solutions can deliver water and wastewater requirements as complete project solutions — including design, equipment supply, installation, commissioning, and maintenance, tailored to each project's scope."
+     ],
+     [
+      "Technical Training & Support",
+      "Technical training and support are provided to help ensure the correct understanding and application of water treatment solutions, chemicals and treatment processes."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "المشاريع والدعم",
+    "title": "من متطلبات المعالجة إلى تنفيذ المشروع",
+    "cards": [
+     [
+      "مشاريع المياه ومياه الصرف الصناعي بنظام تسليم المفتاح",
+      "بالنسبة للمشاريع التي تتطلب أكثر من مجرد منتجات أو مواد كيميائية فردية للمعالجة، يمكن للخليج للحلول الصناعية تقديم متطلبات المياه ومياه الصرف الصناعي كحلول مشاريع متكاملة تشمل التصميم، وتوريد المعدات، والتركيب، والتشغيل، والصيانة، وفقًا لنطاق كل مشروع."
+     ],
+     [
+      "التدريب والدعم الفني",
+      "يتم تقديم التدريب والدعم الفني للمساعدة في ضمان الفهم الصحيح والتطبيق السليم لحلول معالجة المياه، والمواد الكيميائية، وعمليات المعالجة."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "list",
+   "tone": "soft",
+   "en": {
+    "eyebrow": "Applications",
+    "title": "Water Treatment Across Industrial Sectors",
+    "body": [
+     "Our water and wastewater treatment solutions support applications including:"
+    ],
+    "list": [
+     "Refineries",
+     "Fertilizer & Chemical Processing",
+     "Power Generation",
+     "Steel & Metal Processing",
+     "Pharmaceutical & Food Industries",
+     "Industrial Water Systems",
+     "Potable Water Applications",
+     "Desalination",
+     "Swimming Pool Applications"
+    ]
+   },
+   "ar": {
+    "eyebrow": "التطبيقات",
+    "title": "معالجة المياه في مختلف القطاعات الصناعية",
+    "body": [
+     "تدعم حلولنا لمعالجة المياه ومياه الصرف الصناعي تطبيقات تشمل:"
+    ],
+    "list": [
+     "المصافي",
+     "الأسمدة والصناعات الكيميائية",
+     "توليد الطاقة",
+     "صناعات الحديد والصلب والمعادن",
+     "الصناعات الدوائية والغذائية",
+     "أنظمة المياه الصناعية",
+     "تطبيقات مياه الشرب",
+     "التحلية",
+     "تطبيقات حمامات السباحة"
+    ]
+   }
+  },
+  {
+   "type": "cards",
+   "en": {
+    "eyebrow": "Why Choose Gulf Industrial Solutions",
+    "title": "Industrial water expertise, application-focused",
+    "cards": [
+     [
+      "Industrial Water Expertise",
+      "Solutions covering process water, boiler, cooling, wastewater and RO applications."
+     ],
+     [
+      "Chemical Treatment Capability",
+      "A range of treatment chemicals for different industrial water systems."
+     ],
+     [
+      "Application-Focused Solutions",
+      "Treatment approaches based on specific process and water requirements."
+     ],
+     [
+      "From Treatment to Project Requirements",
+      "Support across individual treatment needs and broader water and wastewater requirements."
+     ]
+    ]
+   },
+   "ar": {
+    "eyebrow": "لماذا تختارون الخليج للحلول الصناعية",
+    "title": "خبرة في المياه الصناعية تركز على التطبيق",
+    "cards": [
+     [
+      "خبرة في معالجة المياه الصناعية",
+      "حلول تغطي مياه العمليات، والغلايات، والتبريد، ومياه الصرف الصناعي، وتطبيقات التناضح العكسي."
+     ],
+     [
+      "قدرات المعالجة الكيميائية",
+      "مجموعة من المواد الكيميائية لمعالجة المياه لمختلف أنظمة المياه الصناعية."
+     ],
+     [
+      "حلول تركز على التطبيق",
+      "أساليب معالجة تُبنى وفقًا لمتطلبات العمليات والمياه المحددة."
+     ],
+     [
+      "من المعالجة إلى متطلبات المشاريع",
+      "دعم يشمل احتياجات المعالجة الفردية والمتطلبات الأوسع للمياه ومياه الصرف الصناعي."
+     ]
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "en": {
+    "title": "Let's Build the Right Solution for Your Operation.",
+    "body": [
+     "Have an industrial challenge, upcoming project, or technical requirement?",
+     "Get in touch with Gulf Industrial Solutions and discuss how we can support your operation."
+    ]
+   },
+   "ar": {
+    "title": "لنبنِ معًا الحل الأنسب لعملياتكم.",
+    "body": [
+     "هل لديكم تحدٍ صناعي، أو مشروع قادم، أو متطلب فني؟",
+     "تواصلوا مع الخليج للحلول الصناعية لمناقشة احتياجاتكم ومعرفة كيف يمكننا دعم عملياتكم."
+    ]
+   }
+  }
+ ]
+}
