@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class ContentLibraryController extends Controller
 {
+    public function page(string $module)
+    {
+        abort_unless(array_key_exists($module, config('content.modules')), 404);
+        return \Inertia\Inertia::render('LibraryModule', [
+            'module' => $module, 'title' => config("content.modules.{$module}"),
+        ]);
+    }
+
     public function modules()
     {
         return response()->json(['data' => collect(config('content.modules'))->map(fn ($title, $slug) => [
