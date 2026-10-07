@@ -104,3 +104,5 @@ Route::prefix('api/v1/library')->middleware('throttle:60,1')->group(function () 
 
 Route::get('/library/{module}', [\App\Http\Controllers\ContentLibraryController::class, 'page'])
     ->where('module', 'hadith|seerah|kids|naats|ruqyah')->name('library.module');
+
+Route::get('/explore', fn () => Inertia::render('Explore'))->name('explore');

@@ -27,6 +27,7 @@ const primary = [
 // Desktop top bar: main sections, the rest under "More"
 const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/learn', icon: GraduationCap }];
 const libraryLinks = [
+  { title: 'Explore', href: '/explore' },
   { title: 'Hadith', href: '/library/hadith' },
   { title: 'Seerat-un-Nabi ﷺ', href: '/library/seerah' },
   { title: 'Kids', href: '/library/kids' },
