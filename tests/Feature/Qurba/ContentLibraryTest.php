@@ -5,7 +5,7 @@ use App\Models\ContentSource;
 
 function libraryEntry(): ContentEntry
 {
-    $source = ContentSource::create(['name' => 'Test source', 'type' => 'hadith', 'status' => 'approved', 'redistribution_allowed' => true]);
+    $source = ContentSource::create(['name' => 'Test source', 'type' => 'other', 'status' => 'approved', 'redistribution_allowed' => true]);
     return ContentEntry::create(['module' => 'hadith', 'slug' => 'test-entry', 'title' => ['en' => 'Test'],
         'body' => ['en' => 'Fixture only'], 'status' => 'published', 'content_source_id' => $source->id]);
 }
