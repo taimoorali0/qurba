@@ -14,6 +14,8 @@ return [
     |
     */
 
+    'sunnah' => ['key' => env('SUNNAH_API_KEY')],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
