@@ -101,15 +101,10 @@
 }
 
 
-/* ===== QURBA ISLAMIC ORNAMENT — START ===== */
-/* Faint eight-point star (khatam) lattice behind every page */
-.bg-islamic { background-color: #F8F7F2; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-opacity='.10' stroke-width='1'%3E%3Cpath d='M32 14l5.3 12.7L50 32l-12.7 5.3L32 50l-5.3-12.7L14 32l12.7-5.3z'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z' transform='rotate%2845 32 32%29'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z'/%3E%3Cpath d='M0 0l7 7M64 0l-7 7M0 64l7-7M64 64l-7-7'/%3E%3C/g%3E%3C/svg%3E"); background-size: 64px 64px; }
-/* Same pattern in white, for green cards and banners */
-.pattern-light { position: relative; isolation: isolate; }
-.pattern-light::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23FFFFFF' stroke-opacity='.10' stroke-width='1'%3E%3Cpath d='M32 14l5.3 12.7L50 32l-12.7 5.3L32 50l-5.3-12.7L14 32l12.7-5.3z'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z' transform='rotate%2845 32 32%29'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z'/%3E%3Cpath d='M0 0l7 7M64 0l-7 7M0 64l7-7M64 64l-7-7'/%3E%3C/g%3E%3C/svg%3E"); background-size: 56px 56px; pointer-events: none; }
-/* Gold version for light banners */
-.pattern-gold { position: relative; isolation: isolate; }
-.pattern-gold::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-opacity='.22' stroke-width='1'%3E%3Cpath d='M32 14l5.3 12.7L50 32l-12.7 5.3L32 50l-5.3-12.7L14 32l12.7-5.3z'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z' transform='rotate%2845 32 32%29'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z'/%3E%3Cpath d='M0 0l7 7M64 0l-7 7M0 64l7-7M64 64l-7-7'/%3E%3C/g%3E%3C/svg%3E"); background-size: 56px 56px; pointer-events: none; }
+/* Plain surfaces keep long reading pages calm and readable. */
+.bg-islamic { background-color: #F8F7F2; }
+.pattern-light, .pattern-gold { position: relative; isolation: isolate; }
+
 /* Mihrab-style arched top for page banners */
 .arch-top { border-top-left-radius: 50% 5.5rem; border-top-right-radius: 50% 5.5rem; }
 @media (min-width: 768px) { .arch-top { border-top-left-radius: 50% 8rem; border-top-right-radius: 50% 8rem; } }

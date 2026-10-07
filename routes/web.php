@@ -94,3 +94,10 @@ foreach (['settings.php', 'auth.php'] as $file) {
     }
 }
 // ===== QURBA ROUTES — END =====
+
+// Reviewed library content for Hadith, Seerah, Kids, Naats and Ruqyah.
+Route::prefix('api/v1/library')->middleware('throttle:60,1')->group(function () {
+    Route::get('modules', [\App\Http\Controllers\ContentLibraryController::class, 'modules']);
+    Route::get('{module}', [\App\Http\Controllers\ContentLibraryController::class, 'index']);
+    Route::get('{module}/{slug}', [\App\Http\Controllers\ContentLibraryController::class, 'show']);
+});
