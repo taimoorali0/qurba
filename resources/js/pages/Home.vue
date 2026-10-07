@@ -1,12 +1,10 @@
 <!-- ===== QURBA HOME — START ===== -->
 <script setup lang="ts">
-import Rosette from '../components/Rosette.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, Sparkles, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import QurbaShell from '../layouts/QurbaShell.vue';
-import Ornament from '../components/Ornament.vue';
 import { getLastRead, type LastRead } from '../lib/quranLocal';
 import { loc } from '../lib/location';
 import { countdown, fmtTime, nextPrayer, timesFor } from '../lib/prayer';
@@ -43,16 +41,16 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
   <Head title="Qurba" />
   <QurbaShell>
     <!-- Hero -->
-    <section class="pattern-gold arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-100 via-paper to-lime-100 pt-12 shadow-soft md:pt-20 px-6 py-8 md:px-12 md:py-14">
+    <section class="relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-100 via-paper to-lime-100 border border-line shadow-soft px-5 py-6 md:px-8 md:py-8">
       <!-- Decorative rosette, purely ornamental -->
-      <Rosette class="pointer-events-none absolute -bottom-24 -end-24 size-[26rem] text-teal-400/25 md:-end-10 md:size-[34rem]" />
 
-      <div class="relative grid items-center gap-8 lg:grid-cols-[1.3fr_1fr]">
+
+      <div class="relative grid items-center gap-6 lg:grid-cols-[1.3fr_1fr]">
         <div>
           <p dir="rtl" lang="ar" class="w-fit font-quran text-2xl text-gold-600 md:text-3xl">ٱلسَّلَامُ عَلَيْكُمْ</p>
           <p class="mt-1 text-sm text-ink-soft">{{ t('home.greeting') }} · {{ t('home.sub') }}</p>
           <h1 class="mt-2 font-display text-3xl leading-tight text-emerald-900 md:text-5xl">{{ t('home.heroTitle') }}</h1>
-          <Ornament align="start" class="mt-3" />
+
           <p class="mt-3 max-w-md text-ink-soft">{{ t('home.heroSub') }}</p>
           <div class="mt-6 flex flex-wrap gap-3">
             <Link href="/quran" class="inline-flex rounded-full bg-emerald-900 px-6 py-2.5 text-sm font-medium text-cream hover:bg-emerald-700">{{ t('home.getStarted') }}</Link>
@@ -62,7 +60,7 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
 
         <!-- Next prayer -->
         <div class="isolate overflow-hidden relative rounded-[var(--radius-tile)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+
           <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
           <template v-if="next && loc.place">
             <p class="mt-2 text-lg">{{ t('prayer.' + next.name) }}</p>
@@ -83,19 +81,19 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
     </section>
 
     <!-- Feature tiles -->
-    <nav class="mt-6 grid grid-cols-4 gap-3 lg:grid-cols-8">
+    <nav class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
       <Link v-for="tile in tiles" :key="tile.href" :href="tile.href"
         class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] bg-paper px-2 py-4 text-center shadow-soft transition-shadow hover:shadow-lift">
         <span class="grid size-11 place-items-center rounded-2xl" :class="tileTones[tiles.indexOf(tile) % tileTones.length]">
           <component :is="tile.icon" class="size-5 text-emerald-700 group-hover:text-emerald-900" :stroke-width="1.7" />
         </span>
-        <span class="text-xs font-medium text-ink md:text-sm">{{ t(tile.key) }}</span>
-        <span class="hidden text-[11px] leading-snug text-ink-soft md:block">{{ t(tile.desc) }}</span>
+        <span class="flex min-h-10 items-center justify-center text-sm font-medium leading-snug text-ink">{{ t(tile.key) }}</span>
+        <span class="text-xs leading-snug text-ink-soft">{{ t(tile.desc) }}</span>
       </Link>
     </nav>
 
     <!-- Dashboard row -->
-    <section class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section class="mt-6 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5">
         <h2 class="font-display text-lg text-emerald-900">{{ t('home.continue') }}</h2>
         <template v-if="lastRead">

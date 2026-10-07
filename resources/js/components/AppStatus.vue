@@ -1,6 +1,5 @@
 <!-- ===== QURBA: offline notice, 7-day sync reminder, install prompt ===== -->
 <script setup lang="ts">
-import Rosette from './Rosette.vue';
 import { usePage } from '@inertiajs/vue3';
 import { watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -29,7 +28,7 @@ watchEffect(() => { (window as any).__qurbaInertiaVersion = page.version ?? ''; 
     </div>
 
     <div v-if="showInstall" class="isolate overflow-hidden relative flex items-start gap-3 rounded-2xl bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-4 py-3 text-sm text-cream">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+
       <img src="/brand/qurba-icon-96.png" alt="" class="size-10 shrink-0" />
       <div class="min-w-0 flex-1">
         <p class="font-medium">{{ t('pwa.installTitle') }}</p>

@@ -1,6 +1,5 @@
 <!-- ===== QURBA: Prayer times ===== -->
 <script setup lang="ts">
-import Rosette from '../components/Rosette.vue';
 import { Head } from '@inertiajs/vue3';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -55,7 +54,7 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
     </div>
 
     <div v-if="adhanFor || sound.adhanPlaying" class="isolate overflow-hidden relative mt-5 flex items-center gap-3 rounded-[var(--radius-tile)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-5 py-4 text-cream">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+
       <span class="flex-1 font-display text-xl">{{ t('prayer.' + (sound.adhanPlaying || adhanFor)) }}</span>
       <button v-if="sound.adhanPlaying" class="rounded-full bg-gold-500 px-4 py-1.5 text-sm text-emerald-950" @click="stopOneShot">{{ t('sound.stopAdhan') }}</button>
       <button v-else class="rounded-full bg-gold-500 px-4 py-1.5 text-sm text-emerald-950" @click="playAdhan(adhanFor).then(() => (adhanFor = ''))">{{ t('sound.playAdhan') }}</button>
@@ -96,7 +95,7 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
       <!-- Day -->
       <div class="lg:hidden">      <!-- Next prayer -->
       <div v-if="next" class="isolate overflow-hidden relative mb-6 rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+
         <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
         <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
         <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>
@@ -133,7 +132,7 @@ const isNext = (name: string, time: Date) => offset.value === 0 && next.value?.n
       <aside class="space-y-4">
       <div class="hidden lg:block">      <!-- Next prayer -->
       <div v-if="next" class="isolate overflow-hidden relative rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift p-6 text-cream">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+
         <p class="text-sm text-gold-200">{{ t('home.nextPrayer') }}</p>
         <p class="mt-1 font-display text-4xl">{{ t('prayer.' + next.name) }} <span class="text-gold-500">{{ fmtTime(next.time, tz, locale) }}</span></p>
         <p class="mt-1 text-sm text-gold-200">{{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>

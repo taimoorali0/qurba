@@ -1,12 +1,10 @@
 <!-- ===== QURBA: 99 Names of Allah (Al-Asma' al-Husna) ===== -->
 <script setup lang="ts">
-import Rosette from '../components/Rosette.vue';
 import { Head } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Check, Pause, Play, Search, Volume2 } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
-import Ornament from '../components/Ornament.vue';
 import { isMemorised, memorised, NAMES, toggleMemorised } from '../lib/asmaulHusna';
 import { toArabicDigits } from '../lib/quranLocal';
 import { canSpeakArabic, nameVoices, playClip, playName, sound, stopOneShot, type VoiceInfo } from '../lib/sounds';
@@ -68,12 +66,12 @@ function playAll(from = 1) {
   <Head :title="t('names.title')" />
   <QurbaShell>
     <!-- Header -->
-    <section class="isolate arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-6 py-8 text-cream md:px-10">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+    <section class="isolate relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-6 py-8 text-cream md:px-10">
+
       <p dir="rtl" lang="ar" class="pointer-events-none absolute -bottom-6 end-4 font-quran text-8xl text-gold-500/15 md:text-9xl" aria-hidden="true">الله</p>
       <p dir="rtl" lang="ar" class="pt-6 text-center font-quran text-3xl text-gold-200 md:pt-10 md:text-4xl">أَسْمَاءُ ٱللَّهِ ٱلْحُسْنَىٰ</p>
       <h1 class="mt-2 text-center font-display text-3xl md:text-4xl">{{ t('names.title') }}</h1>
-      <Ornament light class="mt-3" />
+
       <p class="mx-auto mt-3 max-w-xl text-center text-sm text-gold-200">{{ t('names.sub') }}</p>
       <div class="mx-auto mt-5 max-w-sm text-center">
         <p class="text-xs text-gold-200">{{ t('names.progress', { n: done }) }}</p>

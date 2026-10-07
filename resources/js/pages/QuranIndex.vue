@@ -1,6 +1,5 @@
 <!-- ===== QURBA: Surah list ===== -->
 <script setup lang="ts">
-import Rosette from '../components/Rosette.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -43,7 +42,7 @@ const filtered = computed(() => {
 
     <Link v-if="lastRead" :href="`/quran/${lastRead.surah}#ayah-${lastRead.ayah}`"
       class="isolate overflow-hidden relative mt-6 flex items-center justify-between rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 shadow-lift px-6 py-5 text-cream">
-        <Rosette class="pointer-events-none absolute -end-20 top-1/2 -z-0 size-80 -translate-y-1/2 text-teal-400/20 md:size-96" />
+
       <span>
         <span class="block text-sm text-gold-200">{{ t('home.continue') }}</span>
         <span class="mt-1 block font-display text-xl">{{ lastRead.name }}</span>

@@ -18,7 +18,7 @@ export const app = reactive({
   syncing: false,
 });
 
-export const isIos = typeof navigator !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent);
+export const isIos = typeof navigator !== 'undefined' && (/iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
 export const showInstall = computed(() => !app.standalone && Date.now() - app.installDismissed > 14 * DAY && (!!app.installEvent || isIos));
 export const syncOverdue = computed(() => app.lastSync > 0 && Date.now() - app.lastSync > 7 * DAY && Date.now() - app.syncDismissed > DAY);
 
