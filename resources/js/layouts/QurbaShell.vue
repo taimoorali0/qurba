@@ -26,24 +26,23 @@ const primary = [
 ];
 // Desktop top bar: main sections, the rest under "More"
 const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/learn', icon: GraduationCap }];
-const libraryLinks = [
-  { title: 'Explore', href: '/explore' },
-  { title: 'Hadith', href: '/library/hadith' },
-  { title: 'Seerat-un-Nabi ﷺ', href: '/library/seerah' },
-  { title: 'Kids', href: '/library/kids' },
-  { title: 'Hamd & Naats', href: '/library/naats' },
-  { title: 'Ruqyah', href: '/library/ruqyah' },
-];
 const more = [
   { key: 'prayer', href: '/prayer', icon: Clock },
   { key: 'qibla', href: '/qibla', icon: Compass },
   { key: 'names', href: '/names', icon: Sparkles },
   { key: 'profile', href: '/profile', icon: User },
 ];
-const moreActive = computed(() => [...more, ...libraryLinks].some((m) => isActive(m.href)));
+const moreActive = computed(() => more.some((m) => isActive(m.href)));
 const user = computed(() => (page.props as any).auth?.user ?? null);
 const initial = computed(() => (user.value?.name ?? '?').trim().charAt(0).toUpperCase());
 initSounds();
+function hoverMore(event: MouseEvent, open: boolean) {
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) (event.currentTarget as HTMLDetailsElement).open = open;
+}
+function closeMore(event: KeyboardEvent) {
+  const menu = event.currentTarget as HTMLDetailsElement;
+  menu.open = false; menu.querySelector('summary')?.focus();
+}
 const q = ref('');
 function search() { const term = q.value.trim(); if (term) router.visit(`/quran?q=${encodeURIComponent(term)}`); }
 const langs: { code: QurbaLocale; label: string }[] = [
@@ -70,18 +69,18 @@ const langs: { code: QurbaLocale; label: string }[] = [
             {{ t('nav.' + item.key) }}
             <span v-if="isActive(item.href)" class="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-emerald-900" />
           </Link>
-          <details class="group relative">
+          <details class="group relative" @mouseenter="hoverMore($event, true)" @mouseleave="hoverMore($event, false)" @keydown.esc="closeMore($event)">
             <summary class="flex cursor-pointer list-none items-center gap-1 px-3 py-2 text-sm"
               :class="moreActive ? 'font-medium text-emerald-900' : 'text-ink-soft hover:text-emerald-900'">
               {{ t('nav.more') }} <ChevronDown class="size-3.5 transition-transform group-open:rotate-180" />
             </summary>
-            <div class="absolute start-0 top-full z-40 mt-2 w-48 rounded-2xl border border-line bg-paper p-1.5 shadow-lg">
+            <div class="absolute start-0 top-full z-40 w-48 rounded-2xl border border-line bg-paper p-1.5 shadow-lg">
               <Link v-for="m in more" :key="m.key" :href="m.href"
                 class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-cream"
                 :class="isActive(m.href) ? 'text-emerald-900' : 'text-ink'">
                 <component :is="m.icon" class="size-4 text-emerald-700" /> {{ t('nav.' + m.key) }}
               </Link>
-              <Link v-for="item in libraryLinks" :key="item.href" :href="item.href" class="block rounded-xl px-3 py-3 text-sm hover:bg-cream" :class="isActive(item.href) ? 'font-medium text-emerald-900' : 'text-ink'">{{ item.title }}</Link>
+
             </div>
           </details>
         </nav>

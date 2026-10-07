@@ -30,6 +30,14 @@ const tiles = [
   { key: 'nav.names', desc: 'names.d', href: '/names', icon: Sparkles },
   { key: 'home.downloads', desc: 'home.d_downloads', href: '/quran/downloads', icon: Download },
 ];
+const libraryTiles = [
+  { title: 'Hadith', desc: 'Collections and references', href: '/library/hadith', icon: BookOpen },
+  { title: 'Seerat-un-Nabi ﷺ', desc: 'Life of the Prophet ﷺ', href: '/library/seerah', icon: BookOpen },
+  { title: 'Kids', desc: 'Learn and remember', href: '/library/kids', icon: GraduationCap },
+  { title: 'Hamd & Naats', desc: 'Read and listen', href: '/library/naats', icon: Sparkles },
+  { title: 'Ruqyah', desc: 'Quran and supplications', href: '/library/ruqyah', icon: BookOpen },
+  { title: 'Explore', desc: 'Browse all sections', href: '/explore', icon: Compass },
+];
 // Soft pastel backgrounds for the feature tiles
 const tileTones = ['bg-teal-100', 'bg-lime-100', 'bg-olive-100', 'bg-leaf-100'];
 const lastRead = ref<LastRead | null>(null);
@@ -89,6 +97,17 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
         </span>
         <span class="flex min-h-10 items-center justify-center text-sm font-medium leading-snug text-ink">{{ t(tile.key) }}</span>
         <span class="text-xs leading-snug text-ink-soft">{{ t(tile.desc) }}</span>
+      </Link>
+    </nav>
+
+    <nav aria-label="Islamic library" class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <Link v-for="tile in libraryTiles" :key="tile.href" :href="tile.href"
+        class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] bg-paper px-3 py-4 text-center shadow-soft transition-shadow hover:shadow-lift focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-700">
+        <span class="grid size-11 place-items-center rounded-2xl bg-teal-100">
+          <component :is="tile.icon" class="size-5 text-emerald-700" :stroke-width="1.7" />
+        </span>
+        <span class="flex min-h-10 items-center justify-center text-sm font-medium leading-snug text-ink">{{ tile.title }}</span>
+        <span class="text-xs leading-snug text-ink-soft">{{ tile.desc }}</span>
       </Link>
     </nav>
 
