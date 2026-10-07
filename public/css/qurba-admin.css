@@ -113,7 +113,7 @@ a.q-row:hover { background: #fff; border-color: #E3EAE5; box-shadow: 0 4px 14px 
 }
 
 /* ===== Islamic ornament: faint eight-point star lattice + arched welcome banner ===== */
-.fi-body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-opacity='.10' stroke-width='1'%3E%3Cpath d='M32 14l5.3 12.7L50 32l-12.7 5.3L32 50l-5.3-12.7L14 32l12.7-5.3z'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z' transform='rotate%2845 32 32%29'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z'/%3E%3Cpath d='M0 0l7 7M64 0l-7 7M0 64l7-7M64 64l-7-7'/%3E%3C/g%3E%3C/svg%3E") !important; background-size: 64px 64px !important; }
+.fi-body { background-image: none !important; }
 .q-hero { border-top-left-radius: 50% 4.5rem; border-top-right-radius: 50% 4.5rem; padding-top: 2.75rem; text-align: center; }
 .q-hero .q-actions { justify-content: center; }
 .q-hero-ar { font-family: 'Amiri Quran', 'Amiri', serif; font-size: 1.6rem; color: #A9822F; direction: rtl; }
@@ -124,7 +124,7 @@ a.q-row:hover { background: #fff; border-color: #E3EAE5; box-shadow: 0 4px 14px 
 
 /* ===== Arabesque rosette + green palette (mint-teal, deep green, lime, olive) ===== */
 .q-hero { background: linear-gradient(120deg, #E1F5EE 0%, #F4FAF6 50%, #EEF7DC 100%); }
-.q-hero::after { content: ''; position: absolute; inset-inline-end: -6rem; top: 50%; width: 26rem; height: 26rem; transform: translateY(-50%); background: url('/brand/rosette.svg') center / contain no-repeat; opacity: .16; pointer-events: none; }
+
 .q-hero-mark { display: none; }
 .q-chip-gold { background: linear-gradient(135deg, #0A4038, #13675A); }
 .fi-sidebar .fi-sidebar-item-active .fi-sidebar-item-button { background: linear-gradient(135deg, #0A4038, #13675A) !important; box-shadow: 0 6px 16px rgba(10, 64, 56, .25) !important; }
@@ -132,5 +132,9 @@ a.q-row:hover { background: #fff; border-color: #E3EAE5; box-shadow: 0 4px 14px 
 .fi-wi-stats-overview-stats-ctn > div:nth-child(4n+2) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+2) { background: linear-gradient(135deg, #EEF7DC, #F9FCF2) !important; }
 .fi-wi-stats-overview-stats-ctn > div:nth-child(4n+3) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+3) { background: linear-gradient(135deg, #F2F2DD, #FBFBF3) !important; }
 .fi-wi-stats-overview-stats-ctn > div:nth-child(4n+4) .fi-wi-stats-overview-stat, .fi-wi-stats-overview-stats-ctn > .fi-wi-stats-overview-stat:nth-child(4n+4) { background: linear-gradient(135deg, #DDEFDD, #F4FAF4) !important; }
-.fi-wi-stats-overview-stat::after { content: ''; position: absolute; inset-inline-end: -2.5rem; bottom: -2.5rem; width: 8rem; height: 8rem; background: url('/brand/rosette.svg') center / contain no-repeat; opacity: .12; pointer-events: none; }
-.fi-simple-layout::after { content: ''; position: fixed; inset-inline-end: -10rem; bottom: -10rem; width: 34rem; height: 34rem; background: url('/brand/rosette.svg') center / contain no-repeat; opacity: .1; pointer-events: none; }
+
+
+
+.q-orn { display: none; }
+.q-health-top { gap: 1rem; flex-wrap: wrap; }
+.q-health-top b { text-align: end; }

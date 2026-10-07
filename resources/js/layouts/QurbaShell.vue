@@ -26,6 +26,13 @@ const primary = [
 ];
 // Desktop top bar: main sections, the rest under "More"
 const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/learn', icon: GraduationCap }];
+const libraryLinks = [
+  { title: 'Hadith', href: '/library/hadith' },
+  { title: 'Seerat-un-Nabi ﷺ', href: '/library/seerah' },
+  { title: 'Kids', href: '/library/kids' },
+  { title: 'Hamd & Naats', href: '/library/naats' },
+  { title: 'Ruqyah', href: '/library/ruqyah' },
+];
 const more = [
   { key: 'prayer', href: '/prayer', icon: Clock },
   { key: 'qibla', href: '/qibla', icon: Compass },
@@ -100,6 +107,13 @@ const langs: { code: QurbaLocale; label: string }[] = [
 
     <main class="mx-auto max-w-6xl px-4 pb-28 pt-6 md:px-8 md:pb-12">
       <AppStatus class="mb-5" />
+      <nav aria-label="Content library" class="mb-5 flex flex-wrap gap-2">
+        <Link v-for="item in libraryLinks" :key="item.href" :href="item.href"
+          class="rounded-full border border-line px-4 py-2 text-sm"
+          :class="isActive(item.href) ? 'bg-emerald-900 text-white' : 'bg-paper text-ink'">
+          {{ item.title }}
+        </Link>
+      </nav>
       <slot />
     </main>
 
