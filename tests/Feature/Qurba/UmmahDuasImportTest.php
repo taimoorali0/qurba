@@ -28,6 +28,7 @@ class UmmahDuasImportTest extends TestCase
         $this->artisan('qurba:import-ummah-duas')->assertSuccessful();
         $this->assertSame(1, Adhkar::count());
         $this->assertSame('draft', Adhkar::first()->status);
+        $this->assertSame('sleep-wake', Adhkar::first()->category->slug);
         $this->assertSame('fixture translation', Adhkar::first()->translations()->first()->text);
         $this->assertFalse(ContentSource::first()->redistribution_allowed);
     }

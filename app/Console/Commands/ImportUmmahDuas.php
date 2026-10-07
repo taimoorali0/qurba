@@ -64,14 +64,24 @@ class ImportUmmahDuas extends Command
             );
             foreach ($data['duas'] as $row) {
                 $arabic = trim($row['arabic']);
-                // Avoid duplicates against existing imports and preserve reviewed translations.
-                if (Adhkar::where('text_arabic', $arabic)->exists()) {
+                $slug = match ($row['category']) {
+                    'morning', 'evening', 'travel' => $row['category'],
+                    'after_prayer' => 'after-salah',
+                    'sleep' => 'sleep-wake',
+                    default => 'daily-duas',
+                };
+                $category = AdhkarCategory::firstOrCreate(
+                    ['slug' => $slug],
+                    ['name' => ['en' => $slug === 'daily-duas' ? 'Daily Duas' : $categories[$row['category']]], 'sort' => 100],
+                );
+                $existing = Adhkar::where('text_arabic', $arabic)->first();
+                if ($existing) {
+                    // Repair the earlier prefixed category without changing reviewed text or status.
+                    if ($existing->content_source_id === $source->id && str_starts_with($existing->category?->slug ?? '', 'ummah-')) {
+                        $existing->update(['adhkar_category_id' => $category->id]);
+                    }
                     continue;
                 }
-                $category = AdhkarCategory::firstOrCreate(
-                    ['slug' => 'ummah-'.$row['category']],
-                    ['name' => ['en' => $categories[$row['category']]], 'sort' => 100],
-                );
                 $dua = Adhkar::create([
                     'adhkar_category_id' => $category->id, 'content_source_id' => $source->id,
                     'text_arabic' => $arabic, 'transliteration' => $row['transliteration'] ?? null,
