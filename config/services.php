@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'quran_foundation' => [
+        'client_id' => env('QF_CLIENT_ID'),
+        'client_secret' => env('QF_CLIENT_SECRET'),
+        'environment' => env('QF_ENV', 'prelive'),
+    ],
+
     'sunnah' => ['key' => env('SUNNAH_API_KEY')],
 
     'postmark' => [
