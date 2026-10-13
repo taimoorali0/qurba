@@ -26,7 +26,7 @@ php artisan optimize:clear
 
 If this is a new installation without 114 surah records, run `php artisan db:seed --class=QurbaSeeder --force` before importing. Existing seeded installations do not need reseeding.
 
-A different installed Arabic edition is blocked by default. Compare the edition first; use `--replace-quran` only when you deliberately want the uploaded Uthmani Minimal edition to replace it. Identical installed Arabic text is left unchanged. Importing translations/tafsir again updates their existing rows and returns them to review. All text editions are checked before writes, and database changes are transactional.
+A different installed Arabic edition is blocked by default. Use `php artisan qurba:import-uploaded-content --keep-quran` to preserve the complete installed Arabic edition while importing only the seven translations and Jalalayn. Compare the edition first; use `--replace-quran` only when you deliberately want the uploaded Uthmani Minimal edition to replace it. Identical installed Arabic text is left unchanged. Importing translations/tafsir again updates their existing rows and returns them to review. All text editions are checked before writes, and database changes are transactional.
 
 ## Original PDF books
 The two large PDFs are already in your attachments and are NOT duplicated inside this ZIP. Upload both original files into one server folder, e.g. `/var/www/qurba/storage/app/imports/kanz`:
