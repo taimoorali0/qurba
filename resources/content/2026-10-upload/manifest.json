@@ -1,0 +1,121 @@
+{
+  "editions": [
+    {
+      "id": "ar.jalalayn",
+      "kind": "tafsir",
+      "file": "ar.jalalayn.txt",
+      "sha256": "e743c9dbe5958f7028a643c5e7ccb208d97a2e69c0c3d795dfe37aac599b6a38",
+      "items": 6236,
+      "name": "تفسير الجلالين",
+      "author": "Jalal ad-Din al-Mahalli and Jalal ad-Din as-Suyuti",
+      "lang": "ar",
+      "edition": "December 1, 2010",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "en.qarai",
+      "kind": "translation",
+      "file": "en.qarai.txt",
+      "sha256": "f5f1779c8f3ef6a56c6ac4ca0d808638413d0ede0d079e9b4c610f495f1015bc",
+      "items": 6236,
+      "name": "Qarai",
+      "author": "Ali Quli Qarai",
+      "lang": "en",
+      "edition": "April 11, 2022",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "quran-uthmani-min",
+      "kind": "quran",
+      "file": "quran-uthmani-min.txt",
+      "sha256": "2bf22b99349f92a54f85b1062deca3a2fbcc78789c0b22602dd499f38215517a",
+      "items": 6236,
+      "name": "Tanzil Quran Text (Uthmani Minimal)",
+      "author": "",
+      "lang": "ar",
+      "edition": "Uthmani Minimal 1.1",
+      "url": "https://tanzil.net/download/",
+      "license": "Tanzil Quran Text License; CC BY 3.0; verbatim text and attribution required"
+    },
+    {
+      "id": "sd.amroti",
+      "kind": "translation",
+      "file": "sd.amroti.txt",
+      "sha256": "3c0dac7169a88c2691a290422e75237b481e2f866367d4fb225a492aa1f52c83",
+      "items": 6236,
+      "name": "امروٽي",
+      "author": "Taj Mehmood Amroti",
+      "lang": "sd",
+      "edition": "April 9, 2012",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "ur.jawadi",
+      "kind": "translation",
+      "file": "ur.jawadi.txt",
+      "sha256": "44ad4aeba30e98fdc0c7954768cc5879165daa063e6bb9afbed3bd317ebe0de9",
+      "items": 6236,
+      "name": "علامہ جوادی",
+      "author": "Syed Zeeshan Haider Jawadi",
+      "lang": "ur",
+      "edition": "December 24, 2010",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "ur.junagarhi",
+      "kind": "translation",
+      "file": "ur.junagarhi.txt",
+      "sha256": "d7b8f706ccdd68e2889e80fd0b38ba7786f7dbad32c75c639a6dbea8fe435a5b",
+      "items": 6236,
+      "name": "محمد جوناگڑھی",
+      "author": "Muhammad Junagarhi",
+      "lang": "ur",
+      "edition": "April 25, 2011",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "ur.maududi",
+      "kind": "translation",
+      "file": "ur.maududi.txt",
+      "sha256": "69816c99ce40a017c6b6dd8798f54b621dff8f5f2b4f945ecbcb66d22ad922b6",
+      "items": 6236,
+      "name": "ابوالاعلی مودودی",
+      "author": "Abul A'ala Maududi",
+      "lang": "ur",
+      "edition": "November 15, 2010",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "ur.najafi",
+      "kind": "translation",
+      "file": "ur.najafi.txt",
+      "sha256": "f80208ad05e14cc3952c5fca1ee7e2dfed55ef068cf406495f6f64e279d40494",
+      "items": 6236,
+      "name": "محمد حسین نجفی",
+      "author": "Muhammad Hussain Najafi ",
+      "lang": "ur",
+      "edition": "August 19, 2011",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    },
+    {
+      "id": "ur.qadri",
+      "kind": "translation",
+      "file": "ur.qadri.txt",
+      "sha256": "f3eb2c8440c6406cfe6872aef9738721335b40c8d5d4339bb4a568c461d6547b",
+      "items": 6236,
+      "name": "طاہر القادری",
+      "author": "Tahir ul Qadri",
+      "lang": "ur",
+      "edition": "August 16, 2010",
+      "url": "https://tanzil.net/trans/",
+      "license": "Tanzil translations: non-commercial use only; other use requires permission"
+    }
+  ]
+}

@@ -32,3 +32,6 @@ yarn-error.log
 /public/audio/names-full.mp3
 /public/audio/names-kids/*.mp3
 /public/audio/names-kids-full.mp3
+
+# Python content preparation cache
+/scripts/__pycache__/
