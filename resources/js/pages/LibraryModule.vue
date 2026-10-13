@@ -7,7 +7,7 @@ import { useLocale } from '../composables/useLocale';
 const props = defineProps<{ module: string; title: string }>();
 const { locale } = useLocale();
 type Text = Record<string, string>;
-interface Entry { slug: string; title: Text; summary?: Text; body?: Text; reference?: string; grading?: string;
+interface Entry { document_url?: string; slug: string; title: Text; summary?: Text; body?: Text; reference?: string; grading?: string;
   source?: { name: string; author?: string };
   audio?: { language: string; speaker: string; url: string }[]; }
 const entries = ref<Entry[]>([]);
@@ -52,6 +52,7 @@ onMounted(() => load());
       <button class="mb-5 text-emerald-900 underline" @click="selected = null">Back to list</button>
       <h2 class="text-2xl font-semibold">{{ localText(selected.title) }}</h2>
       <p class="mt-5 whitespace-pre-line text-lg leading-loose" :dir="locale === 'en' ? 'ltr' : 'rtl'">{{ localText(selected.body) }}</p>
+      <a v-if="selected.document_url" :href="selected.document_url" target="_blank" rel="noopener" class="mt-5 inline-block rounded-full bg-emerald-900 px-5 py-3 text-white">Open PDF book</a>
       <p v-if="selected.reference" class="mt-6 text-sm text-ink-soft">Reference: {{ selected.reference }}</p>
       <p v-if="selected.grading" class="mt-2 text-sm text-ink-soft">Grading: {{ selected.grading }}</p>
       <p v-if="selected.source" class="mt-2 text-sm text-ink-soft">Source: {{ selected.source.name }} {{ selected.source.author }}</p>

@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import { BookOpen, Heart, Headphones, GraduationCap, Calendar, ArrowRight } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 const sections = [
+  { title: 'Islamic Books', description: 'Read approved Quran translations and commentary in their original book editions.', href: '/library/books', icon: BookOpen },
   { title: 'Quran', description: 'Read the Quran, choose a translation and continue your recitation.', href: '/quran', icon: BookOpen },
   { title: 'Duas & Adhkar', description: 'Morning, evening and everyday remembrance with references.', href: '/zikr/adhkar', icon: Heart },
   { title: 'Hadith', description: 'Browse published narrations, their references and translations.', href: '/library/hadith', icon: BookOpen },

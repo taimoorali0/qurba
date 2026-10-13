@@ -47,11 +47,21 @@ class ContentLibraryController extends Controller
             'module' => $entry->module, 'slug' => $entry->slug, 'title' => $entry->title,
             'body' => $entry->body, 'collection' => $entry->collection, 'chapter' => $entry->chapter,
             'reference' => $entry->reference, 'grading' => $entry->grading,
+            'document_url' => $entry->document_path ? route('library.document', ['module' => $module, 'slug' => $slug]) : null,
             'source' => $entry->source->only(['name', 'author', 'edition', 'source_url', 'license']),
             'audio' => $entry->recordings->map(fn ($r) => [
                 'language' => $r->language_code, 'speaker' => $r->speaker, 'url' => $r->url,
                 'duration_seconds' => $r->duration_seconds, 'offline_allowed' => (bool) $r->source->offline_allowed,
             ]),
         ]]);
+    }
+    public function document(string $module, string $slug)
+    {
+        abort_unless(array_key_exists($module, config('content.modules')), 404);
+        $entry = ContentEntry::published()->where('module', $module)->where('slug', $slug)->firstOrFail();
+        abort_unless($entry->document_path && \Illuminate\Support\Facades\Storage::disk('local')->exists($entry->document_path), 404);
+        return \Illuminate\Support\Facades\Storage::disk('local')->response($entry->document_path, $entry->slug.'.pdf', [
+            'Content-Type' => 'application/pdf', 'Cache-Control' => 'private, no-store', 'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 }

@@ -99,10 +99,11 @@ foreach (['settings.php', 'auth.php'] as $file) {
 Route::prefix('api/v1/library')->middleware('throttle:60,1')->group(function () {
     Route::get('modules', [\App\Http\Controllers\ContentLibraryController::class, 'modules']);
     Route::get('{module}', [\App\Http\Controllers\ContentLibraryController::class, 'index']);
+    Route::get('{module}/{slug}/document', [\App\Http\Controllers\ContentLibraryController::class, 'document'])->name('library.document');
     Route::get('{module}/{slug}', [\App\Http\Controllers\ContentLibraryController::class, 'show']);
 });
 
 Route::get('/library/{module}', [\App\Http\Controllers\ContentLibraryController::class, 'page'])
-    ->where('module', 'hadith|seerah|kids|naats|ruqyah')->name('library.module');
+    ->where('module', 'hadith|seerah|kids|naats|ruqyah|books')->name('library.module');
 
 Route::get('/explore', fn () => Inertia::render('Explore'))->name('explore');

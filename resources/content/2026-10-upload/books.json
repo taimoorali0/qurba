@@ -1,0 +1,20 @@
+[
+  {
+    "file": "english-translation-kanz-ul-iman.pdf",
+    "slug": "kanz-ul-iman-english",
+    "title": "Kanz-ul-Iman — English Translation",
+    "lang": "en",
+    "pages": 1306,
+    "url": "https://www.dawateislami.net/bookslibrary/en/english-translation-kanz-ul-iman",
+    "sha256": "bc0cff4e4577c316a63d7bd3a406287aa2c535e1aa7b170a5b21ef3eef8897de"
+  },
+  {
+    "file": "al-quran-ul-kareem-kanzul-iman-ma-khazain-ul-irfan.pdf",
+    "slug": "kanz-ul-iman-khazain-ul-irfan",
+    "title": "Kanz-ul-Iman with Khazain-ul-Irfan",
+    "lang": "ur",
+    "pages": 1222,
+    "url": "https://www.dawateislami.net/bookslibrary/ur/al-quran-ul-kareem-kanzul-iman-ma-khazain-ul-irfan",
+    "sha256": "d6a74c3f322f07c3e31f054aff32c11e3c3364a0fbd9398bad4d0ff8c1650f6e"
+  }
+]
