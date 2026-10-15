@@ -1,9 +1,9 @@
 <!-- ===== QURBA: one adhkar category (counter per item, daily progress) ===== -->
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Check, ChevronLeft, Heart, Pause, Play, RotateCcw } from 'lucide-vue-next';
+import { Check, ChevronLeft, Headphones, Heart, Pause, Play, RotateCcw } from 'lucide-vue-next';
 import { categoryIcon } from '../lib/adhkarIcons';
 import { playClip, sound, stopOneShot } from '../lib/sounds';
 import QurbaShell from '../layouts/QurbaShell.vue';
@@ -11,8 +11,8 @@ import PageTitle from '../components/PageTitle.vue';
 import { ak, bump, countOf, isFav, resetItem, toggleFav } from '../lib/adhkarLocal';
 import { canVibrate, tb } from '../lib/tasbeeh';
 
-interface Item { id: number; audio?: string | null; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
-const props = defineProps<{ category: { slug: string; name: Record<string, string> }; items: Item[]; dev?: boolean; favoritesPage?: boolean;
+interface Item { id: number; start?: number | null; audio?: string | null; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
+const props = defineProps<{ category: { slug: string; name: Record<string, string>; audio?: string | null; credit?: string | null }; items: Item[]; dev?: boolean; favoritesPage?: boolean;
   categories?: { slug: string; name: Record<string, string> }[] }>();
 const { t, locale } = useI18n();
 
@@ -22,8 +22,37 @@ const done = (a: Item) => countOf(a.id) >= a.repeat;
 const completed = computed(() => props.items.filter(done).length);
 const translation = (a: Item) => a.tr[locale.value === 'ar' ? 'en' : locale.value] ?? a.tr.en ?? '';
 
+// ---- Read along: one category recording, the dua being recited is highlighted ----
+const ra = ref<HTMLAudioElement | null>(null);
+const raPlaying = ref(false);
+const raTime = ref(0);
+const raDuration = ref(0);
+const timed = computed(() => props.items.filter((a) => a.start != null).sort((a, b) => a.start! - b.start!));
+const activeId = computed(() => {
+  if (!raPlaying.value && raTime.value === 0) return 0;
+  let id = 0;
+  for (const a of timed.value) if (a.start! <= raTime.value + 0.2) id = a.id;
+  return id;
+});
+watch(activeId, async (id) => {
+  if (!id || !raPlaying.value) return;
+  await nextTick();
+  document.getElementById(`dua-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+function raToggle() {
+  const el = ra.value; if (!el) return;
+  if (el.paused) { stopOneShot(); el.play().catch(() => {}); } else el.pause();
+}
+function raFrom(a: Item) {
+  const el = ra.value; if (!el || a.start == null) return;
+  stopOneShot(); el.currentTime = a.start; el.play().catch(() => {});
+}
+function raSeek(e: Event) { const el = ra.value; if (el) el.currentTime = Number((e.target as HTMLInputElement).value); }
+const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+onBeforeUnmount(() => ra.value?.pause());
+
 const clipKey = (a: Item) => `dua-${a.id}`;
-function listen(a: Item) { if (sound.clipPlaying === clipKey(a)) stopOneShot(); else if (a.audio) playClip(clipKey(a), a.audio); }
+function listen(a: Item) { ra.value?.pause(); if (sound.clipPlaying === clipKey(a)) stopOneShot(); else if (a.audio) playClip(clipKey(a), a.audio); }
 
 function tap(a: Item) {
   if (done(a)) return;
@@ -59,6 +88,23 @@ function tap(a: Item) {
       <label class="flex items-center gap-2 text-sm text-ink-soft"><input v-model="ak.translit" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('adhkar.translit') }}</label>
     </div>
 
+    <!-- Read along -->
+    <section v-if="category.audio && items.length" class="sticky top-20 z-20 mt-5 rounded-[var(--radius-tile)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 p-4 text-cream shadow-lift md:top-24">
+      <audio ref="ra" :src="category.audio" preload="none" @play="raPlaying = true" @pause="raPlaying = false" @ended="raPlaying = false; raTime = 0"
+        @timeupdate="raTime = ($event.target as HTMLAudioElement).currentTime" @loadedmetadata="raDuration = ($event.target as HTMLAudioElement).duration" />
+      <div class="flex items-center gap-3">
+        <button type="button" class="grid size-12 shrink-0 place-items-center rounded-full bg-gold-500 text-emerald-950" :aria-label="raPlaying ? t('sound.pause') : t('sound.play')" @click="raToggle">
+          <Pause v-if="raPlaying" class="size-5" /><Play v-else class="size-5" />
+        </button>
+        <div class="min-w-0 flex-1">
+          <p class="flex items-center gap-1.5 text-sm font-medium"><Headphones class="size-4 text-gold-200" /> {{ t('adhkar.readAlong') }}</p>
+          <p v-if="category.credit" class="truncate text-xs text-gold-200">{{ category.credit }}</p>
+        </div>
+        <span class="text-xs tabular-nums text-gold-200">{{ mmss(raTime) }}<template v-if="raDuration"> / {{ mmss(raDuration) }}</template></span>
+      </div>
+      <input type="range" min="0" :max="raDuration || 0" step="0.1" :value="raTime" :aria-label="t('adhkar.position')" class="mt-3 w-full accent-[#C9A24A]" @input="raSeek" />
+    </section>
+
     <div v-if="items.length" class="mt-5">
       <p class="text-sm text-ink-soft">{{ t('adhkar.progress', { n: completed, t: items.length }) }}</p>
       <div class="mt-2 h-1.5 rounded-full bg-line"><div class="h-1.5 rounded-full bg-gold-500 transition-all" :style="{ width: (completed / items.length) * 100 + '%' }" /></div>
@@ -66,8 +112,8 @@ function tap(a: Item) {
     <p v-else class="mt-8 rounded-[var(--radius-tile)] bg-paper shadow-soft p-6 text-ink-soft">{{ favoritesPage ? t('adhkar.noFavorites') : t('adhkar.empty') }}</p>
 
     <ol class="mt-6 space-y-4">
-      <li v-for="a in items" :key="a.id" class="rounded-[var(--radius-sheet)] border bg-paper p-5 transition-opacity md:p-6"
-        :class="done(a) ? 'border-emerald-700/30 opacity-70' : 'border-line'">
+      <li v-for="a in items" :id="`dua-${a.id}`" :key="a.id" class="scroll-mt-48 rounded-[var(--radius-sheet)] border bg-paper p-5 transition-all md:p-6"
+        :class="activeId === a.id ? 'border-gold-500 ring-2 ring-gold-500/60' : done(a) ? 'border-emerald-700/30 opacity-70' : 'border-line'">
         <div class="flex items-center justify-between text-xs text-ink-soft">
           <span class="flex items-center gap-2">
             <span class="grid size-7 place-items-center rounded-full border border-gold-500 text-[11px] text-gold-600">{{ items.indexOf(a) + 1 }}</span>
@@ -75,6 +121,7 @@ function tap(a: Item) {
             {{ a.reference }}
           </span>
           <span class="flex items-center gap-1">
+          <button v-if="category.audio && a.start != null" class="rounded-full border border-line px-2.5 py-1 text-[11px] text-emerald-900" @click="raFrom(a)">{{ t('adhkar.fromHere') }}</button>
           <button v-if="a.audio" class="grid size-8 place-items-center rounded-full border border-line text-emerald-900" @click="listen(a)"
             :aria-label="sound.clipPlaying === clipKey(a) ? t('sound.pause') : t('sound.play')">
             <Pause v-if="sound.clipPlaying === clipKey(a)" class="size-3.5" /><Play v-else class="size-3.5" />

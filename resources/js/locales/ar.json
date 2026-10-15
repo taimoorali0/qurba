@@ -270,7 +270,10 @@
     "results": "{n} نتيجة لـ «{q}»",
     "noResults": "لا توجد أدعية مطابقة. جرّب كلمة أخرى.",
     "group_daily": "أذكار يومية",
-    "group_situations": "أدعية لكل مناسبة"
+    "group_situations": "أدعية لكل مناسبة",
+    "readAlong": "استمع واقرأ معه",
+    "position": "الموضع في التسجيل",
+    "fromHere": "شغّل من هنا"
   },
   "reminders": {
     "title": "التذكيرات",

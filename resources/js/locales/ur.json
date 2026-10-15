@@ -270,7 +270,10 @@
     "results": "“{q}” کے {n} نتائج",
     "noResults": "کوئی دعا نہیں ملی۔ کوئی اور لفظ آزمائیں۔",
     "group_daily": "روزانہ کے اذکار",
-    "group_situations": "ہر موقع کی دعائیں"
+    "group_situations": "ہر موقع کی دعائیں",
+    "readAlong": "سنیں اور ساتھ پڑھیں",
+    "position": "ریکارڈنگ میں مقام",
+    "fromHere": "یہاں سے سنیں"
   },
   "reminders": {
     "title": "یاد دہانیاں",

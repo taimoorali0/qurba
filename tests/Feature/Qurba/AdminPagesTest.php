@@ -21,7 +21,7 @@ it('renders every admin list page with data', function () {
     $this->actingAs($admin)->withSession(['admin_2fa_passed' => true]);
 
     foreach (['', 'adhkars', 'audio-files', 'content-audit-logs', 'content-sources', 'courses', 'learn-interests',
-        'quran-ayahs', 'quran-reciters', 'quran-surahs', 'users'] as $page) {
+        'quran-ayahs', 'quran-reciters', 'quran-surahs', 'users', 'adhkar-categories'] as $page) {
         $this->get("/admin/{$page}")->assertOk();
     }
 });

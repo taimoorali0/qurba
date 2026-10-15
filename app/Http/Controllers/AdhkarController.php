@@ -19,6 +19,7 @@ class AdhkarController extends Controller
         return $items->map(fn (Adhkar $a) => [
             'id' => $a->id, 'ar' => $a->text_arabic, 'translit' => $a->transliteration, 'reference' => $a->reference,
             'repeat' => $a->repeat_count, 'status' => $a->status,
+            'start' => $a->audio_start !== null ? (float) $a->audio_start : null,
             // Uploaded files live under public/audio; older rows may hold a full URL
             'audio' => $a->audio_url ? (str_starts_with($a->audio_url, 'http') ? $a->audio_url : asset('audio/' . ltrim($a->audio_url, '/'))) : null,
             'tr' => $a->translations->pluck('text', 'language_code'),
@@ -51,7 +52,8 @@ class AdhkarController extends Controller
     {
         $cat = AdhkarCategory::where('slug', $slug)->firstOrFail();
         return Inertia::render('AdhkarCategory', [
-            'category' => ['slug' => $cat->slug, 'name' => $cat->name],
+            'category' => ['slug' => $cat->slug, 'name' => $cat->name,
+                'audio' => $cat->audio_url ? asset('audio/' . ltrim($cat->audio_url, '/')) : null, 'credit' => $cat->audio_credit],
             'items' => $this->present($this->visible()->with('translations')->where('adhkar_category_id', $cat->id)->orderBy('sort')->get()),
             'dev' => app()->environment('local'),
             'categories' => $this->categoryNav(),
