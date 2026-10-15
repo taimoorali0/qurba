@@ -3,7 +3,8 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { BookHeart, Check, ChevronLeft, HandHeart, Heart, Moon, Pause, Plane, Play, RotateCcw, Sparkles, Sun, Sunset } from 'lucide-vue-next';
+import { Check, ChevronLeft, Heart, Pause, Play, RotateCcw } from 'lucide-vue-next';
+import { categoryIcon } from '../lib/adhkarIcons';
 import { playClip, sound, stopOneShot } from '../lib/sounds';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import PageTitle from '../components/PageTitle.vue';
@@ -16,7 +17,6 @@ const props = defineProps<{ category: { slug: string; name: Record<string, strin
 const { t, locale } = useI18n();
 
 const title = computed(() => props.category.name[locale.value] ?? props.category.name.en);
-const icons: Record<string, any> = { morning: Sun, evening: Sunset, 'after-salah': Sparkles, 'sleep-wake': Moon, travel: Plane, 'daily-duas': HandHeart, 'quranic-duas': BookHeart };
 const catName = (n: Record<string, string>) => n[locale.value] ?? n.en;
 const done = (a: Item) => countOf(a.id) >= a.repeat;
 const completed = computed(() => props.items.filter(done).length);
@@ -43,7 +43,7 @@ function tap(a: Item) {
         <Link v-for="c in categories ?? []" :key="c.slug" :href="`/zikr/adhkar/${c.slug}`"
           class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm"
           :class="c.slug === category.slug ? 'bg-emerald-900 text-cream' : 'text-ink hover:bg-paper'">
-          <component :is="icons[c.slug] ?? Sparkles" class="size-4" :class="c.slug === category.slug ? 'text-gold-500' : 'text-emerald-700'" />
+          <component :is="categoryIcon(c.slug)" class="size-4" :class="c.slug === category.slug ? 'text-gold-500' : 'text-emerald-700'" />
           {{ catName(c.name) }}
         </Link>
         <Link :href="`/zikr/adhkar-favorites?ids=${ak.favorites.join(',')}`" class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm"

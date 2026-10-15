@@ -13,11 +13,15 @@ use Illuminate\Support\Facades\DB;
 
 class ImportUploadedContent extends Command
 {
-    protected $signature = 'qurba:import-uploaded-content {--dry-run : Validate every edition without writing} {--replace-quran : Explicitly replace a different installed Arabic edition}';
+    protected $signature = 'qurba:import-uploaded-content {--dry-run : Validate every edition without writing} {--keep-quran : Preserve installed Arabic text and import only translations and tafsir} {--replace-quran : Explicitly replace a different installed Arabic edition}';
     protected $description = 'Import the October uploaded Quran, seven translations and Jalalayn locally, pending review';
 
     public function handle(): int
     {
+        if ($this->option('keep-quran') && $this->option('replace-quran')) {
+            $this->error('Choose either --keep-quran or --replace-quran.');
+            return self::FAILURE;
+        }
         $folder = resource_path('content/2026-10-upload');
         $manifest = json_decode(file_get_contents($folder.'/manifest.json'), true, 512, JSON_THROW_ON_ERROR);
         $datasets = [];
@@ -48,16 +52,31 @@ class ImportUploadedContent extends Command
         $installed = QuranAyah::get(['surah_id', 'ayah_number', 'text_uthmani'])->mapWithKeys(fn ($a) => [
             $a->surah_id.':'.$a->ayah_number => ['surah' => $a->surah_id, 'ayah' => $a->ayah_number, 'text' => $a->text_uthmani],
         ])->all();
+        $keepQuran = (bool) $this->option('keep-quran');
+        if ($keepQuran) {
+            foreach (QuranStructure::AYAHS as $surah => $count) {
+                for ($ayah = 1; $ayah <= $count; $ayah++) {
+                    if (empty($installed[$surah.':'.$ayah]['text'])) {
+                        $this->error('A complete installed Quran is required for --keep-quran. Nothing written.');
+                        return self::FAILURE;
+                    }
+                }
+            }
+            if (count($installed) !== QuranStructure::AYAH_COUNT) {
+                $this->error('Unexpected installed Quran structure. Nothing written.');
+                return self::FAILURE;
+            }
+        }
         $sameQuran = count($installed) === 6236 && QuranStructure::datasetHash($installed) === QuranStructure::datasetHash($incoming);
-        if ($installed && ! $sameQuran && ! $this->option('replace-quran')) {
-            $this->error('A different Arabic edition is installed. Compare editions before using --replace-quran. Nothing written.');
+        if ($installed && ! $sameQuran && ! $keepQuran && ! $this->option('replace-quran')) {
+            $this->error('A different Arabic edition is installed. Use --keep-quran to import translations and tafsir without replacing Arabic text. Nothing written.');
             return self::FAILURE;
         }
         try {
-            DB::transaction(function () use ($manifest, $folder, $datasets, $sameQuran) {
+            DB::transaction(function () use ($manifest, $folder, $datasets, $sameQuran, $keepQuran) {
                 foreach ($manifest['editions'] as $e) {
-                    if ($e['kind'] === 'quran' && $sameQuran) {
-                        $this->line('Installed Arabic text is identical; keeping its source and review status.');
+                    if ($e['kind'] === 'quran' && ($sameQuran || $keepQuran)) {
+                        $this->line('Keeping installed Arabic text, source and review status.');
                         continue;
                     }
                     if ($e['kind'] === 'tafsir') {
