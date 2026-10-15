@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
+// Account/settings pages share the same Qurba shell as the rest of the app.
+import QurbaShell from '@/layouts/QurbaShell.vue';
 import type { BreadcrumbItemType } from '@/types';
 
-interface Props {
-    breadcrumbs?: BreadcrumbItemType[];
-}
-
-withDefaults(defineProps<Props>(), {
-    breadcrumbs: () => [],
-});
+withDefaults(defineProps<{ breadcrumbs?: BreadcrumbItemType[] }>(), { breadcrumbs: () => [] });
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <QurbaShell>
         <slot />
-    </AppLayout>
+    </QurbaShell>
 </template>

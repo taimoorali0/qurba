@@ -4,10 +4,23 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+        @php($seo = \App\Support\Seo::for(request()))
+        <title inertia>{{ $seo['title'] }}</title>
+        <meta name="description" content="{{ $seo['description'] }}">
+        <link rel="canonical" href="{{ $seo['url'] }}">
+        @if ($seo['noindex'])
+        <meta name="robots" content="noindex">
+        @endif
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="{{ config('app.name', 'Qurba') }}">
+        <meta property="og:title" content="{{ $seo['title'] }}">
+        <meta property="og:description" content="{{ $seo['description'] }}">
+        <meta property="og:url" content="{{ $seo['url'] }}">
+        <meta property="og:image" content="{{ $seo['image'] }}">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="{{ $seo['title'] }}">
+        <meta name="twitter:description" content="{{ $seo['description'] }}">
+        <meta name="twitter:image" content="{{ $seo['image'] }}">
 
         @routes
         {{-- ===== QURBA HEAD — START ===== --}}

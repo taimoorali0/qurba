@@ -111,9 +111,21 @@ class QuranController extends Controller
         return Inertia::render('QuranIndex', ['surahs' => $this->surahList()]);
     }
 
+    public function khatam(): Response
+    {
+        return Inertia::render('Khatam', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple'])]);
+    }
+
     public function show(int $surah): Response
     {
         abort_unless($surah >= 1 && $surah <= 114, 404);
+        $s = QuranSurah::find($surah, ['name_simple', 'name_english', 'ayah_count']);
+        if ($s) {
+            request()->attributes->set('seo', [
+                'title' => "Surah {$s->name_simple} ({$s->name_english})",
+                'description' => "Read Surah {$s->name_simple} ({$s->name_english}), {$s->ayah_count} ayahs, with Arabic text, translation, tafsir and recitation on Qurba.",
+            ]);
+        }
         return Inertia::render('QuranReader', $this->surahPayload($surah) + ['surahs' => $this->surahList()]);
     }
 

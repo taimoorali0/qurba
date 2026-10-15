@@ -1,17 +1,21 @@
 <!-- ===== QURBA HOME — START ===== -->
 <script setup lang="ts">
-import Rosette from '../components/Rosette.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { useI18n } from 'vue-i18n';
-import { BookOpen, Sun, CircleDot, Clock, Compass, GraduationCap, Download, MapPin, Sparkles, ChevronRight, Sunrise, Moon } from 'lucide-vue-next';
+import { BookOpen, CalendarDays, ChevronRight, CircleDot, Clock, Compass, GraduationCap, Library, MapPin, Sparkles, Sun, Target } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import QurbaShell from '../layouts/QurbaShell.vue';
+import { useI18n } from 'vue-i18n';
+import DailyAyah from '../components/DailyAyah.vue';
 import Ornament from '../components/Ornament.vue';
-import { getLastRead, type LastRead } from '../lib/quranLocal';
+import RamadanCard from '../components/RamadanCard.vue';
+import Rosette from '../components/Rosette.vue';
+import QurbaShell from '../layouts/QurbaShell.vue';
+import { hijriLabel, isRamadan } from '../lib/hijri';
+import { planStatus } from '../lib/khatam';
 import { loc } from '../lib/location';
 import { countdown, fmtTime, nextPrayer, timesFor } from '../lib/prayer';
-import { todayTotal } from '../lib/tasbeeh';
+import { getLastRead, type LastRead } from '../lib/quranLocal';
 import { prayedCount } from '../lib/salahLog';
+import { todayTotal } from '../lib/tasbeeh';
 
 const { t, locale } = useI18n();
 const now = ref(new Date());
@@ -19,8 +23,9 @@ let tick: number | undefined;
 onMounted(() => { tick = window.setInterval(() => (now.value = new Date()), 30000); });
 onBeforeUnmount(() => clearInterval(tick));
 const next = computed(() => (loc.place ? nextPrayer(loc.place, now.value) : null));
-const today = computed(() => (loc.place ? timesFor(loc.place, now.value) : []));
-const prayerIcon = (name: string) => (name === 'sunrise' ? Sunrise : name === 'maghrib' || name === 'isha' ? Moon : Sun);
+const today = computed(() => (loc.place ? timesFor(loc.place, now.value).filter((p) => p.name !== 'sunrise') : []));
+const hijriToday = computed(() => hijriLabel(now.value, locale.value));
+const ramadan = computed(() => isRamadan(now.value));
 
 const tiles = [
   { key: 'nav.quran', desc: 'home.d_quran', href: '/quran', icon: BookOpen },
@@ -28,19 +33,22 @@ const tiles = [
   { key: 'home.tasbeeh', desc: 'home.d_tasbeeh', href: '/zikr/tasbeeh', icon: CircleDot },
   { key: 'nav.prayer', desc: 'home.d_prayer', href: '/prayer', icon: Clock },
   { key: 'nav.qibla', desc: 'home.d_qibla', href: '/qibla', icon: Compass },
+  { key: 'nav.khatam', desc: 'home.d_khatam', href: '/khatam', icon: Target },
+  { key: 'nav.calendar', desc: 'home.d_calendar', href: '/calendar', icon: CalendarDays },
+  { key: 'nav.names', desc: 'home.d_names', href: '/names', icon: Sparkles },
   { key: 'nav.learn', desc: 'home.d_learn', href: '/learn', icon: GraduationCap },
-  { key: 'nav.names', desc: 'names.d', href: '/names', icon: Sparkles },
-  { key: 'home.downloads', desc: 'home.d_downloads', href: '/quran/downloads', icon: Download },
+  { key: 'nav.explore', desc: 'home.d_library', href: '/explore', icon: Library },
 ];
 // Soft pastel backgrounds for the feature tiles
 const tileTones = ['bg-teal-100', 'bg-lime-100', 'bg-olive-100', 'bg-leaf-100'];
 const lastRead = ref<LastRead | null>(null);
 const zikrToday = ref(0);
-onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal(); });
+const plan = ref<ReturnType<typeof planStatus>>(null);
+onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal(); plan.value = planStatus(); });
 </script>
 
 <template>
-  <Head title="Qurba" />
+  <Head title="" />
   <QurbaShell>
     <!-- Hero -->
     <section class="pattern-gold arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-100 via-paper to-lime-100 pt-12 shadow-soft md:pt-20 px-6 py-8 md:px-12 md:py-14">
@@ -56,7 +64,9 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
           <p class="mt-3 max-w-md text-ink-soft">{{ t('home.heroSub') }}</p>
           <div class="mt-6 flex flex-wrap gap-3">
             <Link href="/quran" class="inline-flex rounded-full bg-emerald-900 px-6 py-2.5 text-sm font-medium text-cream hover:bg-emerald-700">{{ t('home.getStarted') }}</Link>
-            <Link href="/learn" class="inline-flex rounded-full border border-line bg-paper px-6 py-2.5 text-sm text-emerald-900 hover:border-gold-500">{{ t('nav.learn') }}</Link>
+            <Link href="/calendar" class="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-5 py-2.5 text-sm text-emerald-900 hover:border-gold-500">
+              <CalendarDays class="size-4" /> {{ hijriToday }}
+            </Link>
           </div>
         </div>
 
@@ -68,6 +78,13 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
             <p class="mt-2 text-lg">{{ t('prayer.' + next.name) }}</p>
             <p class="font-display text-4xl text-gold-500">{{ fmtTime(next.time, loc.place.tz, locale) }}</p>
             <p class="mt-1 flex items-center gap-1 text-sm text-gold-200"><MapPin class="size-3.5" /> {{ loc.place.label }} · {{ t('prayer.in', { t: countdown(next.time, now) }) }}</p>
+            <ul class="mt-4 grid grid-cols-5 gap-1 text-center text-[11px]">
+              <li v-for="p in today" :key="p.name" class="rounded-xl py-1.5"
+                :class="next.name === p.name && next.time.getTime() === p.time.getTime() ? 'bg-gold-500 text-emerald-950' : 'bg-white/10 text-cream'">
+                <span class="block">{{ t('prayer.' + p.name) }}</span>
+                <span class="tabular-nums">{{ fmtTime(p.time, loc.place.tz, locale) }}</span>
+              </li>
+            </ul>
             <Link href="/prayer" class="mt-5 inline-flex items-center gap-1 rounded-full bg-gold-500 px-5 py-2 text-sm font-medium text-emerald-950">
               {{ t('nav.prayer') }} <ChevronRight class="size-4 rtl:rotate-180" />
             </Link>
@@ -83,71 +100,54 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
     </section>
 
     <!-- Feature tiles -->
-    <nav class="mt-6 grid grid-cols-4 gap-3 lg:grid-cols-8">
-      <Link v-for="tile in tiles" :key="tile.href" :href="tile.href"
-        class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] bg-paper px-2 py-4 text-center shadow-soft transition-shadow hover:shadow-lift">
-        <span class="grid size-11 place-items-center rounded-2xl" :class="tileTones[tiles.indexOf(tile) % tileTones.length]">
+    <RamadanCard v-if="ramadan" :now="now" class="mt-6" />
+
+    <nav :aria-label="t('nav.more')" class="mt-6 grid grid-cols-5 gap-1.5 sm:gap-3 lg:grid-cols-10">
+      <Link v-for="(tile, i) in tiles" :key="tile.href" :href="tile.href"
+        class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] bg-paper px-1.5 py-4 text-center shadow-soft transition-shadow hover:shadow-lift">
+        <span class="grid size-10 place-items-center rounded-2xl sm:size-11" :class="tileTones[i % tileTones.length]">
           <component :is="tile.icon" class="size-5 text-emerald-700 group-hover:text-emerald-900" :stroke-width="1.7" />
         </span>
-        <span class="text-xs font-medium text-ink md:text-sm">{{ t(tile.key) }}</span>
+        <span class="text-[11px] font-medium leading-tight text-ink sm:text-xs md:text-sm">{{ t(tile.key) }}</span>
         <span class="hidden text-[11px] leading-snug text-ink-soft md:block">{{ t(tile.desc) }}</span>
       </Link>
     </nav>
 
-    <!-- Dashboard row -->
-    <section class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5">
-        <h2 class="font-display text-lg text-emerald-900">{{ t('home.continue') }}</h2>
-        <template v-if="lastRead">
-          <p class="mt-3 text-ink">{{ lastRead.name }}</p>
-          <p class="text-sm text-ink-soft">{{ t('quran.ayah') }} {{ lastRead.ayah }}</p>
-          <Link :href="`/quran/${lastRead.surah}#ayah-${lastRead.ayah}`" class="mt-4 inline-flex rounded-full bg-emerald-900 px-5 py-2 text-sm text-cream">{{ t('quran.resume') }}</Link>
-        </template>
-        <template v-else>
-          <p class="mt-2 text-sm text-ink-soft">{{ t('home.continueEmpty') }}</p>
-          <Link href="/quran" class="mt-4 inline-flex rounded-full border border-emerald-900 px-5 py-2 text-sm text-emerald-900">{{ t('home.startReading') }}</Link>
-        </template>
-      </div>
+    <!-- Dashboard -->
+    <section class="mt-6 grid gap-4 lg:grid-cols-3">
+      <DailyAyah class="self-start lg:col-span-2" />
 
-      <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5">
-        <div class="flex items-center justify-between">
-          <h2 class="font-display text-lg text-emerald-900">{{ t('home.todayPrayers') }}</h2>
-          <Link href="/prayer" class="text-xs text-ink-soft hover:text-emerald-900">{{ t('home.viewAll') }}</Link>
+      <div class="space-y-4">
+        <div class="rounded-[var(--radius-tile)] bg-paper p-5 shadow-soft">
+          <h2 class="font-display text-lg text-emerald-900">{{ t('home.continue') }}</h2>
+          <template v-if="lastRead">
+            <p class="mt-3 text-ink">{{ lastRead.name }} <span class="text-sm text-ink-soft">· {{ t('quran.ayah') }} {{ lastRead.ayah }}</span></p>
+            <Link :href="`/quran/${lastRead.surah}#ayah-${lastRead.ayah}`" class="mt-3 inline-flex rounded-full bg-emerald-900 px-5 py-2 text-sm text-cream hover:bg-emerald-700">{{ t('quran.resume') }}</Link>
+          </template>
+          <template v-else>
+            <p class="mt-2 text-sm text-ink-soft">{{ t('home.continueEmpty') }}</p>
+            <Link href="/quran" class="mt-3 inline-flex rounded-full border border-emerald-900 px-5 py-2 text-sm text-emerald-900">{{ t('home.startReading') }}</Link>
+          </template>
+          <Link href="/khatam" class="mt-4 flex items-center gap-3 rounded-xl border border-line px-3 py-2.5 hover:border-gold-500">
+            <Target class="size-5 text-gold-600" />
+            <span class="flex-1 text-sm text-ink">{{ plan ? t('khatam.progress', { done: plan.done }) : t('home.d_khatam') }}</span>
+            <ChevronRight class="size-4 text-ink-soft rtl:rotate-180" />
+          </Link>
         </div>
-        <ul v-if="loc.place" class="mt-3 space-y-1 text-sm">
-          <li v-for="p in today" :key="p.name" class="flex items-center gap-3 rounded-xl px-3 py-1.5"
-            :class="next?.name === p.name && next.time.getTime() === p.time.getTime() ? 'bg-emerald-100/60 font-medium text-emerald-900' : 'text-ink'">
-            <component :is="prayerIcon(p.name)" class="size-4 text-gold-600" />
-            <span class="flex-1">{{ t('prayer.' + p.name) }}</span>
-            <span class="tabular-nums">{{ fmtTime(p.time, loc.place.tz, locale) }}</span>
-          </li>
-        </ul>
-        <p v-else class="mt-2 text-sm text-ink-soft">{{ t('home.setLocation') }}</p>
-      </div>
 
-      <div class="rounded-[var(--radius-tile)] bg-paper shadow-soft p-5">
-        <h2 class="font-display text-lg text-emerald-900">{{ t('home.progress') }}</h2>
-        <Link href="/prayer" class="mt-3 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
-          <span class="grid size-10 place-items-center rounded-full bg-emerald-700 text-cream"><Clock class="size-5" /></span>
-          <span class="flex-1">
-            <span class="block text-sm text-ink">{{ t('salah.title') }}</span>
-            <span class="text-xs text-ink-soft">{{ t('salah.today', { n: prayedCount(now) }) }}</span>
-          </span>
-          <ChevronRight class="size-4 text-ink-soft rtl:rotate-180" />
-        </Link>
-        <Link href="/zikr/tasbeeh" class="mt-2 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
-          <span class="grid size-10 place-items-center rounded-full bg-emerald-900 text-cream"><CircleDot class="size-5" /></span>
-          <span class="flex-1">
-            <span class="block text-sm text-ink">{{ t('home.tasbeehToday') }}</span>
-            <span class="text-xs text-ink-soft">{{ zikrToday }}</span>
-          </span>
-          <ChevronRight class="size-4 text-ink-soft rtl:rotate-180" />
-        </Link>
-        <Link href="/zikr/adhkar" class="mt-2 flex items-center gap-3 rounded-xl border border-line px-3 py-3 hover:border-gold-500">
-          <span class="grid size-10 place-items-center rounded-full bg-gold-500 text-emerald-950"><Sun class="size-5" /></span>
-          <span class="flex-1 text-sm text-ink">{{ t('home.adhkarToday') }}</span>
-          <ChevronRight class="size-4 text-ink-soft rtl:rotate-180" />
-        </Link>
+        <div class="rounded-[var(--radius-tile)] bg-paper p-5 shadow-soft">
+          <h2 class="font-display text-lg text-emerald-900">{{ t('home.today') }}</h2>
+          <div class="mt-3 grid grid-cols-2 gap-3 text-center">
+            <Link href="/prayer" class="rounded-xl bg-cream px-2 py-3 hover:bg-teal-100">
+              <p class="font-display text-2xl text-emerald-900">{{ prayedCount(now) }}/5</p>
+              <p class="text-xs text-ink-soft">{{ t('home.salahDone') }}</p>
+            </Link>
+            <Link href="/zikr/tasbeeh" class="rounded-xl bg-cream px-2 py-3 hover:bg-teal-100">
+              <p class="font-display text-2xl text-emerald-900">{{ zikrToday }}</p>
+              <p class="text-xs text-ink-soft">{{ t('home.tasbeehToday') }}</p>
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   </QurbaShell>
