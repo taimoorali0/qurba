@@ -25,11 +25,19 @@ class AdhkarController extends Controller
         ])->values();
     }
 
-    public function index()
+    public function index(Request $r)
     {
         $counts = $this->visible()->selectRaw('adhkar_category_id, count(*) as n')->groupBy('adhkar_category_id')->pluck('n', 'adhkar_category_id');
+        $q = trim(mb_substr((string) $r->query('q', ''), 0, 60));
         return Inertia::render('AdhkarIndex', [
             'categories' => AdhkarCategory::orderBy('sort')->get()->map(fn ($c) => ['slug' => $c->slug, 'name' => $c->name, 'count' => (int) ($counts[$c->id] ?? 0)]),
+            'q' => $q,
+            // Search across Arabic, transliteration, reference and every translation
+            'results' => mb_strlen($q) < 2 ? null : $this->present($this->visible()->with('translations')
+                ->where(fn ($w) => $w->where('text_arabic', 'like', "%{$q}%")->orWhere('transliteration', 'like', "%{$q}%")
+                    ->orWhere('reference', 'like', "%{$q}%")
+                    ->orWhereHas('translations', fn ($t) => $t->where('text', 'like', "%{$q}%")))
+                ->orderBy('adhkar_category_id')->orderBy('sort')->limit(50)->get()),
         ]);
     }
 

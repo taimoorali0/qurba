@@ -1,10 +1,11 @@
 <!-- ===== QURBA HOME — START ===== -->
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpen, CalendarDays, ChevronRight, CircleDot, Clock, Compass, GraduationCap, Library, MapPin, Sparkles, Sun, Target } from 'lucide-vue-next';
+import { BookOpen, CalendarDays, Coins, ChevronRight, CircleDot, Clock, Compass, GraduationCap, HandHeart, Library, MapPin, Sparkles, Sun, Target } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import DailyAyah from '../components/DailyAyah.vue';
+import FridayCard from '../components/FridayCard.vue';
 import Ornament from '../components/Ornament.vue';
 import RamadanCard from '../components/RamadanCard.vue';
 import Rosette from '../components/Rosette.vue';
@@ -26,15 +27,18 @@ const next = computed(() => (loc.place ? nextPrayer(loc.place, now.value) : null
 const today = computed(() => (loc.place ? timesFor(loc.place, now.value).filter((p) => p.name !== 'sunrise') : []));
 const hijriToday = computed(() => hijriLabel(now.value, locale.value));
 const ramadan = computed(() => isRamadan(now.value));
+const friday = computed(() => now.value.getDay() === 5);
 
 const tiles = [
   { key: 'nav.quran', desc: 'home.d_quran', href: '/quran', icon: BookOpen },
   { key: 'home.adhkar', desc: 'home.d_adhkar', href: '/zikr/adhkar', icon: Sun },
+  { key: 'nav.duas', desc: 'home.d_duas', href: '/zikr/adhkar#situations', icon: HandHeart },
   { key: 'home.tasbeeh', desc: 'home.d_tasbeeh', href: '/zikr/tasbeeh', icon: CircleDot },
   { key: 'nav.prayer', desc: 'home.d_prayer', href: '/prayer', icon: Clock },
   { key: 'nav.qibla', desc: 'home.d_qibla', href: '/qibla', icon: Compass },
   { key: 'nav.khatam', desc: 'home.d_khatam', href: '/khatam', icon: Target },
   { key: 'nav.calendar', desc: 'home.d_calendar', href: '/calendar', icon: CalendarDays },
+  { key: 'nav.zakat', desc: 'home.d_zakat', href: '/zakat', icon: Coins },
   { key: 'nav.names', desc: 'home.d_names', href: '/names', icon: Sparkles },
   { key: 'nav.learn', desc: 'home.d_learn', href: '/learn', icon: GraduationCap },
   { key: 'nav.explore', desc: 'home.d_library', href: '/explore', icon: Library },
@@ -101,8 +105,9 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
 
     <!-- Feature tiles -->
     <RamadanCard v-if="ramadan" :now="now" class="mt-6" />
+    <FridayCard v-if="friday" class="mt-6" />
 
-    <nav :aria-label="t('nav.more')" class="mt-6 grid grid-cols-5 gap-1.5 sm:gap-3 lg:grid-cols-10">
+    <nav :aria-label="t('nav.more')" class="mt-6 grid grid-cols-4 gap-2 sm:grid-cols-6 sm:gap-3">
       <Link v-for="(tile, i) in tiles" :key="tile.href" :href="tile.href"
         class="group flex flex-col items-center gap-2 rounded-[var(--radius-tile)] bg-paper px-1.5 py-4 text-center shadow-soft transition-shadow hover:shadow-lift">
         <span class="grid size-10 place-items-center rounded-2xl sm:size-11" :class="tileTones[i % tileTones.length]">

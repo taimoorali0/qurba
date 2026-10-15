@@ -8,10 +8,10 @@ import { consent, setConsent } from './consent';
 
 const PRAYERS = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 interface Settings { enabled: boolean; prayers: Record<string, boolean>; offset: number;
-  morning: { on: boolean; time: string }; evening: { on: boolean; time: string }; scheduledAt: number }
+  morning: { on: boolean; time: string }; evening: { on: boolean; time: string }; kahf: { on: boolean; time: string }; scheduledAt: number }
 function load(): Settings {
   const d: Settings = { enabled: false, prayers: { fajr: true, dhuhr: true, asr: true, maghrib: true, isha: true }, offset: 0,
-    morning: { on: false, time: '07:00' }, evening: { on: false, time: '17:30' }, scheduledAt: 0 };
+    morning: { on: false, time: '07:00' }, evening: { on: false, time: '17:30' }, kahf: { on: false, time: '09:00' }, scheduledAt: 0 };
   try { const v = localStorage.getItem('qurba.reminders'); return v ? { ...d, ...JSON.parse(v) } : d; } catch { return d; }
 }
 export const rem = reactive<Settings>(load());
@@ -80,6 +80,10 @@ export async function scheduleReminders(force = false) {
       if (s.on && fire.getTime() > now) items.push({ kind, fire_at: fire.toISOString(), url: `/zikr/adhkar/${slug}`,
         title: t(`reminders.${slug}Title`), body: t('reminders.adhkarBody') });
     }
+    // Surah Al-Kahf on Fridays
+    const kahf = at(day, rem.kahf.time);
+    if (rem.kahf.on && day.getDay() === 5 && kahf.getTime() > now) items.push({ kind: 'kahf', fire_at: kahf.toISOString(), url: '/quran/18',
+      title: t('reminders.kahfTitle'), body: t('reminders.kahfBody') });
   }
   const r = await post('/api/v1/push/schedule', { device: deviceUuid(), items });
   if (r.ok) rem.scheduledAt = Date.now();

@@ -3,7 +3,7 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { BookOpen, CalendarDays, ChevronDown, CircleDot, Clock, Compass, GraduationCap, Home, Library, Search, Sparkles, Target, User } from 'lucide-vue-next';
+import { BookOpen, CalendarDays, ChevronDown, Coins, CircleDot, Clock, Compass, GraduationCap, Home, Library, Search, Sparkles, Target, User } from 'lucide-vue-next';
 import { useLocale } from '../composables/useLocale';
 import type { QurbaLocale } from '../lib/i18n';
 import AppStatus from '../components/AppStatus.vue';
@@ -41,6 +41,7 @@ const more = [
   { key: 'qibla', href: '/qibla', icon: Compass },
   { key: 'khatam', href: '/khatam', icon: Target },
   { key: 'calendar', href: '/calendar', icon: CalendarDays },
+  { key: 'zakat', href: '/zakat', icon: Coins },
   { key: 'names', href: '/names', icon: Sparkles },
   { key: 'explore', href: '/explore', icon: Library },
   { key: 'profile', href: '/profile', icon: User },

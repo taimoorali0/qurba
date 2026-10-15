@@ -21,6 +21,7 @@ class Seo
         'qibla' => ['Qibla Direction Finder', 'Find the Qibla direction towards the Kaaba from anywhere using your phone.'],
         'khatam' => ['Khatam Planner', 'Plan your complete reading of the Quran in 7, 15, 30 or 60 days and track every juz.'],
         'calendar' => ['Islamic Calendar', 'Today\'s Hijri date and upcoming Islamic dates: Ramadan, Eid, Ashura, Laylat al-Qadr and more.'],
+        'zakat' => ['Zakat Calculator', 'Calculate your zakat on cash, savings, gold, silver, investments and business stock, with gold or silver nisab.'],
         'learn' => ['Learn with Qurba', 'Islamic learning courses and resources from Qurba.'],
         'explore' => ['Explore Qurba', 'Explore Hadith, Seerah, Naats, Ruqyah, Islamic books and more on Qurba.'],
         'library.module' => ['Islamic Library', 'Reviewed Islamic content: Hadith, Seerah, kids stories, Naats, Ruqyah and books.'],

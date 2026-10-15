@@ -14,7 +14,7 @@ const PR = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 async function enable() { busy.value = true; error.value = await enableReminders(); status.value = support(); busy.value = false; }
 async function disable() { await disableReminders(); }
 let tm: number | undefined;
-watch(() => [JSON.stringify(rem.prayers), rem.offset, JSON.stringify(rem.morning), JSON.stringify(rem.evening)], () => {
+watch(() => [JSON.stringify(rem.prayers), rem.offset, JSON.stringify(rem.morning), JSON.stringify(rem.evening), JSON.stringify(rem.kahf)], () => {
   clearTimeout(tm); tm = window.setTimeout(() => scheduleReminders(true), 800);
 });
 const msg = computed(() => error.value || (status.value !== 'ok' && !rem.enabled ? status.value : ''));
@@ -48,6 +48,8 @@ const msg = computed(() => error.value || (status.value !== 'ok' && !rem.enabled
           {{ t('reminders.morningTitle') }} <input v-model="rem.morning.time" type="time" class="ms-auto rounded-full border-line py-1 text-sm" :disabled="!rem.morning.on" /></label>
         <label class="flex items-center gap-3"><input v-model="rem.evening.on" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" />
           {{ t('reminders.eveningTitle') }} <input v-model="rem.evening.time" type="time" class="ms-auto rounded-full border-line py-1 text-sm" :disabled="!rem.evening.on" /></label>
+        <label class="flex items-center gap-3"><input v-model="rem.kahf.on" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" />
+          {{ t('reminders.kahfTitle') }} <input v-model="rem.kahf.time" type="time" class="ms-auto rounded-full border-line py-1 text-sm" :disabled="!rem.kahf.on" /></label>
       </div>
       <p class="text-xs text-ink-soft">{{ t('reminders.note') }}</p>
     </div>

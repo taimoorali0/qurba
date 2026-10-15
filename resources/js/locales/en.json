@@ -18,7 +18,9 @@
     "seerah": "Seerat-un-Nabi ﷺ",
     "kids": "Kids",
     "naats": "Hamd & Naats",
-    "ruqyah": "Ruqyah"
+    "ruqyah": "Ruqyah",
+    "zakat": "Zakat calculator",
+    "duas": "Duas"
   },
   "home": {
     "greeting": "Assalamu Alaikum",
@@ -52,7 +54,9 @@
     "d_names": "Asma ul Husna",
     "today": "Today",
     "salahDone": "Prayers logged",
-    "d_library": "Hadith, Seerah, books"
+    "d_library": "Hadith, Seerah, books",
+    "d_zakat": "Work out your zakat",
+    "d_duas": "For every situation"
   },
   "lang": "Language",
   "soon": "This section is being built.",
@@ -256,7 +260,13 @@
     "noFavorites": "Tap the heart on any dhikr to keep it here.",
     "tap": "Tap to count",
     "done": "Done",
-    "hubText": "Morning, evening, after salah, sleep, travel and daily duas."
+    "hubText": "Morning, evening, after salah, sleep, travel and daily duas.",
+    "search": "Search duas and adhkar…",
+    "clear": "Clear search",
+    "results": "{n} results for “{q}”",
+    "noResults": "No duas match your search. Try a different word.",
+    "group_daily": "Daily adhkar",
+    "group_situations": "Duas for every situation"
   },
   "reminders": {
     "title": "Reminders",
@@ -276,7 +286,9 @@
     "err_ios-install": "On iPhone, reminders work after you install Qurba: Share, then Add to Home Screen, then open Qurba from the Home Screen.",
     "err_needs-build": "Reminders work in the installed or production version of Qurba.",
     "err_denied": "Notifications are blocked for Qurba. Allow them in your browser or phone settings.",
-    "err_server": "Reminders are not available right now. Try again later."
+    "err_server": "Reminders are not available right now. Try again later.",
+    "kahfTitle": "Surah Al-Kahf on Friday",
+    "kahfBody": "It is Friday. Take a few minutes for Surah Al-Kahf."
   },
   "learn": {
     "title": "Qurba Learning",
@@ -426,5 +438,43 @@
     "d_naats": "Published recordings to listen to in the app.",
     "d_ruqyah": "Recitations for ruqyah with their sources.",
     "open": "Open"
+  },
+  "friday": {
+    "title": "Jumu'ah Mubarak",
+    "body": "Read Surah Al-Kahf today and send salawat upon the Prophet ﷺ.",
+    "cta": "Read Al-Kahf"
+  },
+  "zakat": {
+    "title": "Zakat calculator",
+    "sub": "Add what you have owned for one lunar year. Your numbers stay on this device.",
+    "s_prices": "Prices and nisab",
+    "currency": "Currency",
+    "goldPrice": "Gold price per gram",
+    "silverPrice": "Silver price per gram",
+    "basis": "Nisab based on",
+    "basis_silver": "Silver ({g} g)",
+    "basis_gold": "Gold ({g} g)",
+    "s_cash": "Cash and savings",
+    "s_metals": "Gold and silver",
+    "s_other": "Investments and business",
+    "s_debts": "Deductions",
+    "f_cash": "Cash in hand",
+    "f_bank": "Bank balances",
+    "f_goldGrams": "Gold",
+    "f_silverGrams": "Silver",
+    "f_investments": "Shares, funds and investments",
+    "f_business": "Business stock for sale",
+    "f_receivables": "Money owed to you",
+    "f_debts": "Debts due now",
+    "grams": "g",
+    "due": "Zakat due",
+    "above": "Your wealth is above nisab. Zakat is 2.5% of the net amount.",
+    "below": "Your wealth is below nisab, so zakat is not due.",
+    "needPrice": "Enter the gold or silver price to work out nisab.",
+    "assets": "Total assets",
+    "net": "Net zakatable wealth",
+    "nisab": "Nisab",
+    "reset": "Clear amounts",
+    "note": "This is a guide. Rulings differ on some assets such as jewellery in use, pensions and property. Please confirm with a scholar you trust."
   }
 }
