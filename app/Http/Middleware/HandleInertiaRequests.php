@@ -38,7 +38,6 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             ...parent::share($request),
             'name' => config('app.name'),
-            'quote' => ['message' => 'Verily, in the remembrance of Allah do hearts find rest.', 'author' => 'Quran 13:28'],
             'auth' => [
                 'user' => $request->user(),
             ],

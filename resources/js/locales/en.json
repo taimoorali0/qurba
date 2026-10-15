@@ -10,7 +10,15 @@
     "profile": "Profile",
     "search": "Search surah…",
     "signIn": "Sign in",
-    "names": "99 Names of Allah"
+    "names": "99 Names of Allah",
+    "calendar": "Islamic calendar",
+    "khatam": "Khatam planner",
+    "explore": "Library",
+    "hadith": "Hadith",
+    "seerah": "Seerat-un-Nabi ﷺ",
+    "kids": "Kids",
+    "naats": "Hamd & Naats",
+    "ruqyah": "Ruqyah"
   },
   "home": {
     "greeting": "Assalamu Alaikum",
@@ -38,7 +46,13 @@
     "d_prayer": "Accurate times by location",
     "d_qibla": "Find direction anywhere",
     "d_learn": "Live online classes",
-    "d_downloads": "Use Qurba offline"
+    "d_downloads": "Use Qurba offline",
+    "d_calendar": "Hijri dates and events",
+    "d_khatam": "Finish the Quran on time",
+    "d_names": "Asma ul Husna",
+    "today": "Today",
+    "salahDone": "Prayers logged",
+    "d_library": "Hadith, Seerah, books"
   },
   "lang": "Language",
   "soon": "This section is being built.",
@@ -342,5 +356,75 @@
     "adhanMissing": "No adhan recording added yet.",
     "adhanNote": "The adhan plays while Qurba is open. With reminders on, tapping the prayer notification opens Qurba and plays it.",
     "playAdhan": "Play adhan"
+  },
+  "daily": {
+    "title": "Ayah of the day",
+    "share": "Share",
+    "copied": "Copied to clipboard",
+    "read": "Read in context",
+    "error": "Could not load today's ayah. Check your connection."
+  },
+  "ramadan": {
+    "title": "Ramadan Mubarak",
+    "day": "Ramadan day {n}",
+    "sehri": "Sehri ends",
+    "iftar": "Iftar",
+    "in": "in {t}",
+    "fasting": "Fasting tracker",
+    "fasted": "Fasted today",
+    "marked": "{n} of 30 fasts kept"
+  },
+  "calendar": {
+    "title": "Islamic calendar",
+    "today": "Today",
+    "upcoming": "Upcoming Islamic dates",
+    "daysLeft": "in {n} days",
+    "tomorrow": "tomorrow",
+    "isToday": "today",
+    "whiteDays": "White days (Ayyam al-Bid) fast",
+    "sunnahFast": "Monday & Thursday are Sunnah fasting days",
+    "note": "Dates use the Umm al-Qura calendar and can differ by a day from local moon sighting.",
+    "ev": {
+      "newYear": "Islamic New Year",
+      "ashura": "Day of Ashura",
+      "mawlid": "12 Rabi ul Awwal",
+      "miraj": "Isra and Miraj",
+      "shabeBarat": "Shab-e-Barat (15 Sha'ban)",
+      "ramadan": "Start of Ramadan",
+      "qadr": "Laylat al-Qadr (27th night)",
+      "eidFitr": "Eid al-Fitr",
+      "arafah": "Day of Arafah",
+      "eidAdha": "Eid al-Adha"
+    },
+    "night": "from Maghrib the evening before"
+  },
+  "khatam": {
+    "title": "Khatam planner",
+    "sub": "Choose how many days, then tick off each juz as you finish it.",
+    "days": "{n} days",
+    "start": "Start plan",
+    "progress": "{done} of 30 juz completed",
+    "todayTarget": "Today's target: reach juz {n}",
+    "ahead": "You are on track",
+    "behind": "You are {n} juz behind",
+    "finished": "Khatam complete! May Allah accept it.",
+    "juz": "Juz {n}",
+    "startsAt": "Starts at {surah}, ayah {ayah}",
+    "open": "Read",
+    "reset": "Start a new plan",
+    "dayOf": "Day {d} of {n}",
+    "none": "No active plan"
+  },
+  "explore": {
+    "title": "Islamic library",
+    "sub": "Reviewed books, Hadith, Seerah and recordings, with their sources.",
+    "books": "Islamic books",
+    "d_books": "Approved Quran translations and commentary in their original editions.",
+    "d_hadith": "Published narrations with references and translations.",
+    "d_seerah": "Chapters on the life of the Prophet ﷺ.",
+    "d_kids": "Lessons and stories for children and families.",
+    "d_naats": "Published recordings to listen to in the app.",
+    "d_ruqyah": "Recitations for ruqyah with their sources.",
+    "open": "Open"
   }
 }

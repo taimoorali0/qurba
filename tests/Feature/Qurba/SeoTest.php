@@ -18,3 +18,8 @@ it('never sends two factor secrets to the browser', function () {
     $user = User::factory()->create(['two_factor_secret' => 'TOPSECRET', 'two_factor_recovery_codes' => 'CODES']);
     expect($user->toArray())->not->toHaveKeys(['two_factor_secret', 'two_factor_recovery_codes']);
 });
+
+it('serves the khatam planner and Islamic calendar pages', function () {
+    $this->get('/khatam')->assertOk()->assertSee('Khatam Planner');
+    $this->get('/calendar')->assertOk()->assertSee('Islamic Calendar');
+});

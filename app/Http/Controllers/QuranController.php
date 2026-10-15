@@ -111,6 +111,11 @@ class QuranController extends Controller
         return Inertia::render('QuranIndex', ['surahs' => $this->surahList()]);
     }
 
+    public function khatam(): Response
+    {
+        return Inertia::render('Khatam', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple'])]);
+    }
+
     public function show(int $surah): Response
     {
         abort_unless($surah >= 1 && $surah <= 114, 404);

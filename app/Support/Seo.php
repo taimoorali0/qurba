@@ -19,6 +19,8 @@ class Seo
         'names' => ['99 Names of Allah (Asma ul Husna)', 'Learn the 99 Names of Allah with Arabic, meaning and explanation.'],
         'prayer' => ['Prayer Times', 'Accurate daily prayer times for your location, calculated on your device.'],
         'qibla' => ['Qibla Direction Finder', 'Find the Qibla direction towards the Kaaba from anywhere using your phone.'],
+        'khatam' => ['Khatam Planner', 'Plan your complete reading of the Quran in 7, 15, 30 or 60 days and track every juz.'],
+        'calendar' => ['Islamic Calendar', 'Today\'s Hijri date and upcoming Islamic dates: Ramadan, Eid, Ashura, Laylat al-Qadr and more.'],
         'learn' => ['Learn with Qurba', 'Islamic learning courses and resources from Qurba.'],
         'explore' => ['Explore Qurba', 'Explore Hadith, Seerah, Naats, Ruqyah, Islamic books and more on Qurba.'],
         'library.module' => ['Islamic Library', 'Reviewed Islamic content: Hadith, Seerah, kids stories, Naats, Ruqyah and books.'],

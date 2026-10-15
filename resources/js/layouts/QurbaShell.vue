@@ -3,7 +3,7 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Home, BookOpen, CircleDot, Clock, Compass, GraduationCap, User, ChevronDown, Search, Sparkles } from 'lucide-vue-next';
+import { BookOpen, CalendarDays, ChevronDown, CircleDot, Clock, Compass, GraduationCap, Home, Library, Search, Sparkles, Target, User } from 'lucide-vue-next';
 import { useLocale } from '../composables/useLocale';
 import type { QurbaLocale } from '../lib/i18n';
 import AppStatus from '../components/AppStatus.vue';
@@ -26,18 +26,23 @@ const primary = [
 ];
 // Desktop top bar: main sections, the rest under "More"
 const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/learn', icon: GraduationCap }];
+// Library sub-navigation, shown only inside the library section
 const libraryLinks = [
-  { title: 'Explore', href: '/explore' },
-  { title: 'Hadith', href: '/library/hadith' },
-  { title: 'Seerat-un-Nabi ﷺ', href: '/library/seerah' },
-  { title: 'Kids', href: '/library/kids' },
-  { title: 'Hamd & Naats', href: '/library/naats' },
-  { title: 'Ruqyah', href: '/library/ruqyah' },
+  { key: 'explore', href: '/explore' },
+  { key: 'hadith', href: '/library/hadith' },
+  { key: 'seerah', href: '/library/seerah' },
+  { key: 'kids', href: '/library/kids' },
+  { key: 'naats', href: '/library/naats' },
+  { key: 'ruqyah', href: '/library/ruqyah' },
 ];
+const inLibrary = computed(() => isActive('/explore') || isActive('/library'));
 const more = [
   { key: 'prayer', href: '/prayer', icon: Clock },
   { key: 'qibla', href: '/qibla', icon: Compass },
+  { key: 'khatam', href: '/khatam', icon: Target },
+  { key: 'calendar', href: '/calendar', icon: CalendarDays },
   { key: 'names', href: '/names', icon: Sparkles },
+  { key: 'explore', href: '/explore', icon: Library },
   { key: 'profile', href: '/profile', icon: User },
 ];
 const moreActive = computed(() => more.some((m) => isActive(m.href)));
@@ -108,11 +113,11 @@ const langs: { code: QurbaLocale; label: string }[] = [
 
     <main class="mx-auto max-w-6xl px-4 pb-28 pt-6 md:px-8 md:pb-12">
       <AppStatus class="mb-5" />
-      <nav aria-label="Content library" class="mb-5 flex flex-wrap gap-2">
+      <nav v-if="inLibrary" :aria-label="t('nav.explore')" class="-mx-4 mb-5 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
         <Link v-for="item in libraryLinks" :key="item.href" :href="item.href"
-          class="rounded-full border border-line px-4 py-2 text-sm"
-          :class="isActive(item.href) ? 'bg-emerald-900 text-white' : 'bg-paper text-ink'">
-          {{ item.title }}
+          class="shrink-0 rounded-full border border-line px-4 py-2 text-sm"
+          :class="isActive(item.href) ? 'border-emerald-900 bg-emerald-900 text-cream' : 'bg-paper text-ink hover:border-gold-500'">
+          {{ t('nav.' + item.key) }}
         </Link>
       </nav>
       <slot />
