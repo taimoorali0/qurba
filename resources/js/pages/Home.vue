@@ -40,7 +40,7 @@ onMounted(() => { lastRead.value = getLastRead(); zikrToday.value = todayTotal()
 </script>
 
 <template>
-  <Head title="Qurba" />
+  <Head title="" />
   <QurbaShell>
     <!-- Hero -->
     <section class="pattern-gold arch-top relative overflow-hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-100 via-paper to-lime-100 pt-12 shadow-soft md:pt-20 px-6 py-8 md:px-12 md:py-14">

@@ -107,3 +107,12 @@ Route::get('/library/{module}', [\App\Http\Controllers\ContentLibraryController:
     ->where('module', 'hadith|seerah|kids|naats|ruqyah|books')->name('library.module');
 
 Route::get('/explore', fn () => Inertia::render('Explore'))->name('explore');
+
+Route::get('/sitemap.xml', \App\Http\Controllers\SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', fn () => response(implode("\n", [
+    'User-agent: *',
+    ...array_map(fn ($p) => "Disallow: {$p}", ['/admin', '/admin-security', '/api/', '/settings', '/login', '/register', '/forgot-password', '/reset-password']),
+    '',
+    'Sitemap: '.url('/sitemap.xml'),
+    '',
+]), 200, ['Content-Type' => 'text/plain']));

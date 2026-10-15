@@ -16,7 +16,7 @@ const sections = [
 ];
 </script>
 <template>
-  <Head title="Explore Qurba" />
+  <Head title="Explore" />
   <QurbaShell>
     <section class="mb-8 rounded-3xl bg-emerald-900 p-7 text-white md:p-10">
       <p class="mb-3 text-sm text-emerald-100">QURBA · EXPLORE</p>
