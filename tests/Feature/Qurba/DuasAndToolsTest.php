@@ -31,3 +31,8 @@ it('serves the hifz and playlists pages', function () {
     $this->get('/hifz')->assertOk()->assertSee('Hifz Revision');
     $this->get('/playlists')->assertOk()->assertSee('Quran Audio Playlists');
 });
+
+it('serves the kids corner and the more page', function () {
+    $this->get('/kids')->assertOk()->assertSee('Kids Corner');
+    $this->get('/more')->assertOk();
+});

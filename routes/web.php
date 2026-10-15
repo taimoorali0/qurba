@@ -15,6 +15,8 @@ Route::get('dashboard', fn () => redirect()->route('profile'))
 Route::get('/quran', [QuranController::class, 'index'])->name('quran.index');
 Route::get('/khatam', [QuranController::class, 'khatam'])->name('khatam');
 Route::get('/hifz', [QuranController::class, 'hifz'])->name('hifz');
+Route::get('/kids', [QuranController::class, 'kids'])->name('kids');
+Route::get('/more', fn () => Inertia::render('More'))->name('more');
 Route::get('/playlists', [QuranController::class, 'playlists'])->name('playlists');
 Route::get('/calendar', fn () => Inertia::render('Calendar'))->name('calendar');
 Route::get('/zakat', fn () => Inertia::render('Zakat'))->name('zakat');

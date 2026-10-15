@@ -1,4 +1,15 @@
 import { initPwa } from './lib/pwa';
+// Self-hosted fonts (no Google Fonts request; browsers fetch only the scripts a page uses)
+import '@fontsource/amiri-quran/400.css';
+import '@fontsource/figtree/400.css';
+import '@fontsource/figtree/500.css';
+import '@fontsource/figtree/600.css';
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/500.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/marcellus/400.css';
+import '@fontsource/noto-nastaliq-urdu/400.css';
+import '@fontsource/noto-nastaliq-urdu/600.css';
 import '../css/app.css';
   import { i18n } from './lib/i18n';
 import { createInertiaApp } from '@inertiajs/vue3';

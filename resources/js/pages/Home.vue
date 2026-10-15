@@ -1,7 +1,7 @@
 <!-- ===== QURBA HOME — START ===== -->
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpen, CalendarDays, Coins, ChevronRight, CircleDot, Clock, Compass, GraduationCap, HandHeart, Library, MapPin, Sparkles, Sun, Target } from 'lucide-vue-next';
+import { BookOpen, CalendarDays, Coins, ChevronRight, CircleDot, Clock, Compass, Baby, GraduationCap, HandHeart, MapPin, Sparkles, Sun, Target } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import DailyAyah from '../components/DailyAyah.vue';
@@ -41,7 +41,7 @@ const tiles = [
   { key: 'nav.zakat', desc: 'home.d_zakat', href: '/zakat', icon: Coins },
   { key: 'nav.names', desc: 'home.d_names', href: '/names', icon: Sparkles },
   { key: 'nav.learn', desc: 'home.d_learn', href: '/learn', icon: GraduationCap },
-  { key: 'nav.explore', desc: 'home.d_library', href: '/explore', icon: Library },
+  { key: 'nav.kids', desc: 'home.d_kids', href: '/kids', icon: Baby },
 ];
 // Soft pastel backgrounds for the feature tiles
 const tileTones = ['bg-teal-100', 'bg-lime-100', 'bg-olive-100', 'bg-leaf-100'];
