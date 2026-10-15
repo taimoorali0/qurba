@@ -44,3 +44,19 @@ it('only serves a PDF when its entry and source permit publication', function ()
     $entry->update(['status' => 'review']);
     $this->get($url)->assertNotFound();
 });
+
+it('imports translations and tafsir while preserving a different installed Arabic edition', function () {
+    $this->seed(QurbaSeeder::class);
+    $this->artisan('qurba:import-uploaded-content')->assertExitCode(0);
+    \Illuminate\Support\Facades\DB::table('quran_ayahs')->where('ayah_key', '1:1')->update(['text_uthmani' => 'different edition']);
+    $before = QuranAyah::orderBy('id')->get()->toArray();
+    $this->artisan('qurba:import-uploaded-content', ['--keep-quran' => true])->assertExitCode(0);
+    expect(QuranAyah::orderBy('id')->get()->toArray())->toBe($before)
+        ->and(QuranTranslation::count())->toBe(7 * 6236)
+        ->and(QuranTafsir::count())->toBe(6236);
+});
+
+it('rejects conflicting Arabic import options', function () {
+    $this->artisan('qurba:import-uploaded-content', ['--keep-quran' => true, '--replace-quran' => true])->assertExitCode(1);
+    expect(QuranAyah::count())->toBe(0);
+});
