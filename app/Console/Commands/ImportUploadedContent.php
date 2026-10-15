@@ -74,7 +74,9 @@ class ImportUploadedContent extends Command
         }
         try {
             DB::transaction(function () use ($manifest, $folder, $datasets, $sameQuran, $keepQuran) {
-                foreach ($manifest['editions'] as $e) {
+                // Translations and tafsir attach to ayahs, so the Arabic text must be imported first.
+                $editions = collect($manifest['editions'])->sortBy(fn ($e) => $e['kind'] === 'quran' ? 0 : 1)->values();
+                foreach ($editions as $e) {
                     if ($e['kind'] === 'quran' && ($sameQuran || $keepQuran)) {
                         $this->line('Keeping installed Arabic text, source and review status.');
                         continue;
