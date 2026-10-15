@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Adhkar;
+use App\Models\AdhkarCategory;
 use App\Models\ContentSource;
 use App\Models\QuranAyah;
 use App\Support\Quran\QuranStructure;
@@ -21,12 +22,18 @@ class ContentHealth extends Widget
         $audio = Storage::disk('audio');
         $names = collect($audio->files('names'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 99)->unique()->count();
         $adhkarTotal = Adhkar::count();
+        // Categories users can open but that have no approved duas yet
+        $approvedPerCat = Adhkar::where('status', 'approved')->selectRaw('adhkar_category_id, count(*) as n')->groupBy('adhkar_category_id')->pluck('n', 'adhkar_category_id');
+        $cats = AdhkarCategory::orderBy('sort')->get(['id', 'name']);
+        $emptyCats = $cats->filter(fn ($c) => ! isset($approvedPerCat[$c->id]))->map(fn ($c) => $c->name['en'] ?? '')->values();
 
         return ['bars' => [
             ['Quran text', QuranAyah::count(), QuranStructure::AYAH_COUNT, 'ayahs'],
             ['Adhkar approved', Adhkar::where('status', 'approved')->count(), max(1, $adhkarTotal), 'items'],
+            ['Dua categories with content', $cats->count() - $emptyCats->count(), max(1, $cats->count()), 'categories'],
             ['99 Names audio', $names, 99, 'recordings'],
         ], 'facts' => [
+            ['Empty dua categories', $emptyCats->isEmpty() ? 'None' : 'Missing: '.$emptyCats->implode(', ')],
             ['Translations', $approved('translation') . ' approved / ' . $all('translation')],
             ['Tafsir editions', $approved('tafsir') . ' approved / ' . $all('tafsir')],
             ['Reciters (audio)', $approved('audio') . ' approved / ' . $all('audio')],

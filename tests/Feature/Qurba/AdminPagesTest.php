@@ -45,3 +45,13 @@ it('opens the edit forms and sorts the ayah table without errors', function () {
         ->sortTable('ayah_key', 'desc')->assertHasNoErrors()
         ->searchTable('الحمد')->assertHasNoErrors();
 });
+
+it('shows system health and empty dua categories on the dashboard', function () {
+    (new \Database\Seeders\QurbaSeeder())->run();
+    $admin = User::factory()->create();
+    $admin->forceFill(['role' => 'super_admin', 'two_factor_confirmed_at' => now()])->save();
+    $this->actingAs($admin)->withSession(['admin_2fa_passed' => true]);
+    $this->get('/admin')->assertOk();
+    \Livewire\Livewire::test(\App\Filament\Widgets\SystemHealth::class)->assertSee('Last database backup')->assertSee('Late reminders');
+    \Livewire\Livewire::test(\App\Filament\Widgets\ContentHealth::class)->assertSee('Empty dua categories')->assertSee('Illness &amp; Healing', false);
+});
