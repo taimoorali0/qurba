@@ -14,6 +14,8 @@ Route::get('dashboard', fn () => redirect()->route('profile'))
 // Quran (guest access)
 Route::get('/quran', [QuranController::class, 'index'])->name('quran.index');
 Route::get('/khatam', [QuranController::class, 'khatam'])->name('khatam');
+Route::get('/hifz', [QuranController::class, 'hifz'])->name('hifz');
+Route::get('/playlists', [QuranController::class, 'playlists'])->name('playlists');
 Route::get('/calendar', fn () => Inertia::render('Calendar'))->name('calendar');
 Route::get('/zakat', fn () => Inertia::render('Zakat'))->name('zakat');
 Route::get('/quran/{surah}', [QuranController::class, 'show'])->whereNumber('surah')->name('quran.show');

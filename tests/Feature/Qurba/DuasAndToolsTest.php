@@ -26,3 +26,8 @@ it('searches approved adhkar only', function () {
 it('serves the zakat calculator', function () {
     $this->get('/zakat')->assertOk()->assertSee('Zakat Calculator');
 });
+
+it('serves the hifz and playlists pages', function () {
+    $this->get('/hifz')->assertOk()->assertSee('Hifz Revision');
+    $this->get('/playlists')->assertOk()->assertSee('Quran Audio Playlists');
+});

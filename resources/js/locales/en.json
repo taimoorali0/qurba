@@ -20,7 +20,9 @@
     "naats": "Hamd & Naats",
     "ruqyah": "Ruqyah",
     "zakat": "Zakat calculator",
-    "duas": "Duas"
+    "duas": "Duas",
+    "hifz": "Hifz revision",
+    "playlists": "Audio playlists"
   },
   "home": {
     "greeting": "Assalamu Alaikum",
@@ -106,7 +108,8 @@
     "retry": "Try again",
     "tafsirEmpty": "No commentary for this surah in this tafsir.",
     "autoNext": "Auto-play next surah",
-    "matchLanguage": "Match app language"
+    "matchLanguage": "Match app language",
+    "tools": "Quran tools"
   },
   "tasbeeh": {
     "counter": "Counter",
@@ -476,5 +479,57 @@
     "nisab": "Nisab",
     "reset": "Clear amounts",
     "note": "This is a guide. Rulings differ on some assets such as jewellery in use, pensions and property. Please confirm with a scholar you trust."
+  },
+  "playlists": {
+    "title": "Audio playlists",
+    "sub": "Surahs played one after another with your chosen reciter.",
+    "noAudio": "Recitation audio is not available yet.",
+    "reciter": "Reciter",
+    "play": "Play",
+    "prev": "Previous ayah",
+    "next": "Next ayah",
+    "stop": "Stop",
+    "sleep": "Sleep timer",
+    "min": "{n} min",
+    "off": "Off",
+    "error": "This recitation could not be loaded. Check your connection.",
+    "night": "Before sleep",
+    "d_night": "Al-Mulk and As-Sajdah",
+    "friday": "Friday",
+    "d_friday": "Surah Al-Kahf",
+    "morning": "Morning",
+    "d_morning": "Yaseen, Ar-Rahman, Al-Waqiah",
+    "protection": "Protection",
+    "d_protection": "Al-Fatihah and the last three surahs",
+    "short": "Short surahs",
+    "d_short": "Ad-Duha to An-Nas, for learning",
+    "mine": "My playlist",
+    "choose": "Choose a surah",
+    "add": "Add",
+    "remove": "Remove",
+    "empty": "Add surahs to build your own playlist."
+  },
+  "hifz": {
+    "title": "Hifz revision",
+    "sub": "Recite from memory, reveal each ayah to check, and Qurba schedules your next revision.",
+    "dueToday": "Due for revision today",
+    "start": "Add the surahs you have memorised below to start.",
+    "allDone": "All revised for today. MashaAllah!",
+    "mine": "My memorised surahs",
+    "choose": "Choose a surah",
+    "add": "Add",
+    "remove": "Remove",
+    "review": "Revise",
+    "due": "Due today",
+    "nextOn": "Next revision {d}",
+    "hintOn": "Hint: on",
+    "hintOff": "Hint: off",
+    "showAll": "Show all",
+    "hideAll": "Hide all",
+    "cancel": "Stop revision",
+    "howTo": "Recite each ayah from memory, then tap it to check.",
+    "howWent": "How did it go?",
+    "strong": "Remembered well",
+    "weak": "Needs more practice"
   }
 }

@@ -111,6 +111,16 @@ class QuranController extends Controller
         return Inertia::render('QuranIndex', ['surahs' => $this->surahList()]);
     }
 
+    public function playlists(): Response
+    {
+        return Inertia::render('Playlists', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple']), 'reciters' => $this->reciters()]);
+    }
+
+    public function hifz(): Response
+    {
+        return Inertia::render('Hifz', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple', 'ayah_count'])]);
+    }
+
     public function khatam(): Response
     {
         return Inertia::render('Khatam', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple'])]);
