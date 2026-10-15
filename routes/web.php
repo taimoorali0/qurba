@@ -28,7 +28,9 @@ Route::get('/quran/{any}', fn () => Inertia::render('Section', ['section' => 'qu
 Route::get('api/v1/audio-manifest', function () {
     $d = \Illuminate\Support\Facades\Storage::disk('audio');
     $names = collect($d->files('names'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 99)->unique()->sort()->values();
-    $qaida = collect($d->files('qaida'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 28)->unique()->sort()->values();
+    // Qaida clips: "5" = the letter, "5-a" / "5-i" / "5-u" = the letter with fatha / kasra / damma
+    $qaida = collect($d->files('qaida'))->map(fn ($f) => basename($f, '.mp3'))
+        ->filter(fn ($k) => preg_match('/^([1-9]|1\d|2[0-8])(-[aiu])?$/', $k))->unique()->sort()->values();
     return response()->json(['ambient' => $d->exists('ambient.mp3'), 'adhan' => $d->exists('adhan.mp3'),
         'adhanFajr' => $d->exists('adhan-fajr.mp3'), 'namesFull' => $d->exists('names-full.mp3'), 'names' => $names, 'qaida' => $qaida,
         'voices' => \App\Support\NameVoices::manifest()])->header('Cache-Control', 'public, max-age=300');

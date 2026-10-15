@@ -72,13 +72,15 @@ class AudioFiles extends Page implements HasForms
                         return ($n >= 1 && $n <= 99) ? "{$n}.mp3" : 'invalid-' . $file->getClientOriginalName();
                     }),
             ]),
-            Forms\Components\Section::make('Arabic alphabet (Qaida) letters')->description('One recording per letter, named by its number: 1.mp3 (Alif) … 28.mp3 (Ya). Until a letter is uploaded, the app uses the phone\'s Arabic voice.')->collapsible()->collapsed()->schema([
-                Forms\Components\FileUpload::make('qaida')->label('Letter recordings')->multiple()->maxFiles(28)
+            Forms\Components\Section::make('Arabic alphabet (Qaida) — qari recordings')->description('Letters: 1.mp3 (Alif) … 28.mp3 (Ya). With vowels: 2-a.mp3 (بَ), 2-i.mp3 (بِ), 2-u.mp3 (بُ). Only uploaded recordings are played; there is no computer voice.')->collapsible()->collapsed()->schema([
+                Forms\Components\FileUpload::make('qaida')->label('Qaida recordings')->multiple()->maxFiles(112)
                     ->disk('audio')->directory('qaida')->visibility('public')->preserveFilenames()
                     ->acceptedFileTypes(self::MP3)->maxSize(5 * 1024)
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
-                        $n = (int) pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        return ($n >= 1 && $n <= 28) ? "{$n}.mp3" : 'invalid-' . $file->getClientOriginalName();
+                        // Accept "5.mp3", "5-a.mp3" and "5a.mp3"
+                        $name = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+                        if (! preg_match('/^(\d{1,2})-?([aiu])?$/', $name, $m) || (int) $m[1] < 1 || (int) $m[1] > 28) return 'invalid-' . $file->getClientOriginalName();
+                        return (int) $m[1] . (isset($m[2]) && $m[2] !== '' ? '-' . $m[2] : '') . '.mp3';
                     }),
             ]),
         ]);

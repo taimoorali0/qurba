@@ -570,8 +570,7 @@
   },
   "qaida": {
     "title": "Arabic alphabet (Qaida)",
-    "sub": "Tap a letter to hear it, see its shapes and practise the short vowels.",
-    "noVoice": "This phone has no Arabic voice, so letters play only when recordings are uploaded.",
+    "sub": "Tap a letter to see its shapes and short vowels, and hear it from a qari.",
     "listen": "Listen",
     "shapes": "Letter shapes",
     "isolated": "Alone",
@@ -590,6 +589,8 @@
     "score": "{r} of {n} right",
     "right": "Correct, MashaAllah!",
     "wrong": "It was {l}. Try the next one!",
-    "next": "Next letter"
+    "next": "Next letter",
+    "soon": "Qari recordings for the letters are coming soon. Until then you can see each letter, its shapes and its vowels.",
+    "noRecording": "Recording coming soon"
   }
 }

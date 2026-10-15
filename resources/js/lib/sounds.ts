@@ -26,7 +26,7 @@ export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as
 
 // ---- File availability: one small manifest from the server instead of probing each file ----
 export interface VoiceInfo { label: string; dir: string; names: number[]; full: string | null }
-interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[]; qaida?: number[]; voices?: Record<string, VoiceInfo> }
+interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[]; qaida?: string[]; voices?: Record<string, VoiceInfo> }
 let manifest: Promise<Manifest> | null = null;
 function getManifest(): Promise<Manifest> {
   manifest ??= fetch('/api/v1/audio-manifest', { headers: { Accept: 'application/json' } })
@@ -156,18 +156,13 @@ export async function playName(n: number, onEnd?: () => void, arabic?: string, v
   return false;
 }
 
-/** Reads short Arabic text with the device voice (e.g. a letter with a vowel). */
-export function sayArabic(text: string): boolean { oneShot?.pause(); return speak(text, () => {}); }
+/** Qaida clips that have a qari recording: "5" (letter) and "5-a" / "5-i" / "5-u" (with a vowel). */
+export async function qaidaClips(): Promise<Set<string>> { return new Set((await getManifest()).qaida ?? []); }
 
-/** Plays a Qaida letter: its uploaded recording (audio/qaida/n.mp3), otherwise the device's Arabic voice reading `spoken`. */
-export async function playLetter(n: number, spoken: string): Promise<boolean> {
-  const key = `qaida-${n}`;
-  if ((await getManifest()).qaida?.includes(n)) return playClip(key, `/audio/qaida/${n}.mp3`);
-  oneShot?.pause();
-  sound.clipPlaying = key;
-  if (speak(spoken, () => { if (sound.clipPlaying === key) sound.clipPlaying = ''; })) return true;
-  sound.clipPlaying = '';
-  return false;
+/** Plays a Qaida recording. Qaida never uses the device voice: pronunciation must come from a qari. */
+export async function playQaida(clip: string): Promise<boolean> {
+  if (!(await qaidaClips()).has(clip)) return false;
+  return playClip(`qaida-${clip}`, `/audio/qaida/${clip}.mp3`);
 }
 
 /** Whether a real recording exists for this name (otherwise the device voice is used) */
