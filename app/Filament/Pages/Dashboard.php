@@ -23,6 +23,7 @@ class Dashboard extends Base
             Widgets\ContentHealth::class,
             Widgets\SignupsChart::class,
             Widgets\RecentActivity::class,
+            Widgets\SystemHealth::class,
         ];
     }
 }
