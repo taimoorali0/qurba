@@ -28,6 +28,9 @@ let reciter: Reciter | null = null;
 let withBismillah = false;
 let sleepTimer: number | undefined;
 
+/** Memorisation drill: play each ayah this many times before moving on. */
+export const drill = reactive({ times: 1, done: 0 });
+
 /** Surahs played one after another (playlists). index -1 = no playlist. */
 export const queue = reactive({ key: '', surahs: [] as number[], index: -1 });
 
@@ -64,6 +67,8 @@ function load_(s: number, a: number, bismillah = false) {
 
 function onEnded() {
   if (player.inBismillah) return load_(player.surah, player.ayah);
+  if (drill.times > 1 && drill.done < drill.times - 1) { drill.done++; return load_(player.surah, player.ayah); }
+  drill.done = 0;
   if (audioPrefs.repeat === 'ayah') return load_(player.surah, player.ayah);
   if (player.ayah < player.total) return load_(player.surah, player.ayah + 1);
   if (audioPrefs.repeat === 'surah') return begin(player.surah, 1, player.total);
@@ -79,6 +84,7 @@ export function setReciter(r: Reciter | null) { reciter = r; }
 
 /** Start a surah at an ayah. Surahs other than 1 and 9 get the Bismillah before ayah 1. */
 function begin(surah: number, ayah: number, total: number) {
+  drill.done = 0;
   player.surah = surah; player.total = total;
   withBismillah = ayah === 1 && surah !== 1 && surah !== 9;
   player.ayah = ayah;
@@ -101,8 +107,8 @@ export function toggle() {
   if (e.paused) e.play(); else e.pause();
 }
 export function stop() { el?.pause(); player.playing = false; player.surah = 0; player.ayah = 0; queue.index = -1; }
-export function next() { if (player.ayah < player.total) load_(player.surah, player.ayah + 1); }
-export function prev() { if (player.ayah > 1) load_(player.surah, player.ayah - 1); }
+export function next() { drill.done = 0; if (player.ayah < player.total) load_(player.surah, player.ayah + 1); }
+export function prev() { drill.done = 0; if (player.ayah > 1) load_(player.surah, player.ayah - 1); }
 export function setSpeed(v: number) { audioPrefs.speed = v; if (el) el.playbackRate = v; }
 
 export function setSleep(minutes: number) {
