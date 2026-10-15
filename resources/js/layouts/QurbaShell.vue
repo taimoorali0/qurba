@@ -3,7 +3,7 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { BookOpen, Brain, CalendarDays, ChevronDown, Coins, CircleDot, Clock, Compass, GraduationCap, Home, Library, ListMusic, Search, Sparkles, Target, User } from 'lucide-vue-next';
+import { Baby, BookOpen, LayoutGrid, Brain, CalendarDays, ChevronDown, Coins, CircleDot, Clock, Compass, GraduationCap, Home, Library, ListMusic, Search, Sparkles, Target, User } from 'lucide-vue-next';
 import { useLocale } from '../composables/useLocale';
 import type { QurbaLocale } from '../lib/i18n';
 import AppStatus from '../components/AppStatus.vue';
@@ -22,7 +22,7 @@ const primary = [
   { key: 'quran', href: '/quran', icon: BookOpen },
   { key: 'zikr', href: '/zikr', icon: CircleDot },
   { key: 'prayer', href: '/prayer', icon: Clock },
-  { key: 'profile', href: '/profile', icon: User },
+  { key: 'more', href: '/more', icon: LayoutGrid },
 ];
 // Desktop top bar: main sections, the rest under "More"
 const desktop = [primary[0], primary[1], primary[2], { key: 'learn', href: '/learn', icon: GraduationCap }];
@@ -42,6 +42,7 @@ const more = [
   { key: 'khatam', href: '/khatam', icon: Target },
   { key: 'hifz', href: '/hifz', icon: Brain },
   { key: 'playlists', href: '/playlists', icon: ListMusic },
+  { key: 'kids', href: '/kids', icon: Baby },
   { key: 'calendar', href: '/calendar', icon: CalendarDays },
   { key: 'zakat', href: '/zakat', icon: Coins },
   { key: 'names', href: '/names', icon: Sparkles },

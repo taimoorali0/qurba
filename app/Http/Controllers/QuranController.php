@@ -116,6 +116,16 @@ class QuranController extends Controller
         return Inertia::render('Playlists', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple']), 'reciters' => $this->reciters()]);
     }
 
+    public function kids(): Response
+    {
+        // Al-Fatihah and the short surahs children usually learn first (Ad-Duha to An-Nas)
+        $ids = array_merge([1], range(93, 114));
+        return Inertia::render('Kids', [
+            'surahs' => QuranSurah::whereIn('id', $ids)->orderBy('id')->get(['id', 'name_simple', 'name_arabic', 'name_english', 'ayah_count']),
+            'reciters' => $this->reciters(),
+        ]);
+    }
+
     public function hifz(): Response
     {
         return Inertia::render('Hifz', ['surahs' => QuranSurah::orderBy('id')->get(['id', 'name_simple', 'ayah_count'])]);

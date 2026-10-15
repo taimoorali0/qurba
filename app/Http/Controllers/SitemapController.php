@@ -8,7 +8,7 @@ class SitemapController extends Controller
 {
     public function __invoke(): Response
     {
-        $urls = collect(['/', '/quran', '/zikr', '/zikr/adhkar', '/zikr/tasbeeh', '/names', '/prayer', '/qibla', '/learn', '/explore', '/khatam', '/calendar', '/zakat', '/hifz', '/playlists'])
+        $urls = collect(['/', '/quran', '/zikr', '/zikr/adhkar', '/zikr/tasbeeh', '/names', '/prayer', '/qibla', '/learn', '/explore', '/khatam', '/calendar', '/zakat', '/hifz', '/playlists', '/kids'])
             ->merge(collect(['hadith', 'seerah', 'kids', 'naats', 'ruqyah', 'books'])->map(fn ($m) => "/library/{$m}"))
             ->merge(collect(range(1, 114))->map(fn ($n) => "/quran/{$n}"))
             ->map(fn ($path) => url($path));

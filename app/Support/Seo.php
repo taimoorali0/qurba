@@ -24,6 +24,7 @@ class Seo
         'zakat' => ['Zakat Calculator', 'Calculate your zakat on cash, savings, gold, silver, investments and business stock, with gold or silver nisab.'],
         'hifz' => ['Hifz Revision', 'Revise the surahs you have memorised: hide the text, recite from memory and follow a spaced revision schedule.'],
         'playlists' => ['Quran Audio Playlists', 'Listen to Al-Mulk before sleep, Al-Kahf on Friday, Yaseen, the last surahs and your own playlist.'],
+        'kids' => ['Kids Corner', 'Short surahs for children to listen to and learn, with stars for every surah learned, stories and the 99 Names of Allah.'],
         'learn' => ['Learn with Qurba', 'Islamic learning courses and resources from Qurba.'],
         'explore' => ['Explore Qurba', 'Explore Hadith, Seerah, Naats, Ruqyah, Islamic books and more on Qurba.'],
         'library.module' => ['Islamic Library', 'Reviewed Islamic content: Hadith, Seerah, kids stories, Naats, Ruqyah and books.'],

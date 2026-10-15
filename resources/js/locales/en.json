@@ -16,7 +16,7 @@
     "explore": "Library",
     "hadith": "Hadith",
     "seerah": "Seerat-un-Nabi ﷺ",
-    "kids": "Kids",
+    "kids": "Kids corner",
     "naats": "Hamd & Naats",
     "ruqyah": "Ruqyah",
     "zakat": "Zakat calculator",
@@ -58,7 +58,8 @@
     "salahDone": "Prayers logged",
     "d_library": "Hadith, Seerah, books",
     "d_zakat": "Work out your zakat",
-    "d_duas": "For every situation"
+    "d_duas": "For every situation",
+    "d_kids": "Learn short surahs"
   },
   "lang": "Language",
   "soon": "This section is being built.",
@@ -291,7 +292,9 @@
     "err_denied": "Notifications are blocked for Qurba. Allow them in your browser or phone settings.",
     "err_server": "Reminders are not available right now. Try again later.",
     "kahfTitle": "Surah Al-Kahf on Friday",
-    "kahfBody": "It is Friday. Take a few minutes for Surah Al-Kahf."
+    "kahfBody": "It is Friday. Take a few minutes for Surah Al-Kahf.",
+    "dailyTitle": "Ayah of the day",
+    "dailyBody": "Start your day with a verse from the Quran."
   },
   "learn": {
     "title": "Qurba Learning",
@@ -531,5 +534,25 @@
     "howWent": "How did it go?",
     "strong": "Remembered well",
     "weak": "Needs more practice"
+  },
+  "kids": {
+    "title": "Kids corner",
+    "sub": "Listen to a surah, read it together, and earn a star for each one you learn.",
+    "starsOf": "stars of {n}",
+    "cheer": "MashaAllah! You earned a star!",
+    "stories": "Stories",
+    "names": "99 Names",
+    "duas": "Daily duas",
+    "learn": "Surahs to learn",
+    "ayahs": "{n} ayahs",
+    "listen": "Listen",
+    "read": "Read",
+    "learned": "I learned it"
+  },
+  "more": {
+    "quran": "Quran",
+    "worship": "Worship",
+    "tools": "Tools",
+    "learn": "Learn and family"
   }
 }
