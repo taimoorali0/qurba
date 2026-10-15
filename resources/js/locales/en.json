@@ -547,7 +547,19 @@
     "ayahs": "{n} ayahs",
     "listen": "Listen",
     "read": "Read",
-    "learned": "I learned it"
+    "learned": "I learned it",
+    "child": "Child {n}",
+    "who": "Who is learning?",
+    "namePh": "Child's name",
+    "save": "Save",
+    "addChild": "Add child",
+    "close": "Close",
+    "repeat": "Repeat each ayah",
+    "repeatNow": "Repeating {a} of {b}",
+    "parent": "Parent view",
+    "parentSub": "Progress for each child on this phone.",
+    "removeChild": "Remove child",
+    "noStars": "No stars yet"
   },
   "more": {
     "quran": "Quran",
