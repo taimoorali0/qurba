@@ -23,3 +23,15 @@ it('serves the khatam planner and Islamic calendar pages', function () {
     $this->get('/khatam')->assertOk()->assertSee('Khatam Planner');
     $this->get('/calendar')->assertOk()->assertSee('Islamic Calendar');
 });
+
+it('adds the analytics script only when configured', function () {
+    $this->get('/')->assertDontSee('data-domain', false)->assertDontSee('data-website-id', false);
+    config(['qurba.analytics' => ['provider' => 'plausible', 'script' => 'https://plausible.io/js/script.js', 'site' => 'qurba.marg101.com']]);
+    $this->get('/')->assertSee('data-domain="qurba.marg101.com"', false);
+    config(['qurba.analytics' => ['provider' => 'umami', 'script' => 'https://stats.example.com/script.js', 'site' => 'abc-123']]);
+    $this->get('/')->assertSee('data-website-id="abc-123"', false);
+});
+
+it('serves the qaida page', function () {
+    $this->get('/kids/qaida')->assertOk()->assertSee('Arabic Alphabet (Qaida) for Kids');
+});

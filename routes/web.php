@@ -16,6 +16,7 @@ Route::get('/quran', [QuranController::class, 'index'])->name('quran.index');
 Route::get('/khatam', [QuranController::class, 'khatam'])->name('khatam');
 Route::get('/hifz', [QuranController::class, 'hifz'])->name('hifz');
 Route::get('/kids', [QuranController::class, 'kids'])->name('kids');
+Route::get('/kids/qaida', fn () => Inertia::render('Qaida'))->name('qaida');
 Route::get('/more', fn () => Inertia::render('More'))->name('more');
 Route::get('/playlists', [QuranController::class, 'playlists'])->name('playlists');
 Route::get('/calendar', fn () => Inertia::render('Calendar'))->name('calendar');
@@ -27,8 +28,9 @@ Route::get('/quran/{any}', fn () => Inertia::render('Section', ['section' => 'qu
 Route::get('api/v1/audio-manifest', function () {
     $d = \Illuminate\Support\Facades\Storage::disk('audio');
     $names = collect($d->files('names'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 99)->unique()->sort()->values();
+    $qaida = collect($d->files('qaida'))->map(fn ($f) => (int) basename($f, '.mp3'))->filter(fn ($n) => $n >= 1 && $n <= 28)->unique()->sort()->values();
     return response()->json(['ambient' => $d->exists('ambient.mp3'), 'adhan' => $d->exists('adhan.mp3'),
-        'adhanFajr' => $d->exists('adhan-fajr.mp3'), 'namesFull' => $d->exists('names-full.mp3'), 'names' => $names,
+        'adhanFajr' => $d->exists('adhan-fajr.mp3'), 'namesFull' => $d->exists('names-full.mp3'), 'names' => $names, 'qaida' => $qaida,
         'voices' => \App\Support\NameVoices::manifest()])->header('Cache-Control', 'public, max-age=300');
 })->middleware('throttle:60,1');
 

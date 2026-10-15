@@ -32,6 +32,12 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Qurba">
+    @php($analytics = config('qurba.analytics'))
+    @if ($analytics['script'] && $analytics['site'] && $analytics['provider'] === 'plausible')
+    <script defer data-domain="{{ $analytics['site'] }}" src="{{ $analytics['script'] }}"></script>
+    @elseif ($analytics['script'] && $analytics['site'] && $analytics['provider'] === 'umami')
+    <script defer data-website-id="{{ $analytics['site'] }}" src="{{ $analytics['script'] }}"></script>
+    @endif
     {{-- ===== QURBA HEAD — END ===== --}}    @vite(['resources/js/app.ts'])
         @inertiaHead
     </head>
