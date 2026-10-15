@@ -28,6 +28,9 @@ let reciter: Reciter | null = null;
 let withBismillah = false;
 let sleepTimer: number | undefined;
 
+/** Surahs played one after another (playlists). index -1 = no playlist. */
+export const queue = reactive({ key: '', surahs: [] as number[], index: -1 });
+
 function audio(): HTMLAudioElement {
   if (el) return el;
   el = new Audio();
@@ -63,19 +66,33 @@ function onEnded() {
   if (player.inBismillah) return load_(player.surah, player.ayah);
   if (audioPrefs.repeat === 'ayah') return load_(player.surah, player.ayah);
   if (player.ayah < player.total) return load_(player.surah, player.ayah + 1);
-  if (audioPrefs.repeat === 'surah') return start(player.surah, 1, player.total);
-  if (audioPrefs.autoNext && player.surah < 114) return start(player.surah + 1, 1, ayahCount(player.surah + 1));
+  if (audioPrefs.repeat === 'surah') return begin(player.surah, 1, player.total);
+  if (queue.index >= 0) {
+    if (queue.index < queue.surahs.length - 1) { queue.index++; return begin(queue.surahs[queue.index], 1, ayahCount(queue.surahs[queue.index])); }
+    queue.index = -1; player.playing = false; return;
+  }
+  if (audioPrefs.autoNext && player.surah < 114) return begin(player.surah + 1, 1, ayahCount(player.surah + 1));
   player.playing = false;
 }
 
 export function setReciter(r: Reciter | null) { reciter = r; }
 
 /** Start a surah at an ayah. Surahs other than 1 and 9 get the Bismillah before ayah 1. */
-export function start(surah: number, ayah: number, total: number) {
+function begin(surah: number, ayah: number, total: number) {
   player.surah = surah; player.total = total;
   withBismillah = ayah === 1 && surah !== 1 && surah !== 9;
   player.ayah = ayah;
   load_(surah, ayah, withBismillah);
+}
+
+/** Play one surah from the reader (ends any playlist). */
+export function start(surah: number, ayah: number, total: number) { queue.index = -1; begin(surah, ayah, total); }
+
+/** Play a list of surahs in order, starting at position i. */
+export function playQueue(key: string, surahs: number[], i = 0) {
+  if (!reciter || !surahs.length) return;
+  queue.key = key; queue.surahs = [...surahs]; queue.index = i;
+  begin(surahs[i], 1, ayahCount(surahs[i]));
 }
 
 export function toggle() {
@@ -83,7 +100,7 @@ export function toggle() {
   if (!e.src) return;
   if (e.paused) e.play(); else e.pause();
 }
-export function stop() { el?.pause(); player.playing = false; player.surah = 0; player.ayah = 0; }
+export function stop() { el?.pause(); player.playing = false; player.surah = 0; player.ayah = 0; queue.index = -1; }
 export function next() { if (player.ayah < player.total) load_(player.surah, player.ayah + 1); }
 export function prev() { if (player.ayah > 1) load_(player.surah, player.ayah - 1); }
 export function setSpeed(v: number) { audioPrefs.speed = v; if (el) el.playbackRate = v; }

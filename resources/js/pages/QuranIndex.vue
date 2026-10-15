@@ -4,7 +4,7 @@ import Rosette from '../components/Rosette.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Search } from 'lucide-vue-next';
+import { Brain, ListMusic, Search, Target } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import PageTitle from '../components/PageTitle.vue';
 import QuranOffline from '../components/QuranOffline.vue';
@@ -38,6 +38,13 @@ const filtered = computed(() => {
           class="w-full rounded-full border border-line bg-paper py-2.5 pe-4 ps-11 text-sm focus:border-gold-500 focus:ring-0" />
       </label>
     </div>
+
+    <nav :aria-label="t('quran.tools')" class="mt-6 flex flex-wrap gap-2">
+      <Link v-for="tool in [{ href: '/khatam', key: 'nav.khatam', icon: Target }, { href: '/hifz', key: 'nav.hifz', icon: Brain }, { href: '/playlists', key: 'nav.playlists', icon: ListMusic }]"
+        :key="tool.href" :href="tool.href" class="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-sm text-emerald-900 hover:border-gold-500">
+        <component :is="tool.icon" class="size-4 text-gold-600" /> {{ t(tool.key) }}
+      </Link>
+    </nav>
 
     <div class="mt-6"><QuranOffline /></div>
 
