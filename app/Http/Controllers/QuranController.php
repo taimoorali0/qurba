@@ -49,6 +49,12 @@ class QuranController extends Controller
     /** The word-by-word or tajweed edition users may see (approved only in production). */
     private function extraSource(string $type): ?ContentSource
     {
+        // Content approval is not the same as permission to republish third-party data.
+        // Keep word-by-word content private in production until its rights are verified.
+        if ($type === 'word_by_word' && $this->reviewedOnly() && ! config('qurba_content.word_by_word_public_enabled', false)) {
+            return null;
+        }
+
         return ContentSource::where('type', $type)
             ->when($this->reviewedOnly(), fn ($q) => $q->where('status', 'approved'))
             ->orderBy('id')->first();
