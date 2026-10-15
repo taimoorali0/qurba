@@ -110,7 +110,11 @@
     "tafsirEmpty": "No commentary for this surah in this tafsir.",
     "autoNext": "Auto-play next surah",
     "matchLanguage": "Match app language",
-    "tools": "Quran tools"
+    "tools": "Quran tools",
+    "study": "Study tools",
+    "wordByWord": "Word by word (English)",
+    "tajweedColours": "Tajweed colours",
+    "tajweedKey": "Tajweed colour key"
   },
   "tasbeeh": {
     "counter": "Counter",
@@ -595,5 +599,15 @@
     "next": "Next letter",
     "soon": "Qari recordings for the letters are coming soon. Until then you can see each letter, its shapes and its vowels.",
     "noRecording": "Recording coming soon"
+  },
+  "tajweed": {
+    "silent": "Not pronounced",
+    "madd": "Madd (2–6 counts)",
+    "maddLong": "Madd (4–6 counts)",
+    "ghunnah": "Ghunnah",
+    "ikhfa": "Ikhfa",
+    "idghaam": "Idghaam",
+    "iqlab": "Iqlab",
+    "qalqalah": "Qalqalah"
   }
 }
