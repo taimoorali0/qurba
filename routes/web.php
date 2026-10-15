@@ -46,6 +46,7 @@ Route::prefix('api/v1/quran')->group(function () {
     Route::get('surahs/{surah}', [QuranController::class, 'apiSurah'])->whereNumber('surah');
     Route::get('search', [QuranController::class, 'apiSearch'])->middleware('throttle:60,1');
     Route::get('tafsir/{source}/{surah}', [QuranController::class, 'apiTafsir'])->whereNumber(['source', 'surah'])->middleware('throttle:60,1');
+    Route::get('extras/{kind}/{surah}', [QuranController::class, 'apiExtras'])->whereIn('kind', ['words', 'tajweed'])->whereNumber('surah')->middleware('throttle:60,1');
 });
 
 // Zikr (guest access)

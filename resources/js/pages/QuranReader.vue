@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, List, Loader2, Lock, Moon, Pause, Play, Repeat, Repeat1, Settings2, Share2, SkipBack, SkipForward, Volume2, X } from 'lucide-vue-next';
 import QurbaShell from '../layouts/QurbaShell.vue';
 import { bookmarks, readerSettings, setLastRead, toArabicDigits, toggleBookmark, type ReaderMode } from '../lib/quranLocal';
+import { GROUPS, segments, type Rule } from '../lib/tajweed';
 import { audioPrefs, next as nextAyah, player, prev as prevAyah, setReciter, setSleep, setSpeed, start, stop, toggle, type Reciter } from '../lib/quranAudio';
 
 interface Tr { source_id: number; text: string }
@@ -17,7 +18,7 @@ interface Surah { id: number; name_simple: string; name_arabic: string | null; n
 const props = defineProps<{
   surah: Surah; bismillah: string | null; ayahs: Ayah[]; translation_sources: Source[];
   prev: number | null; next: number | null; surahs: Surah[]; reciters: Reciter[];
-  tafsir_sources?: TafsirSource[];
+  tafsir_sources?: TafsirSource[]; extras?: { words: boolean; tajweed: boolean };
 }>();
 const { t, locale } = useI18n();
 
@@ -93,6 +94,30 @@ async function loadTafsir() {
   } catch { tafsirState.value = 'error'; }
 }
 watch([tab, () => props.surah.id, () => tafsir.value?.id], loadTafsir, { immediate: true });
+// ---- Word by word and tajweed: fetched per surah when switched on (only offered once approved) ----
+type Word = [string, string, string]; // arabic, transliteration, meaning
+const wordsOn = computed(() => !!props.extras?.words && readerSettings.words);
+const tajweedOn = computed(() => !!props.extras?.tajweed && readerSettings.tajweed);
+const words = ref<Record<number, Word[]>>({});
+const tajweed = ref<Record<number, { text: string; rules: Rule[] }>>({});
+const extrasCache = new Map<string, Record<number, unknown>>();
+async function loadExtra(kind: 'words' | 'tajweed') {
+  const key = `${kind}:${props.surah.id}`;
+  let data = extrasCache.get(key);
+  if (!data) {
+    try {
+      const res = await fetch(`/api/v1/quran/extras/${kind}/${props.surah.id}`, { headers: { Accept: 'application/json' } });
+      if (!res.ok) return;
+      data = (await res.json()).data as Record<number, unknown>;
+      extrasCache.set(key, data);
+    } catch { return; }
+  }
+  if (kind === 'words') words.value = data as Record<number, Word[]>; else tajweed.value = data as Record<number, { text: string; rules: Rule[] }>;
+}
+watch([wordsOn, () => props.surah.id], ([on]) => { words.value = {}; if (on) loadExtra('words'); }, { immediate: true });
+watch([tajweedOn, () => props.surah.id], ([on]) => { tajweed.value = {}; if (on) loadExtra('tajweed'); }, { immediate: true });
+const tajweedSegments = (n: number) => { const x = tajweed.value[n]; return x ? segments(x.text, x.rules) : null; };
+
 const ayahText = (n: number) => props.ayahs.find((a) => a.n === n)?.text ?? '';
 const isUrdu = (lang?: string) => lang === 'ur';
 
@@ -245,7 +270,21 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
             {{ s.name }} <span class="text-ink-soft">({{ s.language_code }})</span>
           </label>
           <button v-if="readerSettings.trCustom" class="mt-3 text-xs text-emerald-700 underline" @click="matchLanguage">{{ t('quran.matchLanguage') }}</button>
+          <template v-if="extras?.words || extras?.tajweed">
+            <p class="mt-4 text-ink-soft">{{ t('quran.study') }}</p>
+            <label v-if="extras?.words" class="mt-2 flex items-center gap-3">
+              <input v-model="readerSettings.words" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('quran.wordByWord') }}
+            </label>
+            <label v-if="extras?.tajweed" class="mt-2 flex items-center gap-3">
+              <input v-model="readerSettings.tajweed" type="checkbox" class="rounded text-emerald-900 focus:ring-gold-500" /> {{ t('quran.tajweedColours') }}
+            </label>
+          </template>
         </section>
+
+        <!-- Tajweed colour key -->
+        <ul v-if="tajweedOn && tab !== 'tafsir'" class="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 rounded-[var(--radius-tile)] bg-paper px-4 py-3 text-xs text-ink shadow-soft" :aria-label="t('quran.tajweedKey')">
+          <li v-for="g in GROUPS" :key="g.key" class="flex items-center gap-1.5"><span class="size-3 rounded-full" :style="{ background: g.color }" /> {{ t('tajweed.' + g.key) }}</li>
+        </ul>
 
         <p v-if="hasUnreviewed" class="mt-4 rounded-xl bg-gold-200/50 px-4 py-2 text-xs text-ink-soft">{{ t('quran.devReview') }}</p>
 
@@ -279,7 +318,20 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
               </button>
               </span>
             </div>
-            <p dir="rtl" lang="ar" class="font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.4 }">
+            <!-- Word by word: each Arabic word with its transliteration and meaning -->
+            <ol v-if="wordsOn && words[a.n]" dir="rtl" class="flex flex-wrap gap-x-2 gap-y-3">
+              <li v-for="(w, i) in words[a.n]" :key="i" class="flex min-w-[4.5rem] flex-col items-center rounded-xl bg-cream/70 px-2 py-1.5 text-center">
+                <span lang="ar" class="font-quran text-ink" :style="{ fontSize: readerSettings.fontSize * 0.85 + 'rem', lineHeight: 2 }">{{ w[0] }}</span>
+                <span dir="ltr" class="text-[11px] italic text-emerald-700">{{ w[1] }}</span>
+                <span dir="ltr" class="max-w-[9rem] text-[11px] leading-snug text-ink-soft">{{ w[2] }}</span>
+              </li>
+              <li class="self-center font-quran text-gold-600" :style="{ fontSize: readerSettings.fontSize * 0.85 + 'rem' }">﴿{{ toArabicDigits(a.n) }}﴾</li>
+            </ol>
+            <p v-else-if="tajweedOn && tajweedSegments(a.n)" dir="rtl" lang="ar" class="font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.4 }">
+              <span v-for="(seg, i) in tajweedSegments(a.n)!" :key="i" :style="seg.color ? { color: seg.color } : undefined">{{ seg.text }}</span>
+              <span class="whitespace-nowrap text-gold-600"> ﴿{{ toArabicDigits(a.n) }}﴾</span>
+            </p>
+            <p v-else dir="rtl" lang="ar" class="font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.4 }">
               {{ a.text }} <span class="whitespace-nowrap text-gold-600">﴿{{ toArabicDigits(a.n) }}﴾</span>
             </p>
             <p v-for="tr in visibleTr(a)" :key="tr.source_id" :dir="isRtl(sourceById[tr.source_id]?.language_code) ? 'rtl' : 'ltr'"
@@ -294,7 +346,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
         <!-- MUSHAF mode: continuous text, nothing else on the page -->
         <div v-else-if="tab === 'mushaf'" class="mt-6 rounded-[var(--radius-sheet)] bg-paper shadow-soft px-5 py-8 md:px-10">
           <p dir="rtl" lang="ar" class="text-justify font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.5 }">
-            <span v-for="a in ayahs" :id="`ayah-${a.n}`" :key="a.key" :data-n="a.n" class="scroll-mt-48 rounded-lg transition-colors" :class="playingAyah === a.n ? 'bg-gold-200/60' : ''">{{ a.text }}
+            <span v-for="a in ayahs" :id="`ayah-${a.n}`" :key="a.key" :data-n="a.n" class="scroll-mt-48 rounded-lg transition-colors" :class="playingAyah === a.n ? 'bg-gold-200/60' : ''"><template v-if="tajweedOn && tajweedSegments(a.n)"><span v-for="(seg, i) in tajweedSegments(a.n)!" :key="i" :style="seg.color ? { color: seg.color } : undefined">{{ seg.text }}</span></template><template v-else>{{ a.text }}</template>
               <button class="whitespace-nowrap text-gold-600" :class="bookmarks.has(a.key) ? 'underline decoration-gold-500 underline-offset-8' : ''"
                 @click="toggleBookmark(a.key)" :aria-label="`${t('quran.bookmark')} ${a.key}`">﴿{{ toArabicDigits(a.n) }}﴾</button>
             </span>

@@ -1,0 +1,30 @@
+{
+  "editions": [
+    {
+      "id": "words-en",
+      "kind": "word_by_word",
+      "file": "quran-words-en.json",
+      "lang": "en",
+      "name": "Quran.com word-by-word (English)",
+      "author": "Quran.com",
+      "edition": "@kmaslesa/holy-quran-word-by-word-full-data 1.0.6",
+      "url": "https://quran.com",
+      "license": "Quran.com word-by-word data; confirm permission for publication. Arabic words from Tanzil Uthmani Minimal (CC BY 3.0).",
+      "sha256": "3dd93954ab7daabe1621c5d3c7c757b775513175404433363fd0752706e0596e",
+      "items": 6236
+    },
+    {
+      "id": "tajweed",
+      "kind": "tajweed",
+      "file": "quran-tajweed.json",
+      "lang": "ar",
+      "name": "Tajweed (Tanzil Uthmani with cpfair/quran-tajweed annotations)",
+      "author": "Collin Fair; Tanzil Project",
+      "edition": "quran-tajweed (hafs, uthmani-pause-sajdah); Tanzil Uthmani via npm quran 0.0.9",
+      "url": "https://github.com/cpfair/quran-tajweed",
+      "license": "Annotations CC BY 4.0 (Collin Fair); Quran text Tanzil terms, verbatim with attribution",
+      "sha256": "ce98dd2e7170d5ad60491c8b30cb65ce2a6f4c2acd068010714605bdb0faf639",
+      "items": 6236
+    }
+  ]
+}

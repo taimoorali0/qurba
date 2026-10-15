@@ -6,6 +6,7 @@ use App\Models\ContentSource;
 use App\Models\QuranAyah;
 use App\Models\QuranReciter;
 use App\Models\QuranSurah;
+use App\Models\QuranAyahData;
 use App\Models\QuranTafsir;
 use App\Models\QuranTranslation;
 use App\Support\Quran\ArabicNormalizer;
@@ -45,6 +46,14 @@ class QuranController extends Controller
     }
 
     /** Reciters the player may use: active, has a URL pattern, and (in production) an approved source. */
+    /** The word-by-word or tajweed edition users may see (approved only in production). */
+    private function extraSource(string $type): ?ContentSource
+    {
+        return ContentSource::where('type', $type)
+            ->when($this->reviewedOnly(), fn ($q) => $q->where('status', 'approved'))
+            ->orderBy('id')->first();
+    }
+
     private function reciters()
     {
         return QuranReciter::with('source:id,status')
@@ -100,6 +109,7 @@ class QuranController extends Controller
             'translation_sources' => $sources,
             'tafsir_sources' => $this->tafsirSources(),
             'reciters' => $this->reciters(),
+            'extras' => ['words' => (bool) $this->extraSource('word_by_word'), 'tajweed' => (bool) $this->extraSource('tajweed')],
             'prev' => $id > 1 ? $id - 1 : null,
             'next' => $id < 114 ? $id + 1 : null,
         ];
@@ -169,6 +179,18 @@ class QuranController extends Controller
         $rows = QuranTafsir::where('content_source_id', $source)->where('surah_id', $surah)
             ->orderBy('ayah_number')->get(['ayah_number as n', 'text']);
         return response()->json(['data' => $rows])->header('Cache-Control', 'public, max-age=86400');
+    }
+
+    /** Word-by-word or tajweed data for one surah, keyed by ayah number. */
+    public function apiExtras(string $kind, int $surah): JsonResponse
+    {
+        abort_unless($surah >= 1 && $surah <= 114, 404);
+        $source = $this->extraSource(['words' => 'word_by_word', 'tajweed' => 'tajweed'][$kind] ?? abort(404));
+        abort_unless($source, 404);
+        $rows = QuranAyahData::where('content_source_id', $source->id)->where('surah_id', $surah)
+            ->orderBy('ayah_number')->get(['ayah_number', 'data'])->mapWithKeys(fn ($r) => [$r->ayah_number => $r->data]);
+        return response()->json(['data' => $rows, 'source' => $source->only(['name', 'author', 'license'])])
+            ->header('Cache-Control', 'public, max-age=86400');
     }
 
     public function apiSearch(Request $request): JsonResponse
