@@ -36,3 +36,11 @@ it('serves the kids corner and the more page', function () {
     $this->get('/kids')->assertOk()->assertSee('Kids Corner');
     $this->get('/more')->assertOk();
 });
+
+it('lists only valid qaida recordings in the audio manifest', function () {
+    \Illuminate\Support\Facades\Storage::fake('audio');
+    foreach (['qaida/2.mp3', 'qaida/2-a.mp3', 'qaida/28-u.mp3', 'qaida/29.mp3', 'qaida/invalid-x.mp3', 'qaida/2-z.mp3'] as $f) {
+        \Illuminate\Support\Facades\Storage::disk('audio')->put($f, 'x');
+    }
+    $this->getJson('/api/v1/audio-manifest')->assertOk()->assertJsonPath('qaida', ['2', '2-a', '28-u']);
+});
