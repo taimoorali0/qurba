@@ -270,7 +270,10 @@
     "results": "{n} results for “{q}”",
     "noResults": "No duas match your search. Try a different word.",
     "group_daily": "Daily adhkar",
-    "group_situations": "Duas for every situation"
+    "group_situations": "Duas for every situation",
+    "readAlong": "Listen and read along",
+    "position": "Position in recording",
+    "fromHere": "Play from here"
   },
   "reminders": {
     "title": "Reminders",

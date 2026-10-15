@@ -44,3 +44,17 @@ it('lists only valid qaida recordings in the audio manifest', function () {
     }
     $this->getJson('/api/v1/audio-manifest')->assertOk()->assertJsonPath('qaida', ['2', '2-a', '28-u']);
 });
+
+it('sends the category recording and dua start times for read-along', function () {
+    (new QurbaSeeder())->run();
+    $cat = AdhkarCategory::where('slug', 'sleep-wake')->first();
+    $cat->update(['audio_url' => 'adhkar-categories/waking.mp3', 'audio_credit' => 'Test reciter']);
+    Adhkar::$approving = true;
+    Adhkar::create(['adhkar_category_id' => $cat->id, 'text_arabic' => 'نص', 'reference' => 'Ref', 'status' => 'approved', 'audio_start' => 12.5]);
+    Adhkar::$approving = false;
+
+    $this->get('/zikr/adhkar/sleep-wake')->assertOk()->assertInertia(fn (Assert $p) => $p
+        ->where('category.audio', asset('audio/adhkar-categories/waking.mp3'))
+        ->where('category.credit', 'Test reciter')
+        ->where('items.0.start', 12.5));
+});

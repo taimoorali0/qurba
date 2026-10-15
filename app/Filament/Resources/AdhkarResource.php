@@ -54,6 +54,9 @@ class AdhkarResource extends Resource
                 ->disk('audio')->directory('duas')->visibility('public')
                 ->acceptedFileTypes(['audio/mpeg', 'audio/mp3'])->maxSize(10 * 1024)
                 ->helperText('MP3 of this dua being recited. Only upload recordings you have permission to publish.'),
+            Forms\Components\TextInput::make('audio_start')->label('Starts at (seconds) in the category recording')->numeric()->minValue(0)->step(0.1)
+                ->placeholder('e.g. 0, 34.5, 71')
+                ->helperText('For read-along: the moment this dua begins in the category recording (Adhkar categories & audio). Leave empty if not used.'),
             Forms\Components\Repeater::make('translations')->relationship()->columnSpanFull()->maxItems(5)->defaultItems(0)
                 ->schema([
                     Forms\Components\Select::make('language_code')->options(['en' => 'English', 'ur' => 'Urdu', 'ar' => 'Arabic (explanation)'])->required(),
