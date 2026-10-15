@@ -26,7 +26,7 @@ export const sound = reactive({ ambientPlaying: false, ambientAvailable: null as
 
 // ---- File availability: one small manifest from the server instead of probing each file ----
 export interface VoiceInfo { label: string; dir: string; names: number[]; full: string | null }
-interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[]; voices?: Record<string, VoiceInfo> }
+interface Manifest { ambient: boolean; adhan: boolean; adhanFajr: boolean; namesFull?: boolean; names: number[]; qaida?: number[]; voices?: Record<string, VoiceInfo> }
 let manifest: Promise<Manifest> | null = null;
 function getManifest(): Promise<Manifest> {
   manifest ??= fetch('/api/v1/audio-manifest', { headers: { Accept: 'application/json' } })
@@ -153,6 +153,20 @@ export async function playName(n: number, onEnd?: () => void, arabic?: string, v
   sound.namePlaying = n;
   if (speak(arabic, done)) return true;
   sound.namePlaying = 0;
+  return false;
+}
+
+/** Reads short Arabic text with the device voice (e.g. a letter with a vowel). */
+export function sayArabic(text: string): boolean { oneShot?.pause(); return speak(text, () => {}); }
+
+/** Plays a Qaida letter: its uploaded recording (audio/qaida/n.mp3), otherwise the device's Arabic voice reading `spoken`. */
+export async function playLetter(n: number, spoken: string): Promise<boolean> {
+  const key = `qaida-${n}`;
+  if ((await getManifest()).qaida?.includes(n)) return playClip(key, `/audio/qaida/${n}.mp3`);
+  oneShot?.pause();
+  sound.clipPlaying = key;
+  if (speak(spoken, () => { if (sound.clipPlaying === key) sound.clipPlaying = ''; })) return true;
+  sound.clipPlaying = '';
   return false;
 }
 

@@ -72,18 +72,28 @@ class AudioFiles extends Page implements HasForms
                         return ($n >= 1 && $n <= 99) ? "{$n}.mp3" : 'invalid-' . $file->getClientOriginalName();
                     }),
             ]),
+            Forms\Components\Section::make('Arabic alphabet (Qaida) letters')->description('One recording per letter, named by its number: 1.mp3 (Alif) … 28.mp3 (Ya). Until a letter is uploaded, the app uses the phone\'s Arabic voice.')->collapsible()->collapsed()->schema([
+                Forms\Components\FileUpload::make('qaida')->label('Letter recordings')->multiple()->maxFiles(28)
+                    ->disk('audio')->directory('qaida')->visibility('public')->preserveFilenames()
+                    ->acceptedFileTypes(self::MP3)->maxSize(5 * 1024)
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
+                        $n = (int) pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        return ($n >= 1 && $n <= 28) ? "{$n}.mp3" : 'invalid-' . $file->getClientOriginalName();
+                    }),
+            ]),
         ]);
     }
 
     public function save(): void
     {
         $this->form->getState(); // stores the uploads
-        $bad = collect(Storage::disk('audio')->files(NameVoices::get($this->voice)['dir']))->filter(fn ($f) => str_starts_with(basename($f), 'invalid-'));
+        $bad = collect([...Storage::disk('audio')->files(NameVoices::get($this->voice)['dir']), ...Storage::disk('audio')->files('qaida')])
+            ->filter(fn ($f) => str_starts_with(basename($f), 'invalid-'));
         $bad->each(fn ($f) => Storage::disk('audio')->delete($f));
         $this->form->fill();
         $n = $bad->count();
         Notification::make()->title('Audio saved')
-            ->body($n ? "{$n} name file(s) were skipped: name them 1.mp3 … 99.mp3." : null)
+            ->body($n ? "{$n} file(s) were skipped: name them by number (names 1–99, letters 1–28)." : null)
             ->{$n ? 'warning' : 'success'}()->send();
     }
 

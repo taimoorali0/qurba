@@ -1,7 +1,7 @@
 <!-- ===== QURBA: Kids corner — learn short surahs ayah by ayah, a star for each one, per child ===== -->
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpen, HandHeart, Pause, Play, Plus, SkipBack, SkipForward, Sparkles, Square, Star, Trash2, X } from 'lucide-vue-next';
+import { BookOpen, HandHeart, Languages, Pause, Play, Plus, SkipBack, SkipForward, Sparkles, Square, Star, Trash2, X } from 'lucide-vue-next';
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import QurbaShell from '../layouts/QurbaShell.vue';
@@ -61,6 +61,7 @@ const current = (n: number) => learning.value !== null && playingThis(learning.v
 
 const tones = ['bg-teal-100', 'bg-lime-100', 'bg-olive-100', 'bg-leaf-100', 'bg-gold-200/60'];
 const links = [
+  { href: '/kids/qaida', key: 'kids.qaida', icon: Languages },
   { href: '/library/kids', key: 'kids.stories', icon: BookOpen },
   { href: '/names', key: 'kids.names', icon: Sparkles },
   { href: '/zikr/adhkar/daily-duas', key: 'kids.duas', icon: HandHeart },
@@ -99,7 +100,7 @@ const links = [
       <p v-if="cheer" role="status" class="mt-3 font-display text-xl text-gold-600">{{ cheer }}</p>
     </section>
 
-    <nav class="mt-6 grid grid-cols-3 gap-3">
+    <nav class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
       <Link v-for="l in links" :key="l.href" :href="l.href" class="flex flex-col items-center gap-2 rounded-[var(--radius-tile)] bg-paper px-2 py-4 text-center shadow-soft hover:shadow-lift">
         <span class="grid size-12 place-items-center rounded-2xl bg-teal-100"><component :is="l.icon" class="size-6 text-emerald-700" /></span>
         <span class="text-sm font-medium text-ink">{{ t(l.key) }}</span>

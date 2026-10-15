@@ -559,12 +559,37 @@
     "parent": "Parent view",
     "parentSub": "Progress for each child on this phone.",
     "removeChild": "Remove child",
-    "noStars": "No stars yet"
+    "noStars": "No stars yet",
+    "qaida": "Alphabet"
   },
   "more": {
     "quran": "Quran",
     "worship": "Worship",
     "tools": "Tools",
     "learn": "Learn and family"
+  },
+  "qaida": {
+    "title": "Arabic alphabet (Qaida)",
+    "sub": "Tap a letter to hear it, see its shapes and practise the short vowels.",
+    "noVoice": "This phone has no Arabic voice, so letters play only when recordings are uploaded.",
+    "listen": "Listen",
+    "shapes": "Letter shapes",
+    "isolated": "Alone",
+    "initial": "Start",
+    "medial": "Middle",
+    "final": "End",
+    "noJoin": "This letter never joins to the letter after it.",
+    "vowels": "Short vowels",
+    "v0": "Fatha (a)",
+    "v1": "Kasra (i)",
+    "v2": "Damma (u)",
+    "quiz": "Listening quiz",
+    "quizSub": "Listen to a letter and tap the one you hear.",
+    "start": "Start quiz",
+    "again": "Hear it again",
+    "score": "{r} of {n} right",
+    "right": "Correct, MashaAllah!",
+    "wrong": "It was {l}. Try the next one!",
+    "next": "Next letter"
   }
 }
