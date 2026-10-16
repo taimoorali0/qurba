@@ -79,6 +79,13 @@
     body { @apply bg-background text-foreground; }
 }
 
+/* ===== QURBA: Quran font — King Fahd Complex (Madinah Mushaf) Uthmanic Hafs, shipped unmodified (see resources/fonts) ===== */
+@font-face {
+    font-family: "KFGQPC Uthmanic Script HAFS";
+    src: url("../fonts/kfgqpc-uthmanic-hafs.otf") format("opentype");
+    font-display: swap;
+}
+
 /* ===== QURBA BASE — START ===== */
 :root { --radius-tile: 1.25rem; --radius-sheet: 1.75rem; }
 
@@ -88,7 +95,12 @@
     html[lang="ur"] body { font-family: "Noto Nastaliq Urdu", serif; line-height: 2.1; }
 }
 
-.quran-text { font-family: "Amiri Quran", "Amiri", serif; font-size: 1.9rem; line-height: 2.6; direction: rtl; text-align: right; }
+.quran-text { font-family: "KFGQPC Uthmanic Script HAFS", "Amiri Quran", serif; font-size: 1.9rem; line-height: 2.6; direction: rtl; text-align: right; }
+
+/* Quran text needs room above and below each line for harakat and waqf marks. Tailwind's text-xl/2xl/…
+   sizes also set a tight line-height, so give every Quran line 2.2 unless it sets its own leading-* or
+   inline line-height. The attribute selector out-ranks the text-size utilities. */
+.font-quran:not([class*='leading-']) { line-height: 2.2; }
 .safe-top { padding-top: env(safe-area-inset-top); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 :focus-visible { outline: 2px solid #C9A24A; outline-offset: 2px; }

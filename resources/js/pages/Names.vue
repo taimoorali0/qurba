@@ -112,7 +112,7 @@ function playAll(from = 1) {
           <span class="grid size-9 shrink-0 place-items-center rounded-full border border-gold-500 text-xs text-gold-600" :aria-label="`${x.n}`">
             <span lang="ar">{{ toArabicDigits(x.n) }}</span>
           </span>
-          <p dir="rtl" lang="ar" class="font-quran text-3xl leading-[1.8] text-emerald-900">{{ x.ar }}</p>
+          <p dir="rtl" lang="ar" class="font-quran text-3xl leading-[2.2] text-emerald-900">{{ x.ar }}</p>
         </div>
         <p class="mt-2 font-medium text-ink">{{ x.tr }}</p>
         <p class="text-sm text-ink-soft">{{ x.en }}</p>

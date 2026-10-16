@@ -24,6 +24,8 @@ function duaFixture(): string
 it('imports duas as drafts, skips unsourced items and never duplicates', function () {
     (new QurbaSeeder())->run();
     $base = duaFixture();
+    // The six kalimas ship with the app (see migration); this test is about imported duas only
+    Adhkar::query()->delete();
 
     $this->artisan('qurba:import-dua-dhikr', ['--base' => $base])->assertSuccessful();
     expect(Adhkar::count())->toBe(4)

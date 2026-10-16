@@ -90,12 +90,19 @@ def main(wbw_path, db_path, tajweed_path, out_dir):
     # Known spelling differences between Tanzil editions (one letter, same reading)
     assert set(differ) <= {'2:72', '12:39', '12:41'}, f'Tajweed text differs from the installed Quran: {differ}'
     tajweed = {}
+    # Tanzil puts the Bismillah in front of ayah 1; the reader shows it separately, so cut it off
+    # and move the rule positions back by its length.
     for e in json.loads(Path(tajweed_path).read_text(encoding='utf-8')):
         key = f"{e['surah']}:{e['ayah']}"
         text = full[key]
         spans = sorted([an['rule'], an['start'], an['end']] for an in e['annotations'])
         assert all(0 <= st < en <= len(text) for _, st, en in spans), key
         assert all(text[st:en] == 'ٱ' for r, st, en in spans if r == 'hamzat_wasl'), key
+        head = ' '.join(text.split(' ')[:4])  # the Bismillah, sometimes written with an extra shadda (95, 97)
+        if e['ayah'] == 1 and e['surah'] not in (1, 9) and skeleton(head) == bism:
+            cut = len(head) + 1
+            text = text[cut:]
+            spans = [[r, st - cut, en - cut] for r, st, en in spans if st >= cut]
         tajweed[key] = {'text': text, 'rules': spans}
     assert set(tajweed) == set(keys)
 

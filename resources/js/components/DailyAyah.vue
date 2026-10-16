@@ -138,7 +138,7 @@ async function shareImage(): Promise<Blob | null> {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#F4E7C5';
     ctx.direction = 'rtl';
-    ctx.font = '56px "Amiri Quran", serif';
+    ctx.font = '56px "KFGQPC Uthmanic Script HAFS", "Amiri Quran", serif';
     let y = 200;
     for (const l of wrap(ctx, d.text, 880)) {
         ctx.fillText(l, 540, y);

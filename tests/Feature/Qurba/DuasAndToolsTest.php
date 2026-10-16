@@ -58,3 +58,15 @@ it('sends the category recording and dua start times for read-along', function (
         ->where('category.credit', 'Test reciter')
         ->where('items.0.start', 12.5));
 });
+
+it('adds the six kalimas for review, hidden until approved', function () {
+    $cat = AdhkarCategory::where('slug', 'kalimas')->firstOrFail();
+    $items = Adhkar::where('adhkar_category_id', $cat->id)->orderBy('sort')->get();
+    expect($items)->toHaveCount(6)
+        ->and($items->pluck('status')->unique()->all())->toBe(['in_review'])
+        ->and($items[0]->content_hash)->toBe(hash('sha256', $items[0]->text_arabic.'|'.$items[0]->reference.'|1'))
+        ->and($items[0]->translations()->pluck('language_code')->sort()->values()->all())->toBe(['en', 'ur']);
+
+    app()->detectEnvironment(fn () => 'production');
+    $this->get('/zikr/adhkar/kalimas')->assertOk()->assertInertia(fn (Assert $p) => $p->has('items', 0));
+});

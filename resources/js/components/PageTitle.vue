@@ -6,7 +6,7 @@ defineProps<{ title: string; arabic?: string; sub?: string }>();
 <template>
   <div class="flex flex-wrap items-end justify-between gap-3">
     <div class="min-w-0">
-      <p v-if="arabic" dir="rtl" lang="ar" class="w-fit font-quran text-xl leading-relaxed text-gold-600 md:text-2xl">{{ arabic }}</p>
+      <p v-if="arabic" dir="rtl" lang="ar" class="w-fit font-quran text-xl leading-[2] text-gold-600 md:text-2xl">{{ arabic }}</p>
       <h1 class="mt-1 font-display text-3xl text-emerald-900 md:text-4xl">{{ title }}</h1>
       <p v-if="sub" class="mt-1 text-sm text-ink-soft">{{ sub }}</p>
     </div>
