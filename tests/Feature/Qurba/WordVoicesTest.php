@@ -75,3 +75,11 @@ it('cuts one recording into word clips at the pauses', function () {
     expect($clips)->toHaveCount(3)
         ->and(\App\Support\ArabicVoice::splitPcm($pcm, $rate, 4))->toBeNull(); // count must match exactly
 })->skip(fn () => ! (new \Symfony\Component\Process\ExecutableFinder())->find('ffmpeg'), 'needs ffmpeg');
+
+it('runs the configured categories when no category is given', function () {
+    fakeGemini();
+    $this->artisan('qurba:word-voices', ['--pause' => 0])->assertExitCode(0);
+    $words = Adhkar::whereHas('category', fn ($q) => $q->where('slug', 'kalimas'))->pluck('text_arabic')
+        ->flatMap(fn ($t) => AdhkarWordAudio::words($t))->unique()->count();
+    expect(AdhkarWordAudio::count())->toBe($words);
+});

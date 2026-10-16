@@ -17,4 +17,7 @@ return [
         'script' => env('ANALYTICS_SCRIPT_URL', ''),   // e.g. https://plausible.io/js/script.js or https://umami.example.com/script.js
         'site' => env('ANALYTICS_SITE_ID', ''),        // Plausible: your domain; Umami: the website ID
     ],
+    // Adhkar categories whose words get AI voice clips; the daily scheduled run fills in missing words
+    // (free Gemini allows ~10 requests a day, so larger categories finish over several days).
+    'word_voice_categories' => array_filter(explode(',', (string) env('QURBA_WORD_VOICE_CATEGORIES', 'kalimas'))),
 ];
