@@ -133,7 +133,7 @@ function tap(a: Item) {
         </div>
         <p dir="rtl" lang="ar" class="mt-3 font-quran text-[1.7rem] leading-[2.3] text-ink">{{ a.ar }}</p>
         <p v-if="ak.translit && a.translit" class="mt-3 text-sm italic text-ink-soft">{{ a.translit }}</p>
-        <p v-if="translation(a)" class="mt-3 text-[0.95rem]" :class="locale === 'ur' ? 'font-[Noto_Nastaliq_Urdu] leading-[2.3]' : 'leading-relaxed'"
+        <p v-if="translation(a)" class="mt-3 text-[0.95rem]" :class="locale === 'ur' ? 'font-urdu leading-[2.3]' : 'leading-relaxed'"
           :dir="locale === 'ur' ? 'rtl' : 'ltr'">{{ translation(a) }}</p>
 
         <div class="mt-5 flex items-center gap-3">

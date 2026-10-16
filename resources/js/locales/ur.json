@@ -114,7 +114,10 @@
     "study": "مطالعے کے ٹولز",
     "wordByWord": "لفظ بہ لفظ (انگریزی)",
     "tajweedColours": "تجوید کے رنگ",
-    "tajweedKey": "تجوید کے رنگوں کی وضاحت"
+    "tajweedKey": "تجوید کے رنگوں کی وضاحت",
+    "script": "رسم الخط",
+    "script_indopak": "پاکستانی (انڈو پاک)",
+    "script_madinah": "مدنی"
   },
   "tasbeeh": {
     "counter": "کاؤنٹر",

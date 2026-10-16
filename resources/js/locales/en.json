@@ -114,7 +114,10 @@
     "study": "Study tools",
     "wordByWord": "Word by word (English)",
     "tajweedColours": "Tajweed colours",
-    "tajweedKey": "Tajweed colour key"
+    "tajweedKey": "Tajweed colour key",
+    "script": "Script",
+    "script_indopak": "Indo-Pak (Pakistani)",
+    "script_madinah": "Madinah"
   },
   "tasbeeh": {
     "counter": "Counter",

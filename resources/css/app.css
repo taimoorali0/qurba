@@ -79,23 +79,51 @@
     body { @apply bg-background text-foreground; }
 }
 
-/* ===== QURBA: Quran font — King Fahd Complex (Madinah Mushaf) Uthmanic Hafs, shipped unmodified (see resources/fonts) ===== */
+/* ===== QURBA: Quran fonts (shipped unmodified, see resources/fonts) =====
+   Default: Al_Mushaf by Amjad Hussain Alvi — the Indo-Pak style of Pakistani printed Qurans.
+   Option:  KFGQPC Uthmanic Script HAFS — the Madinah Mushaf (King Fahd Complex). */
+@font-face {
+    font-family: "Al Mushaf Quran";
+    src: url("../fonts/al-mushaf-quran.ttf") format("truetype");
+    font-display: swap;
+    size-adjust: 122%; /* draws small: match the other Quran fonts at the same font-size */
+}
 @font-face {
     font-family: "KFGQPC Uthmanic Script HAFS";
     src: url("../fonts/kfgqpc-uthmanic-hafs.otf") format("opentype");
     font-display: swap;
 }
+/* Urdu: Jameel Noori Nastaleeq (free for Urdu readers; lossless WOFF2 of the original file).
+   Only downloaded on pages that show Urdu, and only for Arabic-script characters. */
+@font-face {
+    font-family: "Jameel Noori Nastaleeq";
+    src: url("../fonts/jameel-noori-nastaleeq.woff2") format("woff2");
+    font-display: swap;
+    size-adjust: 125%; /* Nastaleeq draws small: match Inter's reading size */
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+:root {
+    --quran-font: "Al Mushaf Quran", "KFGQPC Uthmanic Script HAFS", "Amiri Quran", serif;
+    --quran-word-spacing: 0.18em; /* Al Mushaf sets words very close together */
+}
+html.quran-madinah {
+    --quran-font: "KFGQPC Uthmanic Script HAFS", "Al Mushaf Quran", "Amiri Quran", serif;
+    --quran-word-spacing: normal;
+}
+.font-quran, .quran-text { word-spacing: var(--quran-word-spacing); }
+/* Nastaleeq slants down to the left: give Urdu lines room unless a larger leading is set */
+.font-urdu:not([class*='leading-']) { line-height: 2.4; }
 
 /* ===== QURBA BASE — START ===== */
 :root { --radius-tile: 1.25rem; --radius-sheet: 1.75rem; }
 
 @layer base {
-    html, body { background: #FAF6EC; color: #1E2925; font-family: "Figtree", system-ui, sans-serif; }
+    html, body { background: #FAF6EC; color: #1E2925; font-family: "Inter", system-ui, sans-serif; }
     html[lang="ar"] body { font-family: "IBM Plex Sans Arabic", "Segoe UI", sans-serif; }
-    html[lang="ur"] body { font-family: "Noto Nastaliq Urdu", serif; line-height: 2.1; }
+    html[lang="ur"] body { font-family: "Jameel Noori Nastaleeq", "Inter", serif; line-height: 2.3; }
 }
 
-.quran-text { font-family: "KFGQPC Uthmanic Script HAFS", "Amiri Quran", serif; font-size: 1.9rem; line-height: 2.6; direction: rtl; text-align: right; }
+.quran-text { font-family: var(--quran-font); font-size: 1.9rem; line-height: 2.6; direction: rtl; text-align: right; }
 
 /* Quran text needs room above and below each line for harakat and waqf marks. Tailwind's text-xl/2xl/…
    sizes also set a tight line-height, so give every Quran line 2.2 unless it sets its own leading-* or

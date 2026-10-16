@@ -138,7 +138,7 @@ async function shareImage(): Promise<Blob | null> {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#F4E7C5';
     ctx.direction = 'rtl';
-    ctx.font = '56px "KFGQPC Uthmanic Script HAFS", "Amiri Quran", serif';
+    ctx.font = `56px ${getComputedStyle(document.documentElement).getPropertyValue('--quran-font').trim() || 'serif'}`;
     let y = 200;
     for (const l of wrap(ctx, d.text, 880)) {
         ctx.fillText(l, 540, y);
@@ -148,7 +148,7 @@ async function shareImage(): Promise<Blob | null> {
     ctx.fillStyle = '#FFFFFF';
     const rtl = d.lang === 'ur' || d.lang === 'ar';
     ctx.direction = rtl ? 'rtl' : 'ltr';
-    ctx.font = rtl ? '36px "Noto Nastaliq Urdu", serif' : '36px Figtree, sans-serif';
+    ctx.font = rtl ? '36px "Jameel Noori Nastaleeq", serif' : '36px Inter, sans-serif';
     y += 30;
     for (const l of wrap(ctx, d.translation, 880).slice(0, 8)) {
         ctx.fillText(l, 540, y);
@@ -156,7 +156,7 @@ async function shareImage(): Promise<Blob | null> {
     }
     ctx.direction = 'ltr';
     ctx.fillStyle = '#C9A24A';
-    ctx.font = '32px Figtree, sans-serif';
+    ctx.font = '32px Inter, sans-serif';
     ctx.fillText(ref_(), 540, 960);
     ctx.fillStyle = '#F4E7C5';
     ctx.font = '28px Marcellus, serif';

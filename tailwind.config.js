@@ -16,9 +16,10 @@ export default {
         extend: {
             boxShadow: { soft: '0 1px 2px rgba(16,24,20,.04), 0 8px 24px rgba(16,24,20,.05)', lift: '0 10px 30px rgba(16,24,20,.08)' },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                urdu: ['"Jameel Noori Nastaleeq"', 'serif'],
                 display: ['Marcellus', 'Georgia', 'serif'],
-                quran: ['"KFGQPC Uthmanic Script HAFS"', '"Amiri Quran"', 'Amiri', 'serif'],
+                quran: ['var(--quran-font)'],
             },
             borderRadius: {
                 lg: 'var(--radius)',
