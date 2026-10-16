@@ -69,7 +69,7 @@ function pick(l: Letter) {
           <button type="button" class="flex w-full flex-col items-center rounded-2xl border bg-paper py-3 shadow-soft transition-colors"
             :class="selected.n === l.n ? 'border-gold-500 bg-gold-200/40' : 'border-transparent hover:border-gold-500'"
             :aria-label="`${l.latin} ${l.name}`" :aria-pressed="selected.n === l.n" @click="choose(l)">
-            <span lang="ar" class="font-quran text-4xl leading-[2.1] text-emerald-900" :class="playing(l) ? 'text-gold-600' : ''">{{ l.char }}</span>
+            <span lang="ar" class="font-quran text-4xl leading-[2.2] text-emerald-900" :class="playing(l) ? 'text-gold-600' : ''">{{ l.char }}</span>
             <span dir="ltr" class="text-[11px] text-ink-soft">{{ l.latin }}</span>
           </button>
         </li>
@@ -79,7 +79,7 @@ function pick(l: Letter) {
       <!-- Selected letter -->
       <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
         <section class="hidden rounded-[var(--radius-sheet)] bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 p-6 text-center text-cream shadow-lift lg:block">
-          <p lang="ar" class="font-quran text-8xl leading-[1.9] text-gold-500">{{ selected.char }}</p>
+          <p lang="ar" class="font-quran text-8xl leading-[2] text-gold-500">{{ selected.char }}</p>
           <p lang="ar" dir="rtl" class="font-quran text-2xl leading-[2]">{{ selected.name }}</p>
           <p class="text-sm text-gold-200">{{ selected.latin }}</p>
           <button v-if="has(String(selected.n))" type="button" class="mt-4 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2 text-sm font-medium text-emerald-950" @click="playQaida(String(selected.n))">

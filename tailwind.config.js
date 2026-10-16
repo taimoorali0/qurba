@@ -18,7 +18,7 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 display: ['Marcellus', 'Georgia', 'serif'],
-                quran: ['"Amiri Quran"', 'Amiri', 'serif'],
+                quran: ['"KFGQPC Uthmanic Script HAFS"', '"Amiri Quran"', 'Amiri', 'serif'],
             },
             borderRadius: {
                 lg: 'var(--radius)',
