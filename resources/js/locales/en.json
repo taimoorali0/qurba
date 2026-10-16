@@ -282,7 +282,9 @@
     "position": "Position in recording",
     "fromHere": "Play from here",
     "aiVoice": "AI voice",
-    "aiVoiceHint": "Read by a computer voice and checked by a reviewer"
+    "aiVoiceHint": "Read by a computer voice and checked by a reviewer",
+    "wordByWord": "Word by word",
+    "hearWord": "Hear “{w}”"
   },
   "reminders": {
     "title": "Reminders",

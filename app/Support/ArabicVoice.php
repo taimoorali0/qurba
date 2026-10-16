@@ -35,11 +35,59 @@ class ArabicVoice
         return self::provider() === 'azure' ? [self::azure($arabic), 'mp3'] : self::gemini($arabic);
     }
 
+    /** Words read one by one with a clear pause after each (for cutting into word clips). Gemini only. */
+    public static function synthesizeWithPauses(array $words): ?array
+    {
+        if (self::provider() !== 'gemini') return null;
+        $res = self::geminiRequest('Read aloud in Arabic, word by word, with a one-second pause after every word: '.implode(' … ', $words));
+        $data = $res->json('candidates.0.content.parts.0.inlineData.data');
+        if ($res->status() === 429) throw new \RuntimeException('Gemini voice failed (HTTP 429): '.($res->json('error.message') ?? 'quota exceeded'));
+        if (! $data) return null;
+        preg_match('/rate=(\d+)/', (string) $res->json('candidates.0.content.parts.0.inlineData.mimeType'), $m);
+        return [base64_decode($data), (int) ($m[1] ?? 24000)];
+    }
+
+    /**
+     * Cut 16-bit mono PCM at its silences into exactly $count clips (MP3/WAV each), or null when the pauses
+     * do not match the number of words. Needs ffmpeg.
+     * @return array<int, array{0: string, 1: string}>|null
+     */
+    public static function splitPcm(string $pcm, int $rate, int $count): ?array
+    {
+        $ffmpeg = (new ExecutableFinder())->find('ffmpeg');
+        if (! $ffmpeg || $count < 1) return null;
+        $p = new Process([$ffmpeg, '-hide_banner', '-f', 's16le', '-ar', (string) $rate, '-ac', '1', '-i', 'pipe:0', '-af', 'silencedetect=noise=-38dB:d=0.35', '-f', 'null', '-']);
+        $p->setInput($pcm)->setTimeout(60)->run();
+        preg_match_all('/silence_start: ([\d.]+)/', $p->getErrorOutput(), $starts);
+        preg_match_all('/silence_end: ([\d.]+)/', $p->getErrorOutput(), $ends);
+        $total = strlen($pcm) / 2 / $rate;
+        // Speech segments = the gaps between silences
+        $bounds = [];
+        $cursor = 0.0;
+        foreach ($starts[1] as $i => $st) {
+            $st = (float) $st;
+            if ($st - $cursor > 0.12) $bounds[] = [$cursor, $st];
+            $cursor = (float) ($ends[1][$i] ?? $total);
+        }
+        if ($total - $cursor > 0.12) $bounds[] = [$cursor, $total];
+        if (count($bounds) !== $count) return null;
+
+        $clips = [];
+        foreach ($bounds as [$a, $b]) {
+            $a = max(0, $a - 0.08); $b = min($total, $b + 0.12); // small margins so no sound is clipped
+            $from = (int) floor($a * $rate) * 2; $len = (int) floor(($b - $a) * $rate) * 2;
+            $clips[] = self::pcmToFile(substr($pcm, $from, $len), $rate);
+        }
+        return $clips;
+    }
+
     private static function gemini(string $arabic): array
     {
-        // Short style instruction first; if Gemini answers with text instead of audio, retry with the Arabic alone.
-        $res = self::geminiRequest('Say slowly and clearly: '.$arabic);
-        if (! $res->json('candidates.0.content.parts.0.inlineData.data')) $res = self::geminiRequest($arabic);
+        // Gemini sometimes answers with text instead of audio; try a few short instructions that keep it on speech.
+        foreach (['Read aloud in Arabic: ', 'Say clearly: ', ''] as $prefix) {
+            $res = self::geminiRequest($prefix.$arabic);
+            if ($res->json('candidates.0.content.parts.0.inlineData.data') || $res->status() === 429) break;
+        }
 
         $data = $res->json('candidates.0.content.parts.0.inlineData.data');
         if (! $res->successful() || ! $data) {
@@ -64,7 +112,7 @@ class ArabicVoice
     }
 
     /** MP3 when ffmpeg is installed on the server, otherwise WAV (plays everywhere, just larger). */
-    private static function pcmToFile(string $pcm, int $rate): array
+    public static function pcmToFile(string $pcm, int $rate): array
     {
         $ffmpeg = (new ExecutableFinder())->find('ffmpeg');
         if ($ffmpeg) {

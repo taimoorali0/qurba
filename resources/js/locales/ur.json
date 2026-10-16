@@ -282,7 +282,9 @@
     "position": "ریکارڈنگ میں مقام",
     "fromHere": "یہاں سے سنیں",
     "aiVoice": "AI آواز",
-    "aiVoiceHint": "کمپیوٹر کی آواز، جانچ شدہ"
+    "aiVoiceHint": "کمپیوٹر کی آواز، جانچ شدہ",
+    "wordByWord": "لفظ بہ لفظ سنیں",
+    "hearWord": "“{w}” سنیں"
   },
   "reminders": {
     "title": "یاد دہانیاں",
