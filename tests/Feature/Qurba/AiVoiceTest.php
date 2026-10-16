@@ -20,7 +20,7 @@ function voiceAdmin(): User
 beforeEach(function () {
     (new QurbaSeeder())->run();
     Storage::fake('audio');
-    config(['services.azure_tts' => ['key' => 'test-key', 'region' => 'uaenorth', 'voice' => 'ar-SA-HamedNeural']]);
+    config(['services.arabic_voice.provider' => 'azure', 'services.azure_tts' => ['key' => 'test-key', 'region' => 'uaenorth', 'voice' => 'ar-SA-HamedNeural']]);
 });
 
 it('generates an AI voice that plays only after a reviewer approves it', function () {
@@ -58,4 +58,23 @@ it('reports a failed text-to-speech call without changing the dua', function () 
     $this->actingAs(voiceAdmin())->withSession(['admin_2fa_passed' => true]);
     Livewire::test(ManageAdhkar::class)->callTableAction('aiVoice', $item)->assertNotified('Could not generate the voice');
     expect($item->fresh()->audio_url)->toBeNull();
+});
+
+it('generates the voice with Google Gemini and saves playable audio', function () {
+    config(['services.arabic_voice.provider' => 'gemini', 'services.gemini' => ['key' => 'gem-key', 'voice' => 'Charon', 'tts_model' => 'gemini-2.5-flash-preview-tts']]);
+    $pcm = str_repeat(pack('v', 1000), 2400); // 0.1 s of 24 kHz 16-bit audio
+    Http::fake(['generativelanguage.googleapis.com/*' => Http::response(['candidates' => [['content' => ['parts' => [
+        ['inlineData' => ['mimeType' => 'audio/L16;codec=pcm;rate=24000', 'data' => base64_encode($pcm)]],
+    ]]]]])]);
+    $item = Adhkar::first();
+    $this->actingAs(voiceAdmin())->withSession(['admin_2fa_passed' => true]);
+    Livewire::test(ManageAdhkar::class)->callTableAction('aiVoice', $item)->assertHasNoTableActionErrors();
+
+    $item->refresh();
+    expect($item->audio_ai)->toBeTrue()->and($item->audio_approved)->toBeFalse()
+        ->and($item->audio_url)->toMatch('/^duas\/ai-\d+-\d+\.(mp3|wav)$/');
+    $bytes = Storage::disk('audio')->get($item->audio_url);
+    expect(str_starts_with($bytes, 'RIFF') || str_starts_with($bytes, 'ID3') || ord($bytes[0]) === 0xFF)->toBeTrue();
+    Http::assertSent(fn ($r) => $r->hasHeader('x-goog-api-key', 'gem-key') && str_contains($r->url(), 'gemini-2.5-flash-preview-tts')
+        && $r['generationConfig']['speechConfig']['voiceConfig']['prebuiltVoiceConfig']['voiceName'] === 'Charon');
 });
