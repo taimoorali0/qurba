@@ -95,17 +95,17 @@ class AdhkarResource extends Resource
                     ->modalDescription('An AI voice will read the Arabic text. A reviewer must listen and approve it before users hear it. A real recording uploaded later replaces it.')
                     ->action(function (Adhkar $record) {
                         try {
-                            $mp3 = ArabicVoice::synthesize($record->text_arabic);
+                            [$audio, $ext] = ArabicVoice::synthesize($record->text_arabic);
                         } catch (\Throwable $e) {
                             Notification::make()->title('Could not generate the voice')->body($e->getMessage())->danger()->send();
                             return;
                         }
-                        $path = 'duas/ai-'.$record->id.'-'.now()->format('YmdHis').'.mp3';
-                        Storage::disk('audio')->put($path, $mp3);
+                        $path = 'duas/ai-'.$record->id.'-'.now()->format('YmdHis').'.'.$ext;
+                        Storage::disk('audio')->put($path, $audio);
                         if ($record->audio_ai && $record->audio_url) Storage::disk('audio')->delete($record->audio_url);
                         Adhkar::$aiVoice = true;
                         try { $record->update(['audio_url' => $path, 'audio_ai' => true, 'audio_approved' => false]); } finally { Adhkar::$aiVoice = false; }
-                        ContentAuditLog::record($record, 'ai_voice_generated', null, ['file' => $path, 'voice' => config('services.azure_tts.voice')]);
+                        ContentAuditLog::record($record, 'ai_voice_generated', null, ['file' => $path, 'voice' => ArabicVoice::voiceName()]);
                         Notification::make()->title('AI voice generated — waiting for a reviewer to approve it')->success()->send();
                     }),
                 Tables\Actions\Action::make('approveVoice')->label('Approve voice')->icon('heroicon-o-check-circle')->color('success')
