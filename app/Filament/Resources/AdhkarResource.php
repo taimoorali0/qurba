@@ -8,6 +8,8 @@ use App\Models\AdhkarCategory;
 use App\Models\ContentAuditLog;
 use App\Support\AdminRoles as R;
 use App\Support\ArabicVoice;
+use App\Jobs\GenerateWordVoices;
+use App\Models\AdhkarWordAudio;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -107,6 +109,34 @@ class AdhkarResource extends Resource
                         try { $record->update(['audio_url' => $path, 'audio_ai' => true, 'audio_approved' => false]); } finally { Adhkar::$aiVoice = false; }
                         ContentAuditLog::record($record, 'ai_voice_generated', null, ['file' => $path, 'voice' => ArabicVoice::voiceName()]);
                         Notification::make()->title('AI voice generated — waiting for a reviewer to approve it')->success()->send();
+                    }),
+                Tables\Actions\Action::make('wordVoices')->label('Generate word voices')->icon('heroicon-o-language')->color('gray')
+                    ->visible(fn () => R::is(R::CONTENT) && ArabicVoice::configured())
+                    ->requiresConfirmation()
+                    ->modalDescription('Each Arabic word gets its own AI voice clip, so children can tap a word or hear the dua word by word. It runs in the background (a few seconds per new word). A reviewer approves the words before children hear them.')
+                    ->action(function (Adhkar $record) {
+                        GenerateWordVoices::dispatch([$record->id]);
+                        Notification::make()->title('Word voices are being generated in the background')->body('Refresh this page in a minute, then use "Approve word voices".')->success()->send();
+                    }),
+                Tables\Actions\Action::make('approveWords')->label('Approve word voices')->icon('heroicon-o-check-circle')->color('success')
+                    ->visible(fn (Adhkar $r) => R::is(R::REVIEWER) && AdhkarWordAudio::forTexts([$r->text_arabic], false)->contains('approved', false))
+                    ->modalHeading('Listen to every word')
+                    ->modalDescription(function (Adhkar $r) {
+                        $clips = AdhkarWordAudio::forTexts([$r->text_arabic], false);
+                        $rows = collect(AdhkarWordAudio::words($r->text_arabic))->unique()->map(function ($w) use ($clips) {
+                            $c = $clips[AdhkarWordAudio::hashOf($w)] ?? null;
+                            $player = $c ? '<audio controls preload="none" style="height:32px" src="'.e(asset('audio/'.$c->audio_url)).'"></audio>' : '<em>not generated yet</em>';
+                            $state = $c?->approved ? ' ✓' : '';
+                            return '<div style="display:flex;align-items:center;gap:.75rem;justify-content:space-between;padding:.25rem 0"><span dir="rtl" style="font-size:1.4rem">'.e($w).$state.'</span>'.$player.'</div>';
+                        })->implode('');
+                        return new \Illuminate\Support\HtmlString('Confirm every word is pronounced correctly, with the right harakat.<div style="margin-top:.75rem">'.$rows.'</div>');
+                    })
+                    ->modalSubmitActionLabel('All words are correct — approve')
+                    ->action(function (Adhkar $record) {
+                        $ids = AdhkarWordAudio::forTexts([$record->text_arabic], false)->pluck('id');
+                        AdhkarWordAudio::whereIn('id', $ids)->update(['approved' => true]);
+                        ContentAuditLog::record($record, 'word_voices_approved', null, ['words' => $ids->count()]);
+                        Notification::make()->title('Word voices approved')->success()->send();
                     }),
                 Tables\Actions\Action::make('approveVoice')->label('Approve voice')->icon('heroicon-o-check-circle')->color('success')
                     ->visible(fn (Adhkar $r) => R::is(R::REVIEWER) && $r->audio_ai && ! $r->audio_approved)

@@ -16,7 +16,14 @@ class AdhkarController extends Controller
 
     private function present($items)
     {
+        // Word-by-word voice: each word with its clip (approved clips only, all clips locally for checking)
+        $clips = \App\Models\AdhkarWordAudio::forTexts($items->pluck('text_arabic'), ! app()->environment('local'));
+        $words = fn (Adhkar $a) => collect(\App\Models\AdhkarWordAudio::words($a->text_arabic))->map(function ($w) use ($clips) {
+            $c = $clips[\App\Models\AdhkarWordAudio::hashOf($w)] ?? null;
+            return ['w' => $w, 'a' => $c ? asset('audio/'.$c->audio_url) : null];
+        })->all();
         return $items->map(fn (Adhkar $a) => [
+            'words' => $words($a),
             'id' => $a->id, 'ar' => $a->text_arabic, 'translit' => $a->transliteration, 'reference' => $a->reference,
             'repeat' => $a->repeat_count, 'status' => $a->status,
             'start' => $a->audio_start !== null ? (float) $a->audio_start : null,
