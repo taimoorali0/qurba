@@ -7,6 +7,8 @@ use App\Models\Adhkar;
 use App\Models\AdhkarCategory;
 use App\Models\ContentAuditLog;
 use App\Support\AdminRoles as R;
+use App\Support\ArabicVoice;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -74,6 +76,9 @@ class AdhkarResource extends Resource
                     ->extraAttributes(['dir' => 'rtl', 'style' => "font-family:'Amiri Quran','Amiri',serif;font-size:1.15rem"])->searchable(),
                 Tables\Columns\TextColumn::make('reference')->searchable(),
                 Tables\Columns\TextColumn::make('repeat_count')->label('×'),
+                Tables\Columns\TextColumn::make('voice')->label('Voice')->badge()
+                    ->getStateUsing(fn (Adhkar $r) => ! $r->audio_url ? null : (! $r->audio_ai ? 'Recording' : ($r->audio_approved ? 'AI · approved' : 'AI · needs review')))
+                    ->color(fn (?string $state) => match ($state) { 'Recording', 'AI · approved' => 'success', 'AI · needs review' => 'warning', default => 'gray' }),
                 Tables\Columns\TextColumn::make('status')->badge()->color(fn (string $state) => match ($state) {
                     'approved' => 'success', 'in_review' => 'warning', default => 'gray' }),
             ])
@@ -84,6 +89,34 @@ class AdhkarResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('aiVoice')->label('Generate AI voice')->icon('heroicon-o-speaker-wave')->color('gray')
+                    ->visible(fn (Adhkar $r) => R::is(R::CONTENT) && ArabicVoice::configured() && (! $r->audio_url || $r->audio_ai))
+                    ->requiresConfirmation()
+                    ->modalDescription('An AI voice will read the Arabic text. A reviewer must listen and approve it before users hear it. A real recording uploaded later replaces it.')
+                    ->action(function (Adhkar $record) {
+                        try {
+                            $mp3 = ArabicVoice::synthesize($record->text_arabic);
+                        } catch (\Throwable $e) {
+                            Notification::make()->title('Could not generate the voice')->body($e->getMessage())->danger()->send();
+                            return;
+                        }
+                        $path = 'duas/ai-'.$record->id.'-'.now()->format('YmdHis').'.mp3';
+                        Storage::disk('audio')->put($path, $mp3);
+                        if ($record->audio_ai && $record->audio_url) Storage::disk('audio')->delete($record->audio_url);
+                        Adhkar::$aiVoice = true;
+                        try { $record->update(['audio_url' => $path, 'audio_ai' => true, 'audio_approved' => false]); } finally { Adhkar::$aiVoice = false; }
+                        ContentAuditLog::record($record, 'ai_voice_generated', null, ['file' => $path, 'voice' => config('services.azure_tts.voice')]);
+                        Notification::make()->title('AI voice generated — waiting for a reviewer to approve it')->success()->send();
+                    }),
+                Tables\Actions\Action::make('approveVoice')->label('Approve voice')->icon('heroicon-o-check-circle')->color('success')
+                    ->visible(fn (Adhkar $r) => R::is(R::REVIEWER) && $r->audio_ai && ! $r->audio_approved)
+                    ->requiresConfirmation()
+                    ->modalDescription(fn (Adhkar $r) => new \Illuminate\Support\HtmlString('Listen to the whole recording and confirm every word and haraka is pronounced correctly.<br><audio controls preload="none" style="width:100%;margin-top:.75rem" src="'.e(asset('audio/'.$r->audio_url)).'"></audio>'))
+                    ->action(function (Adhkar $record) {
+                        $record->update(['audio_approved' => true]);
+                        ContentAuditLog::record($record, 'ai_voice_approved');
+                        Notification::make()->title('Voice approved')->success()->send();
+                    }),
                 Tables\Actions\Action::make('approve')->icon('heroicon-o-check-badge')->color('success')
                     ->visible(fn (Adhkar $r) => R::is(R::REVIEWER) && $r->status !== 'approved')
                     ->requiresConfirmation()

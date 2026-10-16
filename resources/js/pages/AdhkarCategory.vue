@@ -11,7 +11,7 @@ import PageTitle from '../components/PageTitle.vue';
 import { ak, bump, countOf, isFav, resetItem, toggleFav } from '../lib/adhkarLocal';
 import { canVibrate, tb } from '../lib/tasbeeh';
 
-interface Item { id: number; start?: number | null; audio?: string | null; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
+interface Item { id: number; start?: number | null; audio?: string | null; ai?: boolean; ar: string; translit: string | null; reference: string | null; repeat: number; status: string; tr: Record<string, string> }
 const props = defineProps<{ category: { slug: string; name: Record<string, string>; audio?: string | null; credit?: string | null }; items: Item[]; dev?: boolean; favoritesPage?: boolean;
   categories?: { slug: string; name: Record<string, string> }[] }>();
 const { t, locale } = useI18n();
@@ -122,6 +122,7 @@ function tap(a: Item) {
           </span>
           <span class="flex items-center gap-1">
           <button v-if="category.audio && a.start != null" class="rounded-full border border-line px-2.5 py-1 text-[11px] text-emerald-900" @click="raFrom(a)">{{ t('adhkar.fromHere') }}</button>
+          <span v-if="a.audio && a.ai" class="rounded-full bg-cream px-2 py-0.5 text-[10px] text-ink-soft" :title="t('adhkar.aiVoiceHint')">{{ t('adhkar.aiVoice') }}</span>
           <button v-if="a.audio" class="grid size-8 place-items-center rounded-full border border-line text-emerald-900" @click="listen(a)"
             :aria-label="sound.clipPlaying === clipKey(a) ? t('sound.pause') : t('sound.play')">
             <Pause v-if="sound.clipPlaying === clipKey(a)" class="size-3.5" /><Play v-else class="size-3.5" />

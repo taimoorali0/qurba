@@ -280,7 +280,9 @@
     "group_situations": "Duas for every situation",
     "readAlong": "Listen and read along",
     "position": "Position in recording",
-    "fromHere": "Play from here"
+    "fromHere": "Play from here",
+    "aiVoice": "AI voice",
+    "aiVoiceHint": "Read by a computer voice and checked by a reviewer"
   },
   "reminders": {
     "title": "Reminders",

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    // Arabic AI voice for adhkar (Settings: Azure portal > Speech service > Keys and Endpoint)
+    'azure_tts' => [
+        'key' => env('AZURE_TTS_KEY'),
+        'region' => env('AZURE_TTS_REGION'),           // e.g. uaenorth, westeurope
+        'voice' => env('AZURE_TTS_VOICE', 'ar-SA-HamedNeural'),
+    ],
+
 ];

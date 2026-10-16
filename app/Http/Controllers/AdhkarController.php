@@ -21,7 +21,10 @@ class AdhkarController extends Controller
             'repeat' => $a->repeat_count, 'status' => $a->status,
             'start' => $a->audio_start !== null ? (float) $a->audio_start : null,
             // Uploaded files live under public/audio; older rows may hold a full URL
-            'audio' => $a->audio_url ? (str_starts_with($a->audio_url, 'http') ? $a->audio_url : asset('audio/' . ltrim($a->audio_url, '/'))) : null,
+            // An AI voice plays only after a reviewer has approved it (always visible locally for checking)
+            'audio' => $a->audio_url && ($a->audio_approved || app()->environment('local'))
+                ? (str_starts_with($a->audio_url, 'http') ? $a->audio_url : asset('audio/' . ltrim($a->audio_url, '/'))) : null,
+            'ai' => (bool) $a->audio_ai,
             'tr' => $a->translations->pluck('text', 'language_code'),
         ])->values();
     }
