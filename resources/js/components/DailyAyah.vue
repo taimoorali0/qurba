@@ -210,7 +210,7 @@ async function share() {
             </button>
         </div>
         <template v-if="daily">
-            <p dir="rtl" lang="ar" class="mt-4 font-quran text-2xl leading-[2.2] text-emerald-950 md:text-3xl">{{ daily.text }}</p>
+            <p dir="rtl" lang="ar" class="mt-4 font-quran text-2xl leading-[2.4] text-emerald-950 md:text-3xl md:leading-[2.4]">{{ daily.text }}</p>
             <p v-if="daily.translation" class="mt-3 leading-relaxed text-ink" :dir="daily.lang === 'en' ? 'ltr' : 'rtl'">{{ daily.translation }}</p>
             <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-sm">
                 <span class="text-gold-600">{{ daily.name }} · {{ daily.surah }}:{{ daily.ayah }}</span>
