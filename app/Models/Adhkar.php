@@ -9,14 +9,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Adhkar extends Model
 {
     protected $table = 'adhkar';
+    protected $casts = ['audio_ai' => 'boolean', 'audio_approved' => 'boolean'];
     protected $guarded = ['id'];
 
     /** Only the reviewer approval action switches this on. */
     public static bool $approving = false;
+    /** True while the AI voice generator saves, so its audio stays unapproved */
+    public static bool $aiVoice = false;
 
     protected static function booted(): void
     {
         static::saving(function (Adhkar $a) {
+            // A recording uploaded by hand replaces any AI voice and needs no voice review
+            if ($a->isDirty('audio_url') && ! static::$aiVoice) { $a->audio_ai = false; $a->audio_approved = true; }
             $a->content_hash = hash('sha256', $a->text_arabic . '|' . $a->reference . '|' . $a->repeat_count);
             if (static::$approving) return;
             if ($a->status === 'approved' && $a->isDirty('status')) $a->status = 'in_review'; // cannot self-approve via form

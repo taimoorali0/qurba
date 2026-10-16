@@ -280,7 +280,9 @@
     "group_situations": "ہر موقع کی دعائیں",
     "readAlong": "سنیں اور ساتھ پڑھیں",
     "position": "ریکارڈنگ میں مقام",
-    "fromHere": "یہاں سے سنیں"
+    "fromHere": "یہاں سے سنیں",
+    "aiVoice": "AI آواز",
+    "aiVoiceHint": "کمپیوٹر کی آواز، جانچ شدہ"
   },
   "reminders": {
     "title": "یاد دہانیاں",

@@ -280,7 +280,9 @@
     "group_situations": "أدعية لكل مناسبة",
     "readAlong": "استمع واقرأ معه",
     "position": "الموضع في التسجيل",
-    "fromHere": "شغّل من هنا"
+    "fromHere": "شغّل من هنا",
+    "aiVoice": "صوت آلي",
+    "aiVoiceHint": "قراءة بصوت حاسوبي تمت مراجعتها"
   },
   "reminders": {
     "title": "التذكيرات",
