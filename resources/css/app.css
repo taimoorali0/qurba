@@ -128,7 +128,9 @@ html.quran-madinah {
 /* Quran text needs room above and below each line for harakat and waqf marks. Tailwind's text-xl/2xl/…
    sizes also set a tight line-height, so give every Quran line 2.2 unless it sets its own leading-* or
    inline line-height. The attribute selector out-ranks the text-size utilities. */
-.font-quran:not([class*='leading-']) { line-height: 2.2; }
+.font-quran:not([class*='leading-']) { line-height: 2.3; }
+/* A responsive size (md:text-3xl …) also resets line-height on wide screens; elements that set their own
+   leading-* must repeat it per breakpoint (md:leading-*). tests/Feature/Qurba/QuranLineHeightTest checks this. */
 .safe-top { padding-top: env(safe-area-inset-top); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 :focus-visible { outline: 2px solid #C9A24A; outline-offset: 2px; }
