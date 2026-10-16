@@ -114,7 +114,10 @@
     "study": "أدوات الدراسة",
     "wordByWord": "كلمة بكلمة (بالإنجليزية)",
     "tajweedColours": "ألوان التجويد",
-    "tajweedKey": "دليل ألوان التجويد"
+    "tajweedKey": "دليل ألوان التجويد",
+    "script": "نوع الخط",
+    "script_indopak": "الهندي الباكستاني",
+    "script_madinah": "المدني"
   },
   "tasbeeh": {
     "counter": "العداد",

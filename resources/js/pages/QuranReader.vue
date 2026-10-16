@@ -262,6 +262,12 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
             <span class="w-28 text-ink-soft">{{ t('quran.fontSize') }}</span>
             <input v-model.number="readerSettings.fontSize" type="range" min="1.4" max="3.4" step="0.2" class="flex-1 accent-emerald-900" />
           </label>
+          <div class="mt-4 flex flex-wrap items-center gap-2" role="radiogroup" :aria-label="t('quran.script')">
+            <span class="w-28 text-ink-soft">{{ t('quran.script') }}</span>
+            <button v-for="sc in (['indopak', 'madinah'] as const)" :key="sc" type="button" role="radio" :aria-checked="readerSettings.script === sc"
+              class="rounded-full border px-4 py-1.5" :class="readerSettings.script === sc ? 'border-emerald-900 bg-emerald-900 text-cream' : 'border-line text-ink hover:border-gold-500'"
+              @click="readerSettings.script = sc">{{ t('quran.script_' + sc) }}</button>
+          </div>
           <p class="mt-4 text-ink-soft">{{ t('quran.translation') }}</p>
           <p v-if="!translation_sources.length" class="mt-2 text-ink-soft">{{ t('quran.noTranslations') }}</p>
           <label v-for="s in translation_sources" :key="s.id" class="mt-2 flex items-center gap-3">
@@ -337,7 +343,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
             <p v-for="tr in visibleTr(a)" :key="tr.source_id" :dir="isRtl(sourceById[tr.source_id]?.language_code) ? 'rtl' : 'ltr'"
               :lang="sourceById[tr.source_id]?.language_code"
               class="mt-3 text-[0.95rem] text-ink-soft"
-              :class="sourceById[tr.source_id]?.language_code === 'ur' ? 'font-[Noto_Nastaliq_Urdu] leading-[2.3]' : 'max-w-prose leading-relaxed'">
+              :class="sourceById[tr.source_id]?.language_code === 'ur' ? 'font-urdu leading-[2.3]' : 'max-w-prose leading-relaxed'">
               {{ tr.text }}
             </p>
           </li>
@@ -347,7 +353,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
         <div v-else-if="tab === 'mushaf'" class="mt-6 rounded-[var(--radius-sheet)] bg-paper shadow-soft px-5 py-8 md:px-10">
           <p dir="rtl" lang="ar" class="text-justify font-quran text-ink" :style="{ fontSize: readerSettings.fontSize + 'rem', lineHeight: 2.5 }">
             <span v-for="a in ayahs" :id="`ayah-${a.n}`" :key="a.key" :data-n="a.n" class="scroll-mt-48 rounded-lg transition-colors" :class="playingAyah === a.n ? 'bg-gold-200/60' : ''"><template v-if="tajweedOn && tajweedSegments(a.n)"><span v-for="(seg, i) in tajweedSegments(a.n)!" :key="i" :style="seg.color ? { color: seg.color } : undefined">{{ seg.text }}</span></template><template v-else>{{ a.text }}</template>
-              <button class="whitespace-nowrap text-gold-600" :class="bookmarks.has(a.key) ? 'underline decoration-gold-500 underline-offset-8' : ''"
+              <button class="mx-1.5 whitespace-nowrap text-gold-600" :class="bookmarks.has(a.key) ? 'underline decoration-gold-500 underline-offset-8' : ''"
                 @click="toggleBookmark(a.key)" :aria-label="`${t('quran.bookmark')} ${a.key}`">﴿{{ toArabicDigits(a.n) }}﴾</button>
             </span>
           </p>
@@ -379,7 +385,7 @@ onBeforeUnmount(() => { if (player.playing) return; stop(); });
               </p>
               <p :dir="isRtl(tafsir.language_code) ? 'rtl' : 'ltr'" :lang="tafsir.language_code"
                 class="mt-4 whitespace-pre-line text-ink"
-                :class="isUrdu(tafsir.language_code) ? 'font-[Noto_Nastaliq_Urdu] text-[1.05rem] leading-[2.4]' : 'leading-relaxed'">{{ r.text }}</p>
+                :class="isUrdu(tafsir.language_code) ? 'font-urdu text-[1.05rem] leading-[2.4]' : 'leading-relaxed'">{{ r.text }}</p>
             </li>
           </ol>
           <p v-if="tafsir.status !== 'approved'" class="mt-3 text-xs text-ink-soft">{{ t('quran.devReview') }}</p>

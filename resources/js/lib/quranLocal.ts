@@ -3,7 +3,8 @@ import { reactive, watch } from 'vue';
 
 export interface LastRead { key: string; surah: number; ayah: number; name: string; at: number }
 export type ReaderMode = 'translation' | 'mushaf';
-export interface ReaderSettings { fontSize: number; mode: ReaderMode; translationIds: number[]; tafsirId: number; trCustom: boolean; words: boolean; tajweed: boolean }
+export type QuranScript = 'indopak' | 'madinah';
+export interface ReaderSettings { fontSize: number; mode: ReaderMode; translationIds: number[]; tafsirId: number; trCustom: boolean; words: boolean; tajweed: boolean; script: QuranScript }
 
 function load<T>(k: string, fallback: T): T {
   try { const v = localStorage.getItem(k); return v ? { ...fallback, ...JSON.parse(v) } as T : fallback; } catch { return fallback; }
@@ -11,9 +12,15 @@ function load<T>(k: string, fallback: T): T {
 function save(k: string, v: unknown) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
 export const readerSettings = reactive<ReaderSettings>(
-  load('qurba.reader', { fontSize: 2, mode: 'translation' as ReaderMode, translationIds: [] as number[], tafsirId: 0, trCustom: false, words: false, tajweed: false }),
+  load('qurba.reader', { fontSize: 2, mode: 'translation' as ReaderMode, translationIds: [] as number[], tafsirId: 0, trCustom: false, words: false, tajweed: false, script: 'indopak' as QuranScript }),
 );
 watch(readerSettings, (v) => save('qurba.reader', v), { deep: true });
+
+/** Quran script style for the whole app: Indo-Pak (default, Al Mushaf font) or Madinah (KFGQPC). */
+export function applyQuranScript() {
+  if (typeof document !== 'undefined') document.documentElement.classList.toggle('quran-madinah', readerSettings.script === 'madinah');
+}
+watch(() => readerSettings.script, applyQuranScript, { immediate: true });
 
 // Bookmarks: a Set for the UI + per-key {on, t} so removals sync across devices
 const bm = load<{ keys: string[] }>('qurba.bookmarks', { keys: [] });
